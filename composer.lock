@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "04a41c7ad1093fdbe1ca20db61b12674",
+    "content-hash": "ae81cf21b93cf456618f084a2cf2c1d1",
     "packages": [
         {
             "name": "asm89/stack-cors",
@@ -2769,25 +2769,27 @@
         },
         {
             "name": "spatie/laravel-multitenancy",
-            "version": "1.0.0",
+            "version": "1.8.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/spatie/laravel-multitenancy.git",
-                "reference": "a5e0b0ef2bfec870dac0048c4a0b3cf5569081d3"
+                "reference": "b0557bf7eb968d15fa32d48faac576deb15b7345"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/spatie/laravel-multitenancy/zipball/a5e0b0ef2bfec870dac0048c4a0b3cf5569081d3",
-                "reference": "a5e0b0ef2bfec870dac0048c4a0b3cf5569081d3",
+                "url": "https://api.github.com/repos/spatie/laravel-multitenancy/zipball/b0557bf7eb968d15fa32d48faac576deb15b7345",
+                "reference": "b0557bf7eb968d15fa32d48faac576deb15b7345",
                 "shasum": ""
             },
             "require": {
-                "php": "^7.4"
+                "illuminate/support": "^7.0|^8.0",
+                "php": "^8.0|^7.4"
             },
             "require-dev": {
-                "friendsofphp/php-cs-fixer": "^2.16",
-                "orchestra/testbench": "^5.0",
-                "phpunit/phpunit": "^9.0",
+                "laravel/legacy-factories": "^1.0.4",
+                "mockery/mockery": "^1.4",
+                "orchestra/testbench": "^5.0|^6.0",
+                "phpunit/phpunit": "^9.4",
                 "spatie/valuestore": "^1.2"
             },
             "type": "library",
@@ -2812,9 +2814,9 @@
             ],
             "authors": [
                 {
-                    "name": "Mohamed Said",
-                    "email": "themsaid@gmail.com",
-                    "homepage": "http://themsaid.com",
+                    "name": "Freek Van der Herten",
+                    "email": "freek@spatie.be",
+                    "homepage": "http://spatie.be",
                     "role": "Developer"
                 }
             ],
@@ -2826,7 +2828,7 @@
             ],
             "support": {
                 "issues": "https://github.com/spatie/laravel-multitenancy/issues",
-                "source": "https://github.com/spatie/laravel-multitenancy/tree/1.0.0"
+                "source": "https://github.com/spatie/laravel-multitenancy/tree/1.8.0"
             },
             "funding": [
                 {
@@ -2838,7 +2840,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2020-05-16T19:28:07+00:00"
+            "time": "2021-02-18T08:59:08+00:00"
         },
         {
             "name": "swiftmailer/swiftmailer",
