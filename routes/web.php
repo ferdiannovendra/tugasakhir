@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\SuperAdminController;
 
 /*
 |--------------------------------------------------------------------------
@@ -18,5 +19,9 @@ Route::get('/', function () {
 });
 
 Route::middleware(['auth:sanctum', 'verified'])->get('/dashboard', function () {
-    return view('dashboard');
+    // return view('dashboard');
+    return redirect('super-admin');
 })->name('dashboard');
+
+
+Route::get('/super-admin', [SuperAdminController::class, 'index'])->name('superadminhome');
