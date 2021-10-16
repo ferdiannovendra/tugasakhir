@@ -3,9 +3,10 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 
-class SuperAdminController extends Controller
+class HomeAdminSekolahController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -14,10 +15,8 @@ class SuperAdminController extends Controller
      */
     public function index()
     {
-        $alldata =  DB::table('tenants')->get();
-        $count =  DB::table('tenants')->count();
-        // return $count;
-        return view('super-admin.index',["data"=>$alldata,"count"=>$count]);
+        //SIAPIN ISI BUAT DITAMPILIN PAS BUKA HOME ADMIN SEKOLAH
+        return view('sekolah.admin.index');
     }
 
     /**

@@ -2,6 +2,9 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\SuperAdminController;
+use App\Http\Controllers\HomeAdminSekolahController;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 
 /*
 |--------------------------------------------------------------------------
@@ -20,8 +23,24 @@ Route::get('/', function () {
 
 Route::middleware(['auth:sanctum', 'verified'])->get('/dashboard', function () {
     // return view('dashboard');
-    return redirect('super-admin');
+    if (Auth::user()->status == 'admin') {
+        return redirect('sekolah/home');
+    }elseif (Auth::user()->status == 'guru') {
+        // return redirect('sekolah/home');
+    }elseif (Auth::user()->status == 'siswa') {
+        // return redirect('sekolah/home');
+    }else{
+        return redirect('super-admin/home');
+    }
 })->name('dashboard');
 
 
-Route::get('/super-admin', [SuperAdminController::class, 'index'])->name('superadminhome');
+Route::prefix('super-admin')->group(function () {
+    Route::get('/home', [SuperAdminController::class, 'index'])->name('superadminhome')->middleware('auth');
+    Route::view('/tambahdata', 'super-admin.tambahdata')->name('tambahdatasekolah');
+});
+
+Route::prefix('sekolah')->group(function () {
+    Route::get('/home', [HomeAdminSekolahController::class, 'index'])->name('adminsekolahnhome')->middleware('auth');
+    Route::view('/tambahdata', 'super-admin.tambahdata')->name('tambahdatasekolah');
+});
