@@ -3,6 +3,8 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\SuperAdminController;
 use App\Http\Controllers\HomeAdminSekolahController;
+use App\Http\Controllers\KelasController;
+use App\Http\Controllers\JurusanController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 
@@ -42,5 +44,14 @@ Route::prefix('super-admin')->group(function () {
 
 Route::prefix('sekolah')->group(function () {
     Route::get('/home', [HomeAdminSekolahController::class, 'index'])->name('adminsekolahnhome')->middleware('auth');
-    Route::view('/tambahdata', 'super-admin.tambahdata')->name('tambahdatasekolah');
+
+    //Kelas
+    Route::get('/daftar-kelas', [KelasController::class, 'index'])->name('daftarkelas');
+    Route::view('/tambah-kelas', 'sekolah.admin.tambahkelas')->name('tambahkelas');
+
+    //Jurusan
+    Route::get('/daftar-jurusan', [JurusanController::class, 'index'])->name('daftarjurusan');
+    Route::view('/tambah-jurusan', 'sekolah.admin.tambahjurusan')->name('tambahjurusan');
+    Route::post('postTambahJurusan', [JurusanController::class, 'store'])->name('postTambahJurusan');
+    Route::post('postHapusJurusan', [JurusanController::class, 'destroy'])->name('postHapusJurusan');
 });

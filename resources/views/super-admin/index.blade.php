@@ -1,4 +1,4 @@
-@extends('layoutsuperadmin.superadmin')
+@extends('layoutsadmin.superadmin')
 
 @section('title')
 Super-Admin

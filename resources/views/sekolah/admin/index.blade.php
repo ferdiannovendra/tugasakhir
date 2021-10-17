@@ -1,4 +1,4 @@
-@extends('layoutsuperadmin.superadmin')
+@extends('layoutsadmin.adminsekolah')
 
 @section('title')
 Admin
@@ -81,4 +81,25 @@ Admin
         </div>
     </div>
 </div><!-- Row end  -->
+@endsection
+@section('script')
+<!-- Plugin Js-->
+<script src="{{ asset('assets/bundles/dataTables.bundle.js') }}"></script>
+
+<!-- Jquery Page Js -->
+<script src="{{ asset('js/template.js') }}"></script>
+<script src="{{ asset('js/page/hr.js') }}"></script>
+<script>
+    $(document).ready(function() {
+       $('#patient-table')
+       .addClass( 'nowrap' )
+       .dataTable( {
+           responsive: true,
+           columnDefs: [
+               { targets: [-1, -3], className: 'dt-body-right' }
+           ]
+       });
+   });
+
+</script>
 @endsection
