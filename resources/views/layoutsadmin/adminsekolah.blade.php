@@ -37,6 +37,16 @@
             <ul class="menu-list flex-grow-1 mt-3">
                 <li><a class="m-link" href="{{ route('superadminhome') }}"><i class="icofont-ui-home"></i><span>Home</span></a></li>
                 <li class="collapsed">
+                    <a class="m-link" data-bs-toggle="collapse" data-bs-target="#user">
+                        <i class="icofont-ui-user"></i> <span>Pengguna</span> <span class="arrow icofont-dotted-down ms-auto text-end fs-5"></span></a>
+                    <!-- Menu: Sub menu ul -->
+                    <ul class="sub-menu collapse" id="user">
+                        <li><a class="ms-link" href="{{ route('daftarUser') }}"> <span>Daftar Semua Pengguna</span></a></li>
+                        <li><a class="ms-link" href="{{ route('daftarGuru') }}"><span>Daftar Guru</span></a></li>
+                        <li><a class="ms-link" href="{{ route('daftarSiswa') }}"><span>Daftar Siswa</span></a></li>
+                    </ul>
+                </li>
+                <li class="collapsed">
                     <a class="m-link" data-bs-toggle="collapse" data-bs-target="#kelas">
                         <i class="icofont-people"></i> <span>Kelas</span> <span class="arrow icofont-dotted-down ms-auto text-end fs-5"></span></a>
                     <!-- Menu: Sub menu ul -->

@@ -7,6 +7,7 @@ use App\Http\Controllers\KelasController;
 use App\Http\Controllers\JurusanController;
 use App\Http\Controllers\SemesterController;
 use App\Http\Controllers\PembayaranController;
+use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 
@@ -46,6 +47,11 @@ Route::prefix('super-admin')->group(function () {
 
 Route::prefix('sekolah')->group(function () {
     Route::get('/home', [HomeAdminSekolahController::class, 'index'])->name('adminsekolahnhome')->middleware('auth');
+
+    //User
+    Route::get('/daftar-user', [UserController::class, 'index'])->name('daftarUser');
+    Route::get('/daftar-user/guru', [UserController::class, 'daftarguru'])->name('daftarGuru');
+    Route::get('/daftar-user/siswa', [UserController::class, 'daftarsiswa'])->name('daftarSiswa');
 
     //Kelas
     Route::get('/daftar-kelas', [KelasController::class, 'index'])->name('daftarkelas');
