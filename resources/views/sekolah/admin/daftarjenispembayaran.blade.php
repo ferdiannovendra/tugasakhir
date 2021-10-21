@@ -22,7 +22,7 @@ Daftar Kelas
     <div class="col-md-12">
         <div class="card mb-3">
             <div class="card-header mt-2 py-3 d-flex justify-content-between bg-transparent border-bottom-0">
-                <h6 class="mb-0 fw-bold ">Daftar Jurusan</h6>
+                <h6 class="mb-0 fw-bold ">Daftar Jenis Pembayaran</h6>
             </div>
             <div class="card-body">
                 <div class="table-responsive">
@@ -30,23 +30,25 @@ Daftar Kelas
                         <thead>
                         <tr>
                             <th scope="col">#</th>
-                            <th scope="col">Nama Jurusan</th>
-                            <th scope="col">Deskripsi</th>
+                            <th scope="col">Nama Jenis</th>
+                            <th scope="col">Created Date</th>
+                            <th scope="col">Updated Date</th>
                             <th scope="col">Aksi</th>
                         </tr>
                         </thead>
                         <tbody>
                         @foreach($data as $d)
                         <tr>
-                            <th scope="row">{{ $d->idjurusan }}</th>
-                            <td>{{ $d->nama_jurusan }}</td>
-                            <td>{{ $d->description }}</td>
+                            <th scope="row">{{ $d->idjenis_pembayaran }}</th>
+                            <td>{{ $d->nama_jenis }}</td>
+                            <td>{{ $d->created_at }}</td>
+                            <td>{{ $d->updated_at }}</td>
                             <td>
                                 <div class="btn-group" role="group" aria-label="Basic outlined example">
                                     <button type="button" class="btn btn-outline-secondary" data-bs-toggle="modal" data-bs-target="#editholiday"><i class="icofont-edit text-success"></i></button>
-                                    <form action="{{ route('postHapusJurusan') }}" method="post">
+                                    <form action="{{ route('postHapusSemester') }}" method="post">
                                         @csrf
-                                        <input type="hidden" name="idjurusan" value="{{$d->idjurusan}}">
+                                        <input type="hidden" name="idjenis" value="{{$d->idjenis_pembayaran}}">
                                         <button type="submit" class="btn btn-outline-secondary deleterow"><i class="icofont-ui-delete text-danger"></i></button>
                                     </form>
                                 </div>
@@ -63,20 +65,15 @@ Daftar Kelas
     <div class="col-md-12">
         <div class="card mb-3">
             <div class="card-header mt-2 py-3 d-flex justify-content-between bg-transparent border-bottom-0">
-                <h6 class="mb-0 fw-bold ">Tambah Data Jurusan</h6>
+                <h6 class="mb-0 fw-bold ">Tambah Data Jenis Pembayaran</h6>
             </div>
             <div class="card-body">
-                <form action="{{ route('postTambahJurusan') }}" method="post">
+                <form action="{{ route('postTambahJenisPembayaran') }}" method="post">
                     @csrf
                     <div class="row g-3 align-items-center">
-                        <div class="col-md-6">
-                            <label for="nama_jurusan" class="form-label">Nama Jurusan</label>
-                            <input type="text" class="form-control" id="nama_jurusan" name="nama_jurusan" required>
-                        </div>
-
                         <div class="col-md-12">
-                            <label for="description" class="form-label">Add Note</label>
-                            <textarea  class="form-control" name="description" id="description" rows="3"></textarea>
+                            <label for="nama_jenis" class="form-label">Nama Jenis Pembayaran</label>
+                            <input type="text" class="form-control" id="nama_jenis" name="nama_jenis" required>
                         </div>
                     </div>
 

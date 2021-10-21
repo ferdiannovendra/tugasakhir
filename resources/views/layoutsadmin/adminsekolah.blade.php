@@ -48,11 +48,31 @@
                 </li>
                 <li class="collapsed">
                     <a class="m-link" data-bs-toggle="collapse" data-bs-target="#jurusan">
-                        <i class="icofont-people"></i> <span>Jurusan</span> <span class="arrow icofont-dotted-down ms-auto text-end fs-5"></span></a>
+                        <i class="icofont-hat-alt"></i> <span>Jurusan</span> <span class="arrow icofont-dotted-down ms-auto text-end fs-5"></span></a>
                     <!-- Menu: Sub menu ul -->
                     <ul class="sub-menu collapse" id="jurusan">
                         <li><a class="ms-link" href="{{ route('daftarjurusan') }}"> <span>Daftar Jurusan</span></a></li>
                         <li><a class="ms-link" href="{{ route('tambahjurusan') }}"><span>Tambah Jurusan</span></a></li>
+
+                    </ul>
+                </li>
+                <li class="collapsed">
+                    <a class="m-link" data-bs-toggle="collapse" data-bs-target="#semester">
+                        <i class="icofont-search-stock"></i> <span>Semester</span> <span class="arrow icofont-dotted-down ms-auto text-end fs-5"></span></a>
+                    <!-- Menu: Sub menu ul -->
+                    <ul class="sub-menu collapse" id="semester">
+                        <li><a class="ms-link" href="{{ route('daftarsemester') }}"> <span>Daftar Semester</span></a></li>
+                        <li><a class="ms-link" href=""><span>Tambah Semester</span></a></li>
+
+                    </ul>
+                </li>
+                <li class="collapsed">
+                    <a class="m-link" data-bs-toggle="collapse" data-bs-target="#keuangan">
+                        <i class="icofont-money-bag"></i> <span>Keuangan</span> <span class="arrow icofont-dotted-down ms-auto text-end fs-5"></span></a>
+                    <!-- Menu: Sub menu ul -->
+                    <ul class="sub-menu collapse" id="keuangan">
+                        <li><a class="ms-link" href="{{ route('daftarJenisPembayaran') }}"> <span>Jenis Pembayaran</span></a></li>
+                        <!-- <li><a class="ms-link" href=""><span>Tambah Semester</span></a></li> -->
 
                     </ul>
                 </li>

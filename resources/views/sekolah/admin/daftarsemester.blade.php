@@ -22,7 +22,7 @@ Daftar Kelas
     <div class="col-md-12">
         <div class="card mb-3">
             <div class="card-header mt-2 py-3 d-flex justify-content-between bg-transparent border-bottom-0">
-                <h6 class="mb-0 fw-bold ">Daftar Jurusan</h6>
+                <h6 class="mb-0 fw-bold ">Daftar Semester</h6>
             </div>
             <div class="card-body">
                 <div class="table-responsive">
@@ -30,23 +30,27 @@ Daftar Kelas
                         <thead>
                         <tr>
                             <th scope="col">#</th>
-                            <th scope="col">Nama Jurusan</th>
-                            <th scope="col">Deskripsi</th>
+                            <th scope="col">Nama Semester</th>
+                            <th scope="col">Tahun Ajaran</th>
+                            <th scope="col">Start Date</th>
+                            <th scope="col">End Date</th>
                             <th scope="col">Aksi</th>
                         </tr>
                         </thead>
                         <tbody>
                         @foreach($data as $d)
                         <tr>
-                            <th scope="row">{{ $d->idjurusan }}</th>
-                            <td>{{ $d->nama_jurusan }}</td>
-                            <td>{{ $d->description }}</td>
+                            <th scope="row">{{ $d->idsemester }}</th>
+                            <td>{{ $d->nama_semester }}</td>
+                            <td>{{ $d->tahun_ajaran }}</td>
+                            <td>{{ $d->start_date }}</td>
+                            <td>{{ $d->end_date }}</td>
                             <td>
                                 <div class="btn-group" role="group" aria-label="Basic outlined example">
                                     <button type="button" class="btn btn-outline-secondary" data-bs-toggle="modal" data-bs-target="#editholiday"><i class="icofont-edit text-success"></i></button>
-                                    <form action="{{ route('postHapusJurusan') }}" method="post">
+                                    <form action="{{ route('postHapusSemester') }}" method="post">
                                         @csrf
-                                        <input type="hidden" name="idjurusan" value="{{$d->idjurusan}}">
+                                        <input type="hidden" name="idsemester" value="{{$d->idsemester}}">
                                         <button type="submit" class="btn btn-outline-secondary deleterow"><i class="icofont-ui-delete text-danger"></i></button>
                                     </form>
                                 </div>
@@ -63,20 +67,31 @@ Daftar Kelas
     <div class="col-md-12">
         <div class="card mb-3">
             <div class="card-header mt-2 py-3 d-flex justify-content-between bg-transparent border-bottom-0">
-                <h6 class="mb-0 fw-bold ">Tambah Data Jurusan</h6>
+                <h6 class="mb-0 fw-bold ">Tambah Data Semester</h6>
             </div>
             <div class="card-body">
-                <form action="{{ route('postTambahJurusan') }}" method="post">
+                <form action="{{ route('postTambahSemester') }}" method="post">
                     @csrf
                     <div class="row g-3 align-items-center">
                         <div class="col-md-6">
-                            <label for="nama_jurusan" class="form-label">Nama Jurusan</label>
-                            <input type="text" class="form-control" id="nama_jurusan" name="nama_jurusan" required>
+                            <label for="nama_semester" class="form-label">Nama Semester</label>
+                            <!-- <input type="text" class="form-control" id="nama_semester" name="nama_semester" required> -->
+                            <select name="nama_semester" class="form-control" id="nama_semester">
+                                <option value="ganjil">Ganjil</option>
+                                <option value="ganjil">Genap</option>
+                            </select>
                         </div>
-
-                        <div class="col-md-12">
-                            <label for="description" class="form-label">Add Note</label>
-                            <textarea  class="form-control" name="description" id="description" rows="3"></textarea>
+                        <div class="col-md-6">
+                            <label for="status" class="form-label">Tahun Ajaran</label>
+                            <input type="text" class="form-control" name="tahun_ajaran" placeholder="Contoh: 2021/2022" required>
+                        </div>
+                        <div class="col-md-6">
+                            <label for="start_date" class="form-label">Start Date</label>
+                            <input type="date" class="form-control" name="start_date" placeholder="Contoh: 2021/2022" id="start_date" required>
+                        </div>
+                        <div class="col-md-6">
+                            <label for="end_date" class="form-label">End Date</label>
+                            <input type="date" class="form-control" name="end_date" placeholder="Contoh: 2021/2022" id="end_date" required>
                         </div>
                     </div>
 
