@@ -29,7 +29,9 @@ Daftar Kelas
                             <th scope="col">Wali Kelas</th>
                             <th scope="col">Jurusan</th>
                             <th scope="col">Semester</th>
+                            <th scope="col">Created At</th>
                             <th scope="col">Updated At</th>
+                            <th scope="col">Aksi</th>
                         </tr>
                         </thead>
                         <tbody>
@@ -43,11 +45,55 @@ Daftar Kelas
                             <td>{{ $d->semester_idsemester }}</td>
                             <td>{{ $d->created_at }}</td>
                             <td>{{ $d->updated_at }}</td>
+                            <td>
+                                <div class="btn-group" role="group" aria-label="Basic outlined example">
+                                    <button type="button" class="btn btn-outline-secondary" data-bs-toggle="modal" data-bs-target="#editholiday"><i class="icofont-edit text-success"></i></button>
+                                    <form action="{{ route('postHapusKelas') }}" method="post">
+                                        @csrf
+                                        <input type="hidden" name="idsemester" value="{{$d->idsemester}}">
+                                        <button type="submit" class="btn btn-outline-secondary deleterow"><i class="icofont-ui-delete text-danger"></i></button>
+                                    </form>
+                                </div>
+                            </td>
                         </tr>
                         @endforeach
                         </tbody>
                     </table>
                 </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-12">
+        <div class="card mb-3">
+            <div class="card-header mt-2 py-3 d-flex justify-content-between bg-transparent border-bottom-0">
+                <h6 class="mb-0 fw-bold ">Tambah Data Kelas</h6>
+            </div>
+            <div class="card-body">
+                <form action="{{ route('postTambahKelas') }}" method="post">
+                    @csrf
+                    <div class="row g-3 align-items-center">
+                        <div class="col-md-6">
+                            <label for="nama_kelas" class="form-label">Nama Kelas</label>
+                            <input type="text" class="form-control" id="nama_kelas" name="nama_kelas" required>
+                        </div>
+
+                        <div class="col-md-6">
+                            <label for="wali_kelas" class="form-label">Wali Kelas</label>
+                            <select name="wali_kelas" class="form-control" id="wali_kelas">
+                                @if(isset($dataGuru))
+                                    @foreach($dataGuru as $guru)
+                                    <option value="{{ $guru->name }}">{{ $guru->name }}</option>
+                                    @endforeach
+                                @else
+                                <option value="-" disabled>Tidak ada data Guru</option>
+                                @endif
+
+                            </select>
+                        </div>
+                    </div>
+
+                    <button type="submit" class="btn btn-primary mt-4">Submit</button>
+                </form>
             </div>
         </div>
     </div>

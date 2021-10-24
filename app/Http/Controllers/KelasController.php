@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Carbon\Carbon;
 
 class KelasController extends Controller
 {
@@ -14,9 +15,15 @@ class KelasController extends Controller
      */
     public function index()
     {
-        $alldata =  DB::table('jurusan')->get();
-
-        return view('sekolah.admin.daftarkelas',["data"=>$alldata]);
+        $alldata =  DB::table('class_list')->get();
+        $dataGuru = DB::table('users')->where('status','guru')->get();
+        $dataJurusan = DB::table('jurusan')->get();
+        $dataSemester = DB::table('semester')->get();
+        return view('sekolah.admin.daftarkelas',["data"=>$alldata,
+                                                "dataGuru"=>$dataGuru,
+                                                "dataJurusan"=>$dataJurusan,
+                                                "dataSemester"=>$dataSemester
+                                            ]);
     }
 
     /**
@@ -37,7 +44,22 @@ class KelasController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $now =  Carbon::now();
+        $insertData = DB::table('class_list')->insert([
+            'nama_semester' => $request->nama_semester,
+            'tahun_ajaran' => $request->tahun_ajaran,
+            'start_date' => $request->start_date,
+            'end_date' => $request->end_date,
+            'created_at' => $now
+        ]);
+
+        if ($insertData) {
+        return redirect()->route('daftarsemester')
+        ->with('status','Semester baru berhasil ditambahkan!');
+        }else{
+        return redirect()->route('daftarsemester')
+        ->with('error','Semester baru gagal ditambahkan!');
+        }
     }
 
     /**

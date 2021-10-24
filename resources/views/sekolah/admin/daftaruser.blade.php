@@ -54,9 +54,9 @@ Daftar Pengguna
                             <td>
                                 <div class="btn-group" role="group" aria-label="Basic outlined example">
                                     <button type="button" class="btn btn-outline-secondary" data-bs-toggle="modal" data-bs-target="#editholiday"><i class="icofont-edit text-success"></i></button>
-                                    <form action="{{ route('postHapusJurusan') }}" method="post">
+                                    <form action="{{ route('postHapusUser') }}" method="post">
                                         @csrf
-                                        <input type="hidden" name="idjurusan" value="{{$d->id}}">
+                                        <input type="hidden" name="iduser" value="{{$d->id}}">
                                         <button type="submit" class="btn btn-outline-secondary deleterow"><i class="icofont-ui-delete text-danger"></i></button>
                                     </form>
                                 </div>

@@ -52,10 +52,14 @@ Route::prefix('sekolah')->group(function () {
     Route::get('/daftar-user', [UserController::class, 'index'])->name('daftarUser');
     Route::get('/daftar-user/guru', [UserController::class, 'daftarguru'])->name('daftarGuru');
     Route::get('/daftar-user/siswa', [UserController::class, 'daftarsiswa'])->name('daftarSiswa');
+    Route::post('postTambahUser', [UserController::class, 'store'])->name('postTambahUser');
+    Route::post('postHapusUser', [UserController::class, 'destroy'])->name('postHapusUser');
 
     //Kelas
     Route::get('/daftar-kelas', [KelasController::class, 'index'])->name('daftarkelas');
     Route::view('/tambah-kelas', 'sekolah.admin.tambahkelas')->name('tambahkelas');
+    Route::post('postTambahKelas', [KelasController::class, 'store'])->name('postTambahKelas');
+    Route::post('postHapusKelas', [KelasController::class, 'destroy'])->name('postHapusKelas');
 
     //Jurusan
     Route::get('/daftar-jurusan', [JurusanController::class, 'index'])->name('daftarjurusan');
