@@ -46,19 +46,20 @@ class KelasController extends Controller
     {
         $now =  Carbon::now();
         $insertData = DB::table('class_list')->insert([
-            'nama_semester' => $request->nama_semester,
-            'tahun_ajaran' => $request->tahun_ajaran,
-            'start_date' => $request->start_date,
-            'end_date' => $request->end_date,
-            'created_at' => $now
+            'name_class' => $request->nama_kelas,
+            'wali_kelas' => $request->wali_kelas,
+            'status' => "Aktif",
+            'created_at' => $now,
+            'jurusan_idjurusan' => $request->jurusan,
+            'semester_idsemester' => $request->semester
         ]);
 
         if ($insertData) {
         return redirect()->route('daftarsemester')
-        ->with('status','Semester baru berhasil ditambahkan!');
+        ->with('status','Kelas baru berhasil ditambahkan!');
         }else{
         return redirect()->route('daftarsemester')
-        ->with('error','Semester baru gagal ditambahkan!');
+        ->with('error','Kelas baru gagal ditambahkan!');
         }
     }
 
@@ -102,8 +103,17 @@ class KelasController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Request $request)
     {
-        //
+        $idclass = $request->idclass;
+        $delete = DB::table('class_list')->where('idclass_list', $idclass)->delete();
+
+        if ($delete) {
+            return redirect()->route('daftarkelas')
+            ->with('status','Kelas berhasil dihapus!');
+        }else{
+            return redirect()->route('daftarkelas')
+            ->with('error','Kelas gagal dihapus!');
+        }
     }
 }

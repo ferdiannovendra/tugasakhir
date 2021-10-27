@@ -50,7 +50,7 @@ Daftar Kelas
                                     <button type="button" class="btn btn-outline-secondary" data-bs-toggle="modal" data-bs-target="#editholiday"><i class="icofont-edit text-success"></i></button>
                                     <form action="{{ route('postHapusKelas') }}" method="post">
                                         @csrf
-                                        <input type="hidden" name="idsemester" value="{{$d->idsemester}}">
+                                        <input type="hidden" name="idclass" value="{{$d->idclass_list}}">
                                         <button type="submit" class="btn btn-outline-secondary deleterow"><i class="icofont-ui-delete text-danger"></i></button>
                                     </form>
                                 </div>
@@ -82,10 +82,40 @@ Daftar Kelas
                             <select name="wali_kelas" class="form-control" id="wali_kelas">
                                 @if(isset($dataGuru))
                                     @foreach($dataGuru as $guru)
-                                    <option value="{{ $guru->name }}">{{ $guru->name }}</option>
+                                    <option value="{{ $guru->id }}">{{ $guru->name }}</option>
                                     @endforeach
                                 @else
                                 <option value="-" disabled>Tidak ada data Guru</option>
+                                @endif
+
+                            </select>
+                        </div>
+                    </div>
+                    <br>
+                    <div class="row g-3 align-items-center">
+                        <div class="col-md-6">
+                            <label for="semester" class="form-label">Semester</label>
+                            <select name="semester" class="form-control" id="semester">
+                                @if(isset($dataSemester))
+                                    @foreach($dataSemester as $semester)
+                                    <option value="{{ $semester->idsemester }}">{{ $semester->nama_semester }}</option>
+                                    @endforeach
+                                @else
+                                <option value="-" disabled>Tidak ada data semester</option>
+                                @endif
+
+                            </select>
+                        </div>
+
+                        <div class="col-md-6">
+                            <label for="jurusan" class="form-label">Jurusan</label>
+                            <select name="jurusan" class="form-control" id="jurusan">
+                                @if(isset($dataJurusan))
+                                    @foreach($dataJurusan as $jurusan)
+                                    <option value="{{ $jurusan->idjurusan }}">{{ $jurusan->nama_jurusan }}</option>
+                                    @endforeach
+                                @else
+                                <option value="-" disabled>Tidak ada data Jurusan</option>
                                 @endif
 
                             </select>
