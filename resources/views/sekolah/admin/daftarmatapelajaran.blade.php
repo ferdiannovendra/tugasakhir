@@ -13,9 +13,16 @@ Daftar Kelas
 @section('isi-content')
 <div class="row align-item-center">
     <div class="col-md-12">
+        @if (session('status'))
+        <div role="alert" class="alert alert-success">{{session('status')}}</div>
+        @elseif (session('error'))
+        <div role="alert" class="alert alert-danger">{{session('error')}}</div>
+        @endif
+    </div>
+    <div class="col-md-12">
         <div class="card mb-3">
             <div class="card-header mt-2 py-3 d-flex justify-content-between bg-transparent border-bottom-0">
-                <h6 class="mb-0 fw-bold ">Daftar Kelas</h6>
+                <h6 class="mb-0 fw-bold ">Daftar Mata Pelajaran</h6>
             </div>
             <div class="card-body">
                 <div class="table-responsive">
@@ -23,11 +30,9 @@ Daftar Kelas
                         <thead>
                         <tr>
                             <th scope="col">#</th>
-                            <th scope="col">Nama Kelas</th>
+                            <th scope="col">Nama Mata Pelajaran</th>
                             <th scope="col">Status</th>
-                            <th scope="col">Wali Kelas</th>
-                            <th scope="col">Jurusan</th>
-                            <th scope="col">Semester</th>
+                            <th scope="col">Guru</th>
                             <th scope="col">Created At</th>
                             <th scope="col">Updated At</th>
                             <th scope="col">Aksi</th>
@@ -36,20 +41,18 @@ Daftar Kelas
                         <tbody>
                         @foreach($data as $d)
                         <tr>
-                            <th scope="row">{{ $d->idclass_list }}</th>
-                            <td>{{ $d->name_class }}</td>
+                            <th scope="row">{{ $d->idmata_pelajaran }}</th>
+                            <td>{{ $d->nama_mp }}</td>
                             <td>{{ $d->status }}</td>
                             <td>{{ $d->name }}</td>
-                            <td>{{ $d->nama_jurusan }}</td>
-                            <td>{{ $d->nama_semester }}</td>
                             <td>{{ $d->created_at }}</td>
                             <td>{{ $d->updated_at }}</td>
                             <td>
                                 <div class="btn-group" role="group" aria-label="Basic outlined example">
                                     <button type="button" class="btn btn-outline-secondary" data-bs-toggle="modal" data-bs-target="#editholiday"><i class="icofont-edit text-success"></i></button>
-                                    <form action="{{ route('postHapusKelas') }}" method="post">
+                                    <form action="{{ route('postHapusMP') }}" method="post">
                                         @csrf
-                                        <input type="hidden" name="idclass" value="{{$d->idclass_list}}">
+                                        <input type="hidden" name="idmata_pelajaran" value="{{$d->idmata_pelajaran}}">
                                         <button type="submit" class="btn btn-outline-secondary deleterow"><i class="icofont-ui-delete text-danger"></i></button>
                                     </form>
                                 </div>
@@ -62,23 +65,23 @@ Daftar Kelas
             </div>
         </div>
     </div>
+
     <div class="col-md-12">
         <div class="card mb-3">
             <div class="card-header mt-2 py-3 d-flex justify-content-between bg-transparent border-bottom-0">
-                <h6 class="mb-0 fw-bold ">Tambah Data Kelas</h6>
+                <h6 class="mb-0 fw-bold ">Tambah Data Mata Pelajaran</h6>
             </div>
             <div class="card-body">
-                <form action="{{ route('postTambahKelas') }}" method="post">
+                <form action="{{ route('postTambahMP') }}" method="post">
                     @csrf
                     <div class="row g-3 align-items-center">
                         <div class="col-md-6">
-                            <label for="nama_kelas" class="form-label">Nama Kelas</label>
-                            <input type="text" class="form-control" id="nama_kelas" name="nama_kelas" required>
+                            <label for="nama_mp" class="form-label">Nama Mata Pelajaran</label>
+                            <input type="text" class="form-control" id="nama_mp" name="nama_mp" required>
                         </div>
-
                         <div class="col-md-6">
-                            <label for="wali_kelas" class="form-label">Wali Kelas</label>
-                            <select name="wali_kelas" class="form-control" id="wali_kelas">
+                            <label for="pengajar" class="form-label">Wali Kelas</label>
+                            <select name="pengajar" class="form-control" id="pengajar">
                                 @if(isset($dataGuru))
                                     @foreach($dataGuru as $guru)
                                     <option value="{{ $guru->id }}">{{ $guru->name }}</option>
@@ -86,37 +89,6 @@ Daftar Kelas
                                 @else
                                 <option value="-" disabled>Tidak ada data Guru</option>
                                 @endif
-
-                            </select>
-                        </div>
-                    </div>
-                    <br>
-                    <div class="row g-3 align-items-center">
-                        <div class="col-md-6">
-                            <label for="semester" class="form-label">Semester</label>
-                            <select name="semester" class="form-control" id="semester">
-                                @if(isset($dataSemester))
-                                    @foreach($dataSemester as $semester)
-                                    <option value="{{ $semester->idsemester }}">{{ $semester->nama_semester }}</option>
-                                    @endforeach
-                                @else
-                                <option value="-" disabled>Tidak ada data semester</option>
-                                @endif
-
-                            </select>
-                        </div>
-
-                        <div class="col-md-6">
-                            <label for="jurusan" class="form-label">Jurusan</label>
-                            <select name="jurusan" class="form-control" id="jurusan">
-                                @if(isset($dataJurusan))
-                                    @foreach($dataJurusan as $jurusan)
-                                    <option value="{{ $jurusan->idjurusan }}">{{ $jurusan->nama_jurusan }}</option>
-                                    @endforeach
-                                @else
-                                <option value="-" disabled>Tidak ada data Jurusan</option>
-                                @endif
-
                             </select>
                         </div>
                     </div>

@@ -7,6 +7,7 @@ use App\Http\Controllers\KelasController;
 use App\Http\Controllers\JurusanController;
 use App\Http\Controllers\SemesterController;
 use App\Http\Controllers\PembayaranController;
+use App\Http\Controllers\MataPelajaranController;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -71,6 +72,11 @@ Route::prefix('sekolah')->group(function () {
     Route::get('/daftar-semester', [SemesterController::class, 'index'])->name('daftarsemester');
     Route::post('postTambahSemester', [SemesterController::class, 'store'])->name('postTambahSemester');
     Route::post('postHapusSemester', [SemesterController::class, 'destroy'])->name('postHapusSemester');
+
+    //Mata pelajaran
+    Route::get('/daftar-matapelajaran', [MataPelajaranController::class, 'index'])->name('daftarmatapelajaran');
+    Route::post('postTambahMP', [MataPelajaranController::class, 'store'])->name('postTambahMP');
+    Route::post('postHapusMP', [MataPelajaranController::class, 'destroy'])->name('postHapusMP');
 
     //Keuangan - Jenis Pembayaran
     Route::get('/keuangan/jenispembayarn', [PembayaranController::class, 'index'])->name('daftarJenisPembayaran');

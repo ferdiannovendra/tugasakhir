@@ -67,6 +67,14 @@
                     </ul>
                 </li>
                 <li class="collapsed">
+                    <a class="m-link" data-bs-toggle="collapse" data-bs-target="#matapelajaran">
+                        <i class="icofont-hat-alt"></i> <span>Mata Pelajaran</span> <span class="arrow icofont-dotted-down ms-auto text-end fs-5"></span></a>
+                    <!-- Menu: Sub menu ul -->
+                    <ul class="sub-menu collapse" id="matapelajaran">
+                        <li><a class="ms-link" href="{{ route('daftarmatapelajaran') }}"> <span>Daftar Mata Pelajaran</span></a></li>
+                    </ul>
+                </li>
+                <li class="collapsed">
                     <a class="m-link" data-bs-toggle="collapse" data-bs-target="#semester">
                         <i class="icofont-search-stock"></i> <span>Semester</span> <span class="arrow icofont-dotted-down ms-auto text-end fs-5"></span></a>
                     <!-- Menu: Sub menu ul -->

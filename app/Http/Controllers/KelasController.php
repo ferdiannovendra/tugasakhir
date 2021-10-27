@@ -15,7 +15,9 @@ class KelasController extends Controller
      */
     public function index()
     {
-        $alldata =  DB::table('class_list')->get();
+        $alldata =  DB::select("SELECT c.idclass_list,c.status, c.name_class, u.name, j.nama_jurusan, s.nama_semester, c.created_at, c.updated_at FROM class_list c INNER JOIN users u on c.wali_kelas = u.id
+                                                            INNER JOIN jurusan j on c.jurusan_idjurusan = j.idjurusan
+                                                            INNER JOIN semester s on c.semester_idsemester = s.idsemester");
         $dataGuru = DB::table('users')->where('status','guru')->get();
         $dataJurusan = DB::table('jurusan')->get();
         $dataSemester = DB::table('semester')->get();
