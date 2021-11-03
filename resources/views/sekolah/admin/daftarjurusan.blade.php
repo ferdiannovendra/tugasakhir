@@ -38,7 +38,7 @@ Daftar Kelas
                         <tbody>
                         @foreach($data as $d)
                         <tr>
-                            <th scope="row">{{ $d->idjurusan }}</th>
+                            <th scope="row">{{ $d->id }}</th>
                             <td>{{ $d->nama_jurusan }}</td>
                             <td>{{ $d->description }}</td>
                             <td>
@@ -46,7 +46,7 @@ Daftar Kelas
                                     <button type="button" class="btn btn-outline-secondary" data-bs-toggle="modal" data-bs-target="#editholiday"><i class="icofont-edit text-success"></i></button>
                                     <form action="{{ route('postHapusJurusan') }}" method="post">
                                         @csrf
-                                        <input type="hidden" name="idjurusan" value="{{$d->idjurusan}}">
+                                        <input type="hidden" name="id" value="{{$d->id}}">
                                         <button type="submit" class="btn btn-outline-secondary deleterow"><i class="icofont-ui-delete text-danger"></i></button>
                                     </form>
                                 </div>

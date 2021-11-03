@@ -34,7 +34,7 @@ Route::middleware(['auth:sanctum', 'verified'])->get('/dashboard', function () {
     }elseif (Auth::user()->status == 'guru') {
         // return redirect('sekolah/home');
     }elseif (Auth::user()->status == 'siswa') {
-        // return redirect('sekolah/home');
+        // return redirect('sekolah/h ome');
     }else{
         return redirect('super-admin/home');
     }

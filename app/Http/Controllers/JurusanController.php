@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use App\Models\Jurusan;
 
 class JurusanController extends Controller
 {
@@ -37,12 +38,16 @@ class JurusanController extends Controller
      */
     public function store(Request $request)
     {
-        $insertData = DB::table('jurusan')->insert([
-                        'nama_jurusan' => $request->nama_jurusan,
-                        'description' => $request->description
-                    ]);
+        // $insertData = DB::table('jurusan')->insert([
+        //                 'nama_jurusan' => $request->nama_jurusan,
+        //                 'description' => $request->description
+        //             ]);
 
-        if ($insertData) {
+        $jurusan = new Jurusan();
+        $jurusan->nama_jurusan = $request->nama_jurusan;
+        $jurusan->description = $request->description;
+
+        if ($jurusan->save()) {
             return redirect()->route('daftarjurusan')
             ->with('status','Jurusan baru berhasil ditambahkan!');
         }else{
@@ -94,10 +99,11 @@ class JurusanController extends Controller
      */
     public function destroy(Request $request)
     {
-        $idjurusan = $request->idjurusan;
-        $delete = DB::table('jurusan')->where('idjurusan', $idjurusan)->delete();
+        $idjurusan = $request->id;
+        // $delete = DB::table('jurusan')->where('idjurusan', $idjurusan)->delete();
+        $jurusan = Jurusan::find($idjurusan);
 
-        if ($delete) {
+        if ($jurusan->delete()) {
             return redirect()->route('daftarjurusan')
             ->with('status','Jurusan berhasil dihapus!');
         }else{

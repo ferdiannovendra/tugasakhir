@@ -39,9 +39,9 @@ Daftar Kelas
                             <th scope="row">{{ $d->idclass_list }}</th>
                             <td>{{ $d->name_class }}</td>
                             <td>{{ $d->status }}</td>
-                            <td>{{ $d->name }}</td>
-                            <td>{{ $d->nama_jurusan }}</td>
-                            <td>{{ $d->nama_semester }}</td>
+                            <td>{{ $d->user->name }}</td>
+                            <td>{{ $d->jurusan->nama_jurusan }}</td>
+                            <td>{{ $d->semester->nama_semester }}</td>
                             <td>{{ $d->created_at }}</td>
                             <td>{{ $d->updated_at }}</td>
                             <td>
@@ -111,7 +111,7 @@ Daftar Kelas
                             <select name="jurusan" class="form-control" id="jurusan">
                                 @if(isset($dataJurusan))
                                     @foreach($dataJurusan as $jurusan)
-                                    <option value="{{ $jurusan->idjurusan }}">{{ $jurusan->nama_jurusan }}</option>
+                                    <option value="{{ $jurusan->id }}">{{ $jurusan->nama_jurusan }}</option>
                                     @endforeach
                                 @else
                                 <option value="-" disabled>Tidak ada data Jurusan</option>
