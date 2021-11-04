@@ -22,7 +22,7 @@ Daftar Kelas
     <div class="col-md-12">
         <div class="card mb-3">
             <div class="card-header mt-2 py-3 d-flex justify-content-between bg-transparent border-bottom-0">
-                <h6 class="mb-0 fw-bold ">Daftar Mata Pelajaran</h6>
+                <h6 class="mb-0 fw-bold ">Daftar Presensi</h6>
             </div>
             <div class="card-body">
                 <div class="table-responsive">
@@ -30,29 +30,25 @@ Daftar Kelas
                         <thead>
                         <tr>
                             <th scope="col">#</th>
-                            <th scope="col">Nama Mata Pelajaran</th>
-                            <th scope="col">Status</th>
-                            <th scope="col">Guru</th>
-                            <th scope="col">Created At</th>
-                            <th scope="col">Updated At</th>
+                            <th scope="col">Materi</th>
+                            <th scope="col">Waktu Mulai</th>
+                            <th scope="col">Waktu Selesai</th>
+                            <th scope="col">Catatan Pertemuan</th>
                             <th scope="col">Aksi</th>
                         </tr>
                         </thead>
                         <tbody>
                         @foreach($data as $d)
                         <tr>
-                            <th scope="row">{{ $d->idmata_pelajaran }}</th>
-                            <td>{{ $d->nama_mp }}</td>
-                            <td>{{ $d->status }}</td>
-                            <td>{{ $d->user->name }}</td>
-                            <td>{{ $d->created_at }}</td>
-                            <td>{{ $d->updated_at }}</td>
+                            <th scope="row">{{ $d->id }}</th>
+                            <td>{{ $d->nama_jurusan }}</td>
+                            <td>{{ $d->description }}</td>
                             <td>
                                 <div class="btn-group" role="group" aria-label="Basic outlined example">
                                     <button type="button" class="btn btn-outline-secondary" data-bs-toggle="modal" data-bs-target="#editholiday"><i class="icofont-edit text-success"></i></button>
-                                    <form action="{{ route('postHapusMP') }}" method="post">
+                                    <form action="{{ route('postHapusJurusan') }}" method="post">
                                         @csrf
-                                        <input type="hidden" name="idmata_pelajaran" value="{{$d->idmata_pelajaran}}">
+                                        <input type="hidden" name="id" value="{{$d->id}}">
                                         <button type="submit" class="btn btn-outline-secondary deleterow"><i class="icofont-ui-delete text-danger"></i></button>
                                     </form>
                                 </div>
@@ -69,27 +65,20 @@ Daftar Kelas
     <div class="col-md-12">
         <div class="card mb-3">
             <div class="card-header mt-2 py-3 d-flex justify-content-between bg-transparent border-bottom-0">
-                <h6 class="mb-0 fw-bold ">Tambah Data Mata Pelajaran</h6>
+                <h6 class="mb-0 fw-bold ">Tambah Data Jurusan</h6>
             </div>
             <div class="card-body">
-                <form action="{{ route('postTambahMP') }}" method="post">
+                <form action="{{ route('postTambahJurusan') }}" method="post">
                     @csrf
                     <div class="row g-3 align-items-center">
                         <div class="col-md-6">
-                            <label for="nama_mp" class="form-label">Nama Mata Pelajaran</label>
-                            <input type="text" class="form-control" id="nama_mp" name="nama_mp" required>
+                            <label for="nama_jurusan" class="form-label">Nama Jurusan</label>
+                            <input type="text" class="form-control" id="nama_jurusan" name="nama_jurusan" required>
                         </div>
-                        <div class="col-md-6">
-                            <label for="pengajar" class="form-label">Wali Kelas</label>
-                            <select name="pengajar" class="form-control" id="pengajar">
-                                @if(isset($dataGuru))
-                                    @foreach($dataGuru as $guru)
-                                    <option value="{{ $guru->id }}">{{ $guru->name }}</option>
-                                    @endforeach
-                                @else
-                                <option value="-" disabled>Tidak ada data Guru</option>
-                                @endif
-                            </select>
+
+                        <div class="col-md-12">
+                            <label for="description" class="form-label">Add Note</label>
+                            <textarea  class="form-control" name="description" id="description" rows="3"></textarea>
                         </div>
                     </div>
 

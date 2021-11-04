@@ -5,27 +5,33 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Carbon\Carbon;
+use App\Models\Semester;
 
 class SemesterController extends Controller
 {
     public function index()
     {
-        $alldata =  DB::table('semester')->get();
+        $alldata =  Semester::all();
 
         return view('sekolah.admin.daftarsemester',["data"=>$alldata]);
     }
     public function store(Request $request)
     {
-        $now =  Carbon::now();
-        $insertData = DB::table('semester')->insert([
-            'nama_semester' => $request->nama_semester,
-            'tahun_ajaran' => $request->tahun_ajaran,
-            'start_date' => $request->start_date,
-            'end_date' => $request->end_date,
-            'created_at' => $now
-        ]);
+        // $now =  Carbon::now();
+        // $insertData = DB::table('semester')->insert([
+        //     'nama_semester' => $request->nama_semester,
+        //     'tahun_ajaran' => $request->tahun_ajaran,
+        //     'start_date' => $request->start_date,
+        //     'end_date' => $request->end_date,
+        //     'created_at' => $now
+        // ]);
 
-        if ($insertData) {
+        $semester = new Semester();
+        $semester->nama_semester = $request->nama_semester;
+        $semester->tahun_ajaran = $request->tahun_ajaran;
+        $semester->start_date = $request->start_date;
+        $semester->end_date = $request->end_date;
+        if ($semester->save()) {
         return redirect()->route('daftarsemester')
         ->with('status','Semester baru berhasil ditambahkan!');
         }else{
@@ -36,9 +42,9 @@ class SemesterController extends Controller
     public function destroy(Request $request)
     {
         $idsemester = $request->idsemester;
-        $delete = DB::table('semester')->where('idsemester', $idsemester)->delete();
+        $semester = Semester::find($idsemester);
 
-        if ($delete) {
+        if ($semester->delete()) {
             return redirect()->route('daftarsemester')
             ->with('status','Semester berhasil dihapus!');
         }else{

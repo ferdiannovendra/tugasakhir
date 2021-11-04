@@ -5,26 +5,21 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Carbon\Carbon;
+use App\Models\JenisPembayaran;
 
 class PembayaranController extends Controller
 {
     public function index()
     {
-        $alldata =  DB::table('jenis_pembayaran')->get();
+        $alldata =  JenisPembayaran::all();
 
         return view('sekolah.admin.daftarjenispembayaran',["data"=>$alldata]);
     }
     public function store(Request $request)
     {
-        $now = Carbon::now();
-        $alldata =  DB::table('jenis_pembayaran')->get();
-        $insertData = DB::table('jenis_pembayaran')->insert([
-            'nama_jenis' => $request->nama_jenis,
-            'created_at' => $now,
-            'updated_at' => $now
-        ]);
-
-        if ($insertData) {
+        $pemb = new JenisPembayaran();
+        $pemb->nama_jenis = $request->nama_jenis;
+        if ($pemb->save()) {
         return redirect()->route('daftarJenisPembayaran')
         ->with('status','Jenis Pembayaran baru berhasil ditambahkan!');
         }else{
@@ -35,9 +30,9 @@ class PembayaranController extends Controller
     public function destroy(Request $request)
     {
         $id = $request->idjenis;
-        $delete = DB::table('jenis_pembayaran')->where('idjenis_pembayaran', $id)->delete();
+        $pemb = JenisPembayaran::find($id);
 
-        if ($delete) {
+        if ($pemb->delete()) {
             return redirect()->route('daftarJenisPembayaran')
             ->with('status','Jenis Pembayaran berhasil dihapus!');
         }else{
