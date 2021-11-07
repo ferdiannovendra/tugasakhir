@@ -15,4 +15,9 @@ class MataPelajaran extends Model
     {
         return $this->belongsTo(User::class,'guru_pengajar', 'id');
     }
+    public function kompetensidasar()
+    {
+        return $this->hasMany(KompetensiDasar::class);
+    }
+
 }

@@ -96,6 +96,17 @@
 
                     </ul>
                 </li>
+                <li class="collapsed">
+                    <a class="m-link" data-bs-toggle="collapse" data-bs-target="#kd">
+                        <i class="icofont-data"></i> <span>Kompetensi Dasar</span> <span class="arrow icofont-dotted-down ms-auto text-end fs-5"></span></a>
+                    <!-- Menu: Sub menu ul -->
+                    <ul class="sub-menu collapse" id="kd">
+                        <li><a class="ms-link" href="{{ route('daftarkompetensidasar') }}"> <span>Daftar Kompetensi Dasar</span></a></li>
+                        <!-- <li><a class="ms-link" href=""><span>Tambah Semester</span></a></li> -->
+
+                    </ul>
+                </li>
+
             </ul>
 
             <!-- Theme: Switch Theme -->

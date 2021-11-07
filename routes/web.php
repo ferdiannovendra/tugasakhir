@@ -9,6 +9,7 @@ use App\Http\Controllers\SemesterController;
 use App\Http\Controllers\PembayaranController;
 use App\Http\Controllers\MataPelajaranController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\KompetensiDasarController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 
@@ -78,8 +79,15 @@ Route::prefix('sekolah')->group(function () {
     Route::post('postTambahMP', [MataPelajaranController::class, 'store'])->name('postTambahMP');
     Route::post('postHapusMP', [MataPelajaranController::class, 'destroy'])->name('postHapusMP');
 
+    //Kompetensi Dasar
+    Route::get('/kompetensidasar', [KompetensiDasarController::class, 'index'])->name('daftarkompetensidasar');
+    Route::view('/tambahkd', 'sekolah.admin.tambahkompetensidasar')->name('tambahkd');
+    Route::get('/kompetensidasar/{id}', [KompetensiDasarController::class, 'showkdmp'])->name('showkdmp');
+    Route::post('postTambahKD', [KompetensiDasarController::class, 'store'])->name('postTambahKD');
+    Route::post('postHapusKD', [KompetensiDasarController::class, 'destroy'])->name('postHapusKD');
+
     //Keuangan - Jenis Pembayaran
-    Route::get('/keuangan/jenispembayarn', [PembayaranController::class, 'index'])->name('daftarJenisPembayaran');
+    Route::get('/keuangan/jenispembayaran', [PembayaranController::class, 'index'])->name('daftarJenisPembayaran');
     Route::post('postTambahJenisPembayaran', [PembayaranController::class, 'store'])->name('postTambahJenisPembayaran');
     Route::post('postHapusJenisPembayaran', [PembayaranController::class, 'destroy'])->name('postHapusSemester');
 
