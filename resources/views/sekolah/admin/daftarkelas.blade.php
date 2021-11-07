@@ -28,8 +28,6 @@ Daftar Kelas
                             <th scope="col">Wali Kelas</th>
                             <th scope="col">Jurusan</th>
                             <th scope="col">Semester</th>
-                            <th scope="col">Created At</th>
-                            <th scope="col">Updated At</th>
                             <th scope="col">Aksi</th>
                         </tr>
                         </thead>
@@ -42,16 +40,10 @@ Daftar Kelas
                             <td>{{ $d->user->name }}</td>
                             <td>{{ $d->jurusan->nama_jurusan }}</td>
                             <td>{{ $d->semester->nama_semester }}</td>
-                            <td>{{ $d->created_at }}</td>
-                            <td>{{ $d->updated_at }}</td>
                             <td>
                                 <div class="btn-group" role="group" aria-label="Basic outlined example">
                                     <button type="button" class="btn btn-outline-secondary" data-bs-toggle="modal" data-bs-target="#editholiday"><i class="icofont-edit text-success"></i></button>
-                                    <form action="{{ route('postHapusKelas') }}" method="post">
-                                        @csrf
-                                        <input type="hidden" name="idclass" value="{{$d->idclass_list}}">
-                                        <button type="submit" class="btn btn-outline-secondary deleterow"><i class="icofont-ui-delete text-danger"></i></button>
-                                    </form>
+                                    <button type="button" onclick="hapus_data('{{csrf_token()}}','{{ $d->idclass_list }}')" class="btn btn-outline-secondary deleterow"><i class="icofont-ui-delete text-danger"></i></button>
                                 </div>
                             </td>
                         </tr>
@@ -146,6 +138,45 @@ Daftar Kelas
            ]
        });
    });
+
+</script>
+<script>
+        function hapus_data(token, id) {
+    swal({
+        title: "Yakin Ingin Menghapus Data?",
+        text: "Jika dihapus data akan Sepenuhnya Hilang",
+        type: "warning",
+        showCancelButton: true,
+        confirmButtonColor: "#FF5722",
+        confirmButtonText: "Ya, Hapus!",
+        cancelButtonText: "Tidak!",
+        closeOnConfirm: false,
+        closeOnCancel: true,
+        showLoaderOnConfirm: true
+    }).then(function () {
+        var act = '/sekolah/postHapusKelas';
+        $.post(act, { _token: token, idclass:id },
+        function (data) {
+            swal(
+            'Terhapus!',
+            'Data pengguna telah terhapus.',
+            'success'
+            ).then(function () {
+                location.reload();
+            })
+        });
+
+    }, function (dismiss) {
+        if (dismiss === 'cancel') {
+            swal(
+                'Batal',
+                'Langkah menghapus terhenti dan dibatalkan :)',
+                'error'
+                )
+        }
+    })
+
+}
 
 </script>
 @endsection

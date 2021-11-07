@@ -8,6 +8,7 @@ Daftar Kelas
 <!-- plugin css file  -->
 <link rel="stylesheet" href="{{ asset('assets/plugin/datatables/responsive.dataTables.min.css') }}">
 <link rel="stylesheet" href="{{ asset('assets/plugin/datatables/dataTables.bootstrap5.min.css') }}">
+
 @endsection
 
 @section('isi-content')
@@ -44,11 +45,8 @@ Daftar Kelas
                             <td>
                                 <div class="btn-group" role="group" aria-label="Basic outlined example">
                                     <button type="button" class="btn btn-outline-secondary" data-bs-toggle="modal" data-bs-target="#editholiday"><i class="icofont-edit text-success"></i></button>
-                                    <form action="{{ route('postHapusJurusan') }}" method="post">
-                                        @csrf
-                                        <input type="hidden" name="id" value="{{$d->id}}">
-                                        <button type="submit" class="btn btn-outline-secondary deleterow"><i class="icofont-ui-delete text-danger"></i></button>
-                                    </form>
+
+                                    <button type="button" onclick="hapus_data('{{csrf_token()}}','{{ $d->id }}')" class="btn btn-outline-secondary deleterow"><i class="icofont-ui-delete text-danger"></i></button>
                                 </div>
                             </td>
                         </tr>
@@ -106,5 +104,44 @@ Daftar Kelas
        });
    });
 
+</script>
+
+<script>
+    function hapus_data(token, id) {
+    swal({
+        title: "Yakin Ingin Menghapus Data?",
+        text: "Jika dihapus data akan Sepenuhnya Hilang",
+        type: "warning",
+        showCancelButton: true,
+        confirmButtonColor: "#FF5722",
+        confirmButtonText: "Ya, Hapus!",
+        cancelButtonText: "Tidak!",
+        closeOnConfirm: false,
+        closeOnCancel: true,
+        showLoaderOnConfirm: true
+    }).then(function () {
+        var act = '/sekolah/postHapusJurusan';
+        $.post(act, { _token: token, id:id },
+        function (data) {
+            swal(
+            'Terhapus!',
+            'Data pengguna telah terhapus.',
+            'success'
+            ).then(function () {
+                location.reload();
+            })
+        });
+
+    }, function (dismiss) {
+        if (dismiss === 'cancel') {
+            swal(
+                'Batal',
+                'Langkah menghapus terhenti dan dibatalkan :)',
+                'error'
+                )
+        }
+    })
+
+}
 </script>
 @endsection

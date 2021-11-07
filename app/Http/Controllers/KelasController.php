@@ -114,7 +114,6 @@ class KelasController extends Controller
     public function destroy(Request $request)
     {
         $idclass = $request->idclass;
-        // $delete = DB::table('class_list')->where('idclass_list', $idclass)->delete();
         $kelas = Kelas::find($idclass);
         if ($kelas->delete()) {
             return redirect()->route('daftarkelas')

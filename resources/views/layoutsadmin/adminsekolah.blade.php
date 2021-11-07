@@ -13,6 +13,8 @@
     <link rel="icon" href="../favicon.ico" type="image/x-icon"> <!-- Favicon-->
     @yield('style')
     <!-- project css file  -->
+    <link href="{{ asset('assets/plugin/sweet-alert2/sweetalert2.min.css') }}" rel="stylesheet" type="text/css" />
+
     <link rel="stylesheet" href="{{ asset('assets/css/my-task.style.min.css') }}">
 </head>
 
@@ -189,6 +191,7 @@
 
 <!-- Jquery Core Js -->
 <script src="{{ asset('assets/bundles/libscripts.bundle.js') }}"></script>
+<script src="{{ asset('assets/plugin/sweet-alert2/sweetalert2.min.js') }}"></script>
 
 @yield('script')
 
