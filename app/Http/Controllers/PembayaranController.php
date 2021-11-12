@@ -13,7 +13,7 @@ class PembayaranController extends Controller
     {
         $alldata =  JenisPembayaran::all();
 
-        return view('sekolah.admin.daftarjenispembayaran',["data"=>$alldata]);
+        return view('sekolah.admin.jenispembayaran.daftarjenispembayaran',["data"=>$alldata]);
     }
     public function store(Request $request)
     {
@@ -40,4 +40,28 @@ class PembayaranController extends Controller
             ->with('error','Jenis Pembayaran gagal dihapus!');
         }
     }
+    public function edit(Request $request)
+    {
+        $id = $request->id;
+        $pemb = JenisPembayaran::find($id);
+
+        return response()->json(array(
+            'status'=>'oke',
+            'msg'=>view('sekolah.admin.jenispembayaran.editjenispembayaran',compact('pemb','id'))->render()
+        ),200);
+
+    }
+    public function update(Request $request, $id)
+    {
+        $pemb = JenisPembayaran::find($id);
+        $pemb->nama_jenis = $request->nama_jenis;
+        if ($pemb->save()) {
+        return redirect()->route('daftarJenisPembayaran')
+        ->with('status','Jenis Pembayaran baru berhasil diubah!');
+        }else{
+        return redirect()->route('daftarJenisPembayaran')
+        ->with('error','Jenis Pembayaran baru gagal diubah!');
+        }
+    }
+
 }

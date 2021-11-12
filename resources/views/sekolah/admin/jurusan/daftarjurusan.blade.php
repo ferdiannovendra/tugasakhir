@@ -24,6 +24,7 @@ Daftar Kelas
         <div class="card mb-3">
             <div class="card-header mt-2 py-3 d-flex justify-content-between bg-transparent border-bottom-0">
                 <h6 class="mb-0 fw-bold ">Daftar Jurusan</h6>
+                <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#TambahModal">Tambah Jurusan</button>
             </div>
             <div class="card-body">
                 <div class="table-responsive">
@@ -44,7 +45,7 @@ Daftar Kelas
                             <td>{{ $d->description }}</td>
                             <td>
                                 <div class="btn-group" role="group" aria-label="Basic outlined example">
-                                    <button type="button" class="btn btn-outline-secondary" data-bs-toggle="modal" data-bs-target="#editholiday"><i class="icofont-edit text-success"></i></button>
+                                    <button type="button" onclick="getDetail('{{ $d->id }}')" class="btn btn-outline-secondary" data-bs-toggle="modal" data-bs-target="#ubahmodal"><i class="icofont-edit text-success"></i></button>
 
                                     <button type="button" onclick="hapus_data('{{csrf_token()}}','{{ $d->id }}')" class="btn btn-outline-secondary deleterow"><i class="icofont-ui-delete text-danger"></i></button>
                                 </div>
@@ -57,33 +58,56 @@ Daftar Kelas
             </div>
         </div>
     </div>
+</div><!-- Row end  -->
 
-    <div class="col-md-12">
-        <div class="card mb-3">
-            <div class="card-header mt-2 py-3 d-flex justify-content-between bg-transparent border-bottom-0">
-                <h6 class="mb-0 fw-bold ">Tambah Data Jurusan</h6>
+<div class="modal fade" id="TambahModal" tabindex="-1" aria-labelledby="exampleModalXlLabel" style="display: none;" aria-hidden="true">
+    <div class="modal-dialog modal-xl">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title h4" >Tambah Jurusan</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
-            <div class="card-body">
-                <form action="{{ route('postTambahJurusan') }}" method="post">
-                    @csrf
-                    <div class="row g-3 align-items-center">
-                        <div class="col-md-6">
-                            <label for="nama_jurusan" class="form-label">Nama Jurusan</label>
-                            <input type="text" class="form-control" id="nama_jurusan" name="nama_jurusan" required>
-                        </div>
-
-                        <div class="col-md-12">
-                            <label for="description" class="form-label">Add Note</label>
-                            <textarea  class="form-control" name="description" id="description" rows="3"></textarea>
-                        </div>
+            <form action="{{ route('postTambahJurusan') }}" method="post">
+            <div class="modal-body">
+                @csrf
+                <div class="row g-3 align-items-center">
+                    <div class="col-md-6">
+                        <label for="nama_jurusan" class="form-label">Nama Jurusan</label>
+                        <input type="text" class="form-control" id="nama_jurusan" name="nama_jurusan" required>
                     </div>
 
-                    <button type="submit" class="btn btn-primary mt-4">Submit</button>
-                </form>
+                    <div class="col-md-12">
+                        <label for="description" class="form-label">Add Note</label>
+                        <textarea  class="form-control" name="description" id="description" rows="3"></textarea>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                <button type="submit" class="btn btn-primary">Submit</button>
+            </div>
+            </form>
+        </div>
+    </div>
+</div>
+<div class="modal fade" id="ubahmodal" tabindex="-1" aria-labelledby="ubahmodal" style="display: none;" aria-hidden="true">
+    <div class="modal-dialog modal-xl">
+        <div class="modal-content" id="modalcontent">
+            <div class="modal-header">
+                <h5 class="modal-title h4">Ubah Jurusan</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="row justify-content-center">
+                    <div class="spinner-border text-primary" role="status">
+                        <span class="visually-hidden">Loading...</span>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
-</div><!-- Row end  -->
+</div>
+
 @endsection
 @section('script')
 <!-- Plugin Js-->
@@ -125,7 +149,7 @@ Daftar Kelas
         function (data) {
             swal(
             'Terhapus!',
-            'Data pengguna telah terhapus.',
+            'Data Jurusan telah terhapus.',
             'success'
             ).then(function () {
                 location.reload();
@@ -143,5 +167,20 @@ Daftar Kelas
     })
 
 }
+
+function getDetail(id) {
+    $.ajax({
+            type: 'POST',
+            url: '{{route("ubahjurusan")}}',
+            data: {
+                '_token': '<?php echo csrf_token() ?>',
+                'id': id
+            },
+            success: function(data) {
+                $('#modalcontent').html(data.msg)
+            }
+        });
+    }
+
 </script>
 @endsection

@@ -23,6 +23,7 @@ Daftar Kelas
         <div class="card mb-3">
             <div class="card-header mt-2 py-3 d-flex justify-content-between bg-transparent border-bottom-0">
                 <h6 class="mb-0 fw-bold ">Daftar Jenis Pembayaran</h6>
+                <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#TambahModal">Tambah Jenis Pembayaran</button>
             </div>
             <div class="card-body">
                 <div class="table-responsive">
@@ -31,8 +32,6 @@ Daftar Kelas
                         <tr>
                             <th scope="col">#</th>
                             <th scope="col">Nama Jenis</th>
-                            <th scope="col">Created Date</th>
-                            <th scope="col">Updated Date</th>
                             <th scope="col">Aksi</th>
                         </tr>
                         </thead>
@@ -41,11 +40,9 @@ Daftar Kelas
                         <tr>
                             <th scope="row">{{ $d->idjenis_pembayaran }}</th>
                             <td>{{ $d->nama_jenis }}</td>
-                            <td>{{ $d->created_at }}</td>
-                            <td>{{ $d->updated_at }}</td>
                             <td>
                                 <div class="btn-group" role="group" aria-label="Basic outlined example">
-                                    <button type="button" class="btn btn-outline-secondary" data-bs-toggle="modal" data-bs-target="#editholiday"><i class="icofont-edit text-success"></i></button>
+                                <button type="button" onclick="getDetail('{{ $d->idjenis_pembayaran }}')" class="btn btn-outline-secondary" data-bs-toggle="modal" data-bs-target="#ubahmodal"><i class="icofont-edit text-success"></i></button>
                                     <button type="button" onclick="hapus_data('{{csrf_token()}}','{{ $d->idjenis_pembayaran }}')" class="btn btn-outline-secondary deleterow"><i class="icofont-ui-delete text-danger"></i></button>
                                 </div>
                             </td>
@@ -58,27 +55,52 @@ Daftar Kelas
         </div>
     </div>
 
-    <div class="col-md-12">
-        <div class="card mb-3">
-            <div class="card-header mt-2 py-3 d-flex justify-content-between bg-transparent border-bottom-0">
-                <h6 class="mb-0 fw-bold ">Tambah Data Jenis Pembayaran</h6>
-            </div>
-            <div class="card-body">
-                <form action="{{ route('postTambahJenisPembayaran') }}" method="post">
-                    @csrf
-                    <div class="row g-3 align-items-center">
-                        <div class="col-md-12">
-                            <label for="nama_jenis" class="form-label">Nama Jenis Pembayaran</label>
-                            <input type="text" class="form-control" id="nama_jenis" name="nama_jenis" required>
-                        </div>
-                    </div>
+</div><!-- Row end  -->
 
-                    <button type="submit" class="btn btn-primary mt-4">Submit</button>
-                </form>
+<div class="modal fade" id="TambahModal" tabindex="-1" aria-labelledby="exampleModalXlLabel" style="display: none;" aria-hidden="true">
+    <div class="modal-dialog modal-xl">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title h4" >Tambah Jenis Pembayaran</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <form action="{{ route('postTambahJenisPembayaran') }}" method="post">
+            <div class="modal-body">
+                @csrf
+                <div class="row g-3 align-items-center">
+                    <div class="col-md-12">
+                        <label for="nama_jenis" class="form-label">Nama Jenis Pembayaran</label>
+                        <input type="text" class="form-control" id="nama_jenis" name="nama_jenis" required>
+                    </div>
+                </div>
+
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                <button type="submit" class="btn btn-primary">Submit</button>
+            </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="ubahmodal" tabindex="-1" aria-labelledby="ubahmodal" style="display: none;" aria-hidden="true">
+    <div class="modal-dialog modal-xl">
+        <div class="modal-content" id="modalcontent">
+            <div class="modal-header">
+                <h5 class="modal-title h4">Ubah Jenis Pembayaran</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="row justify-content-center">
+                    <div class="spinner-border text-primary" role="status">
+                        <span class="visually-hidden">Loading...</span>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
-</div><!-- Row end  -->
+</div>
 @endsection
 @section('script')
 <!-- Plugin Js-->
@@ -119,7 +141,7 @@ Daftar Kelas
         function (data) {
             swal(
             'Terhapus!',
-            'Data pengguna telah terhapus.',
+            'Data Jenis Pembayaran telah terhapus.',
             'success'
             ).then(function () {
                 location.reload();
@@ -137,6 +159,19 @@ Daftar Kelas
     })
 
 }
+function getDetail(id) {
+    $.ajax({
+            type: 'POST',
+            url: '{{route("ubahJenisPembayaran")}}',
+            data: {
+                '_token': '<?php echo csrf_token() ?>',
+                'id': id
+            },
+            success: function(data) {
+                $('#modalcontent').html(data.msg)
+            }
+        });
+    }
 
 </script>
 @endsection

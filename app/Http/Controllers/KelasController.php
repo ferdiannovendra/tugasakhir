@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Carbon\Carbon;
 use App\Models\Kelas;
+
 class KelasController extends Controller
 {
     /**
@@ -19,7 +20,7 @@ class KelasController extends Controller
         $dataGuru = DB::table('users')->where('status','guru')->get();
         $dataJurusan = DB::table('jurusan')->get();
         $dataSemester = DB::table('semester')->get();
-        return view('sekolah.admin.daftarkelas',["data"=>$data,
+        return view('sekolah.admin.kelas.daftarkelas',["data"=>$data,
                                                 "dataGuru"=>$dataGuru,
                                                 "dataJurusan"=>$dataJurusan,
                                                 "dataSemester"=>$dataSemester
@@ -79,7 +80,6 @@ class KelasController extends Controller
      */
     public function show($id)
     {
-        //
     }
 
     /**
@@ -88,9 +88,19 @@ class KelasController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit(Request $request)
     {
-        //
+        $id = $request->id;
+        $kelas = Kelas::find($id);
+        $dataGuru = DB::table('users')->where('status','guru')->get();
+        $dataJurusan = DB::table('jurusan')->get();
+        $dataSemester = DB::table('semester')->get();
+        return response()->json(array(
+            'status'=>'oke',
+            'msg'=>view('sekolah.admin.kelas.editkelas',compact('kelas','id','dataGuru','dataJurusan','dataSemester'))->render()
+        ),200);
+
+        // return view('sekolah.admin.kelas.editkelas',compact('kelas','id'));
     }
 
     /**
@@ -102,7 +112,21 @@ class KelasController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $kelas = Kelas::find($id);
+        // return $id;
+        $kelas->name_class = $request->nama_kelas;
+        $kelas->wali_kelas = $request->wali_kelas;
+        $kelas->status = "Aktif";
+        $kelas->jurusan_idjurusan = $request->jurusan;
+        $kelas->semester_idsemester = $request->semester;
+        if ($kelas->save()) {
+        return redirect()->route('daftarkelas')
+        ->with('status','Kelas baru berhasil ditambahkan!');
+        }else{
+        return redirect()->route('daftarkelas')
+        ->with('error','Kelas baru gagal ditambahkan!');
+        }
+
     }
 
     /**

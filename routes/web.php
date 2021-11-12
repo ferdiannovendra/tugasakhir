@@ -62,22 +62,30 @@ Route::prefix('sekolah')->group(function () {
     Route::view('/tambah-kelas', 'sekolah.admin.tambahkelas')->name('tambahkelas');
     Route::post('postTambahKelas', [KelasController::class, 'store'])->name('postTambahKelas');
     Route::post('postHapusKelas', [KelasController::class, 'destroy'])->name('postHapusKelas');
+    Route::post('ubahkelas', [KelasController::class, 'edit'])->name('ubahkelas');
+    Route::post('/simpan_ubahkelas/{id}', [KelasController::class, 'update'])->name('simpan_ubahkelas');
 
     //Jurusan
     Route::get('/daftar-jurusan', [JurusanController::class, 'index'])->name('daftarjurusan');
     Route::view('/tambah-jurusan', 'sekolah.admin.tambahjurusan')->name('tambahjurusan');
     Route::post('postTambahJurusan', [JurusanController::class, 'store'])->name('postTambahJurusan');
     Route::post('postHapusJurusan', [JurusanController::class, 'destroy'])->name('postHapusJurusan');
+    Route::post('ubahjurusan', [JurusanController::class, 'edit'])->name('ubahjurusan');
+    Route::post('/simpan_ubahjurusan/{id}', [JurusanController::class, 'update'])->name('simpan_ubahjurusan');
 
     //Semester
     Route::get('/daftar-semester', [SemesterController::class, 'index'])->name('daftarsemester');
     Route::post('postTambahSemester', [SemesterController::class, 'store'])->name('postTambahSemester');
     Route::post('postHapusSemester', [SemesterController::class, 'destroy'])->name('postHapusSemester');
+    Route::post('ubahsemester', [SemesterController::class, 'edit'])->name('ubahsemester');
+    Route::post('/simpan_ubahsemester/{id}', [SemesterController::class, 'update'])->name('simpan_ubahsemester');
 
     //Mata pelajaran
     Route::get('/daftar-matapelajaran', [MataPelajaranController::class, 'index'])->name('daftarmatapelajaran');
     Route::post('postTambahMP', [MataPelajaranController::class, 'store'])->name('postTambahMP');
     Route::post('postHapusMP', [MataPelajaranController::class, 'destroy'])->name('postHapusMP');
+    Route::post('ubahMP', [MataPelajaranController::class, 'edit'])->name('ubahMP');
+    Route::post('/simpan_ubahMP/{id}', [MataPelajaranController::class, 'update'])->name('simpan_ubahMP');
 
     //Kompetensi Dasar
     Route::get('/kompetensidasar', [KompetensiDasarController::class, 'index'])->name('daftarkompetensidasar');
@@ -90,5 +98,7 @@ Route::prefix('sekolah')->group(function () {
     Route::get('/keuangan/jenispembayaran', [PembayaranController::class, 'index'])->name('daftarJenisPembayaran');
     Route::post('postTambahJenisPembayaran', [PembayaranController::class, 'store'])->name('postTambahJenisPembayaran');
     Route::post('postHapusJenisPembayaran', [PembayaranController::class, 'destroy'])->name('postHapusSemester');
+    Route::post('ubahJenisPembayaran', [PembayaranController::class, 'edit'])->name('ubahJenisPembayaran');
+    Route::post('/simpan_ubahJenisPembayaran/{id}', [PembayaranController::class, 'update'])->name('simpan_ubahJenisPembayaran');
 
 });

@@ -13,9 +13,18 @@ Daftar Kelas
 @section('isi-content')
 <div class="row align-item-center">
     <div class="col-md-12">
+        @if (session('status'))
+        <div role="alert" class="alert alert-success">{{session('status')}}</div>
+        @elseif (session('error'))
+        <div role="alert" class="alert alert-danger">{{session('error')}}</div>
+        @endif
+    </div>
+
+    <div class="col-md-12">
         <div class="card mb-3">
             <div class="card-header mt-2 py-3 d-flex justify-content-between bg-transparent border-bottom-0">
                 <h6 class="mb-0 fw-bold ">Daftar Kelas</h6>
+                <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#TambahModal">Tambah Kelas</button>
             </div>
             <div class="card-body">
                 <div class="table-responsive">
@@ -39,10 +48,10 @@ Daftar Kelas
                             <td>{{ $d->status }}</td>
                             <td>{{ $d->user->name }}</td>
                             <td>{{ $d->jurusan->nama_jurusan }}</td>
-                            <td>{{ $d->semester->nama_semester }}</td>
+                            <td>{{ $d->semester->nama_semester }} - {{ $d->semester->tahun_ajaran }}</td>
                             <td>
                                 <div class="btn-group" role="group" aria-label="Basic outlined example">
-                                    <button type="button" class="btn btn-outline-secondary" data-bs-toggle="modal" data-bs-target="#editholiday"><i class="icofont-edit text-success"></i></button>
+                                    <button type="button" onclick="getDetail('{{ $d->idclass_list }}')" class="btn btn-outline-secondary" data-bs-toggle="modal" data-bs-target="#ubahmodal"><i class="icofont-edit text-success"></i></button>
                                     <button type="button" onclick="hapus_data('{{csrf_token()}}','{{ $d->idclass_list }}')" class="btn btn-outline-secondary deleterow"><i class="icofont-ui-delete text-danger"></i></button>
                                 </div>
                             </td>
@@ -54,13 +63,17 @@ Daftar Kelas
             </div>
         </div>
     </div>
-    <div class="col-md-12">
-        <div class="card mb-3">
-            <div class="card-header mt-2 py-3 d-flex justify-content-between bg-transparent border-bottom-0">
-                <h6 class="mb-0 fw-bold ">Tambah Data Kelas</h6>
+</div><!-- Row end  -->
+
+<div class="modal fade" id="TambahModal" tabindex="-1" aria-labelledby="exampleModalXlLabel" style="display: none;" aria-hidden="true">
+    <div class="modal-dialog modal-xl">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title h4" >Tambah Kelas</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
-            <div class="card-body">
-                <form action="{{ route('postTambahKelas') }}" method="post">
+            <form action="{{ route('postTambahKelas') }}" method="post">
+            <div class="modal-body">
                     @csrf
                     <div class="row g-3 align-items-center">
                         <div class="col-md-6">
@@ -70,7 +83,7 @@ Daftar Kelas
 
                         <div class="col-md-6">
                             <label for="wali_kelas" class="form-label">Wali Kelas</label>
-                            <select name="wali_kelas" class="form-control" id="wali_kelas">
+                            <select name="wali_kelas" class="form-select" id="wali_kelas">
                                 @if(isset($dataGuru))
                                     @foreach($dataGuru as $guru)
                                     <option value="{{ $guru->id }}">{{ $guru->name }}</option>
@@ -86,10 +99,10 @@ Daftar Kelas
                     <div class="row g-3 align-items-center">
                         <div class="col-md-6">
                             <label for="semester" class="form-label">Semester</label>
-                            <select name="semester" class="form-control" id="semester">
+                            <select name="semester" class="form-select" id="semester">
                                 @if(isset($dataSemester))
                                     @foreach($dataSemester as $semester)
-                                    <option value="{{ $semester->idsemester }}">{{ $semester->nama_semester }}</option>
+                                    <option value="{{ $semester->idsemester }}">{{ $semester->nama_semester }} - {{ $semester->tahun_ajaran }}</option>
                                     @endforeach
                                 @else
                                 <option value="-" disabled>Tidak ada data semester</option>
@@ -100,7 +113,7 @@ Daftar Kelas
 
                         <div class="col-md-6">
                             <label for="jurusan" class="form-label">Jurusan</label>
-                            <select name="jurusan" class="form-control" id="jurusan">
+                            <select name="jurusan" class="form-select" id="jurusan">
                                 @if(isset($dataJurusan))
                                     @foreach($dataJurusan as $jurusan)
                                     <option value="{{ $jurusan->id }}">{{ $jurusan->nama_jurusan }}</option>
@@ -113,12 +126,33 @@ Daftar Kelas
                         </div>
                     </div>
 
-                    <button type="submit" class="btn btn-primary mt-4">Submit</button>
-                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                <button type="submit" class="btn btn-primary">Submit</button>
+            </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="ubahmodal" tabindex="-1" aria-labelledby="ubahmodal" style="display: none;" aria-hidden="true">
+    <div class="modal-dialog modal-xl">
+        <div class="modal-content" id="modalcontent">
+            <div class="modal-header">
+                <h5 class="modal-title h4">Ubah Semester</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="row justify-content-center">
+                    <div class="spinner-border text-primary" role="status">
+                        <span class="visually-hidden">Loading...</span>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
-</div><!-- Row end  -->
+</div>
 @endsection
 @section('script')
 <!-- Plugin Js-->
@@ -177,6 +211,20 @@ Daftar Kelas
     })
 
 }
+
+function getDetail(id) {
+    $.ajax({
+            type: 'POST',
+            url: '{{route("ubahkelas")}}',
+            data: {
+                '_token': '<?php echo csrf_token() ?>',
+                'id': id
+            },
+            success: function(data) {
+                $('#modalcontent').html(data.msg)
+            }
+        });
+    }
 
 </script>
 @endsection

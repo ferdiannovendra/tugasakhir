@@ -17,7 +17,7 @@ class JurusanController extends Controller
     {
         $alldata =  DB::table('jurusan')->get();
 
-        return view('sekolah.admin.daftarjurusan',["data"=>$alldata]);
+        return view('sekolah.admin.jurusan.daftarjurusan',["data"=>$alldata]);
     }
 
     /**
@@ -74,9 +74,15 @@ class JurusanController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit(Request $request)
     {
-        //
+        $id = $request->id;
+        $jurusan = Jurusan::find($id);
+        return response()->json(array(
+            'status'=>'oke',
+            'msg'=>view('sekolah.admin.jurusan.editjurusan',compact('jurusan','id'))->render()
+        ),200);
+
     }
 
     /**
@@ -88,7 +94,16 @@ class JurusanController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $jurusan = Jurusan::find($id);
+        $jurusan->nama_jurusan = $request->nama_jurusan;
+        $jurusan->description = $request->description;
+        if ($jurusan->save()) {
+            return redirect()->route('daftarjurusan')
+            ->with('status','Jurusan baru berhasil diubah!');
+        }else{
+            return redirect()->route('daftarjurusan')
+            ->with('error','Jurusan baru gagal diubah!');
+        }
     }
 
     /**
