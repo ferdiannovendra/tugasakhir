@@ -56,6 +56,7 @@ Route::prefix('sekolah')->group(function () {
     Route::get('/daftar-user/siswa', [UserController::class, 'daftarsiswa'])->name('daftarSiswa');
     Route::post('postTambahUser', [UserController::class, 'store'])->name('postTambahUser');
     Route::post('postHapusUser', [UserController::class, 'destroy'])->name('postHapusUser');
+    Route::post('resetpassword', [UserController::class, 'resetpassword'])->name('resetpassword');
 
     //Kelas
     Route::get('/daftar-kelas', [KelasController::class, 'index'])->name('daftarkelas');

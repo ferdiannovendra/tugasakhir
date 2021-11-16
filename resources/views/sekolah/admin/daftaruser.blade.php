@@ -53,7 +53,7 @@ Daftar Pengguna
                             <td>{{ $d->gender }}</td>
                             <td>
                                 <div class="btn-group" role="group" aria-label="Basic outlined example">
-                                    <button type="button" class="btn btn-outline-secondary" data-bs-toggle="modal" data-bs-target="#editholiday"><i class="icofont-edit text-success"></i></button>
+                                    <button type="button" class="btn btn-outline-secondary" onclick="reset('{{csrf_token()}}','{{$d->id}}')"><i class="icofont-ui-settings text-success"></i></button>
                                     <form action="{{ route('postHapusUser') }}" method="post">
                                         @csrf
                                         <input type="hidden" name="iduser" value="{{$d->id}}">
@@ -116,5 +116,42 @@ Daftar Pengguna
        });
    });
 
+</script>
+<script>
+    function reset(token, id){
+            swal({
+            title: "Yakin Ingin Reset Data Pengguna?",
+            text: "Password akan berubah menjadi NIK pengguna",
+            type: "warning",
+            showCancelButton: true,
+            confirmButtonColor: "#FF5722",
+            confirmButtonText: "Ya, Reset!",
+            cancelButtonText: "Tidak!",
+            closeOnConfirm: false,
+            closeOnCancel: true,
+            showLoaderOnConfirm: true
+        }).then(function () {
+            var act = '/sekolah/resetpassword';
+            $.post(act, { _token: token, id:id },
+            function (data) {
+                swal(
+                'Berhasil!',
+                'Data pengguna telah ter-reset.',
+                'success'
+                ).then(function () {
+                    location.reload();
+                })
+            });
+
+        }, function (dismiss) {
+            if (dismiss === 'cancel') {
+                swal(
+                    'Batal',
+                    'Langkah reset terhenti dan dibatalkan :)',
+                    'error'
+                    )
+            }
+        })
+    }
 </script>
 @endsection
