@@ -89,10 +89,13 @@ Route::prefix('sekolah')->group(function () {
 
     //Kompetensi Dasar
     Route::get('/kompetensidasar', [KompetensiDasarController::class, 'index'])->name('daftarkompetensidasar');
-    Route::view('/tambahkd', 'sekolah.admin.tambahkompetensidasar')->name('tambahkd');
+    // Route::view('/tambahkd', 'sekolah.admin.tambahkompetensidasar')->name('tambahkd');
     Route::get('/kompetensidasar/{id}', [KompetensiDasarController::class, 'showkdmp'])->name('showkdmp');
+    Route::get('/tambahkd', [KompetensiDasarController::class, 'formtambahkd'])->name('tambahkd');
     Route::post('postTambahKD', [KompetensiDasarController::class, 'store'])->name('postTambahKD');
     Route::post('postHapusKD', [KompetensiDasarController::class, 'destroy'])->name('postHapusKD');
+    Route::post('ubahkd', [KompetensiDasarController::class, 'edit'])->name('ubahkd');
+    Route::post('/simpan_ubahkd/{id}', [KompetensiDasarController::class, 'update'])->name('simpan_ubahkd');
 
     //Keuangan - Jenis Pembayaran
     Route::get('/keuangan/jenispembayaran', [PembayaranController::class, 'index'])->name('daftarJenisPembayaran');

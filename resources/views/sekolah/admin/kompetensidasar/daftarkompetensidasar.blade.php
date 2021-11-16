@@ -70,7 +70,7 @@ Daftar Kelas
                             <td>{{ $d->status }}</td>
                             <td>
                                 <div class="btn-group" role="group" aria-label="Basic outlined example">
-                                    <button type="button" class="btn btn-outline-secondary" data-bs-toggle="modal" data-bs-target="#editholiday"><i class="icofont-edit text-success"></i></button>
+                                    <button type="button" onclick="getDetail('{{ $d->idkompetensi_dasar }}')" class="btn btn-outline-secondary" data-bs-toggle="modal" data-bs-target="#ubahmodal"><i class="icofont-edit text-success"></i></button>
                                     <button type="button" onclick="hapus_data('{{csrf_token()}}','{{ $d->idkompetensi_dasar }}')" class="btn btn-outline-secondary deleterow"><i class="icofont-ui-delete text-danger"></i></button>
                                 </div>
                             </td>
@@ -84,6 +84,23 @@ Daftar Kelas
     </div>
 </div><!-- Row end  -->
 
+<div class="modal fade" id="ubahmodal" tabindex="-1" aria-labelledby="ubahmodal" style="display: none;" aria-hidden="true">
+    <div class="modal-dialog modal-xl">
+        <div class="modal-content" id="modalcontent">
+            <div class="modal-header">
+                <h5 class="modal-title h4">Ubah Kompetensi Dasar</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="row justify-content-center">
+                    <div class="spinner-border text-primary" role="status">
+                        <span class="visually-hidden">Loading...</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 
 @endsection
 @section('script')
@@ -127,7 +144,7 @@ $('#mpselect').on('change', function () {
         closeOnCancel: true,
         showLoaderOnConfirm: true
     }).then(function () {
-        var act = '/sekolah/postHapusJurusan';
+        var act = '/sekolah/postHapusKD';
         $.post(act, { _token: token, id:id },
         function (data) {
             swal(
@@ -150,5 +167,20 @@ $('#mpselect').on('change', function () {
     })
 
 }
+
+function getDetail(id) {
+    $.ajax({
+            type: 'POST',
+            url: '{{route("ubahkd")}}',
+            data: {
+                '_token': '<?php echo csrf_token() ?>',
+                'id': id
+            },
+            success: function(data) {
+                $('#modalcontent').html(data.msg)
+            }
+        });
+    }
+
 </script>
 @endsection
