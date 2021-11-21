@@ -137,11 +137,15 @@ class KompetensiDasarController extends Controller
 
     public function showkdmp($id)
     {
-        $data = KompetensiDasar::where("idkompetensi_dasar", $id)->get();
+        $idmp = $id;
+        if ($id == 0) {
+            $data = KompetensiDasar::all();
+        }
+        $data = KompetensiDasar::where("idmata_pelajaran", $id)->get();
         $dataMP = MataPelajaran::all();
         $dataGuru = DB::table('users')->where('status','guru')->get();
 
-        return view('sekolah.admin.kompetensidasar.daftarkompetensidasar',["data"=>$data,"dataMP"=>$dataMP,"dataGuru"=>$dataGuru]);
+        return view('sekolah.admin.kompetensidasar.daftarkompetensidasar',["data"=>$data,"dataMP"=>$dataMP,"dataGuru"=>$dataGuru,"id"=>$idmp]);
 
     }
     public function formtambahkd()

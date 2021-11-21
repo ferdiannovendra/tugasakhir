@@ -33,6 +33,7 @@ Super-Admin
                                     <th scope="col">Database</th>
                                     <th scope="col">Created At</th>
                                     <th scope="col">Updated At</th>
+                                    <th scope="col">Action</th>
                                 </tr>
                                 </thead>
                                 <tbody>
@@ -44,6 +45,11 @@ Super-Admin
                                     <td>{{ $d->database }}</td>
                                     <td>{{ $d->created_at }}</td>
                                     <td>{{ $d->updated_at }}</td>
+                                    <td>
+                                        <div class="btn-group" role="group" aria-label="Basic outlined example">
+                                            <a href="{{ route('detailsekolah',$d->id) }}"><button type="button" class="btn btn-outline-secondary"><i class="icofont-edit text-success"></i></button></a>
+                                        </div>
+                                    </td>
                                 </tr>
                                 @endforeach
                                 </tbody>

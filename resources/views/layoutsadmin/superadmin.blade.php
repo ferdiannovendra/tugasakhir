@@ -14,6 +14,8 @@
     @yield('style')
     <!-- project css file  -->
     <link rel="stylesheet" href="{{ asset('assets/css/my-task.style.min.css') }}">
+    <link href="{{ asset('assets/plugin/sweet-alert2/sweetalert2.min.css') }}" rel="stylesheet" type="text/css" />
+
 </head>
 
 <body>
@@ -132,6 +134,8 @@
 
 <!-- Jquery Core Js -->
 <script src="{{ asset('assets/bundles/libscripts.bundle.js') }}"></script>
+<script src="{{ asset('assets/plugin/sweet-alert2/sweetalert2.min.js') }}"></script>
+
 
 @yield('script')
 

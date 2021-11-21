@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use App\Models\Tenant;
 
 class SuperAdminController extends Controller
 {
@@ -85,4 +86,61 @@ class SuperAdminController extends Controller
     {
         //
     }
+
+    public function simpan_data_sekolah(Request $request)
+    {
+        $tenant = new Tenant();
+        $tenant->name = $request->name;
+        $tenant->npsn = $request->npsn;
+        $tenant->save();
+        return redirect()->route('superadminhome');
+    }
+    public function detailsekolah($id)
+    {
+        $tenant = Tenant::find($id);
+        return view('super-admin.detailsekolah',["data"=>$tenant]);
+    }
+    public function simpanubah_tenant(Request $request, $id)
+    {
+        $tenant = Tenant::find($id);
+        $tenant->name = $request->name;
+        $tenant->npsn = $request->npsn;
+        $tenant->database = $request->database;
+        $tenant->domain = $request->domain;
+        $tenant->start_date = $request->start_date;
+        $tenant->end_date = $request->end_date;
+        $tenant->save();
+
+        return redirect()->route('superadminhome');
+    }
+    public function generateDB(Request $request)
+    {
+        $tenant = Tenant::find($request->id);
+        $newSchema = 'tenancy'.$tenant->name;
+        $sql = "create database ".$newSchema;
+        // $result = DB::statement($sql);
+        // url('/uploads/images/'.$mostafid->imageM);
+
+        $restore_file  = '/db/db.sql';
+        $server_name   = env('DB_HOST');
+        $username      = env('DB_USERNAME');
+        $password      = env('DB_PASSWORD');
+
+
+        $cmd = "mysql -h ".$server_name." -u ".$username." ". $newSchema. " < ../../../public/".$restore_file;
+        $run = exec($cmd);
+        // return $cmd;
+
+        if ($run) {
+            return response()->json([
+                'status' => 'sukses'
+            ]);
+        }else{
+            return response()->json([
+                'status' => $cmd
+            ]);
+        }
+
+    }
+
 }

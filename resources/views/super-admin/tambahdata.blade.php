@@ -18,63 +18,22 @@ Super-Admin
                 <h6 class="mb-0 fw-bold ">Tambah Data Sekolah</h6>
             </div>
             <div class="card-body">
-                <form>
+                <form method="post" action="{{route('simpan_data_sekolah')}}">
+                    @csrf
                     <div class="row g-3 align-items-center">
-                        <div class="col-md-6">
-                            <label for="firstname" class="form-label">First Name</label>
-                            <input type="text" class="form-control" id="firstname" required>
-                        </div>
-                        <div class="col-md-6">
-                            <label for="lastname" class="form-label">Last Name</label>
-                            <input type="text" class="form-control" id="lastname" required>
-                        </div>
-                        <div class="col-md-6">
-                            <label  class="form-label">Phone Number</label>
-                            <input type="text" class="form-control" id="phonenumber" required>
-                        </div>
-                        <div class="col-md-6">
-                            <label for="emailaddress" class="form-label">Email Address</label>
-                            <input type="email" class="form-control" id="emailaddress" required>
-                        </div>
-                        <div class="col-md-6">
-                            <label for="admitdate" class="form-label">Date</label>
-                            <input type="date" class="form-control" id="admitdate" required>
-                        </div>
-                        <div class="col-md-6">
-                            <label for="admittime" class="form-label">Time</label>
-                            <input type="time" class="form-control" id="admittime" required>
-                        </div>
-                        <div class="col-md-6">
-                            <label for="formFileMultiple" class="form-label"> File Upload</label>
-                            <input class="form-control" type="file" id="formFileMultiple" multiple required>
-                        </div>
-                        <div class="col-md-6">
-                            <label  class="form-label">Gender</label>
-                            <div class="row">
-                                <div class="col-md-6">
-                                    <div class="form-check">
-                                        <input class="form-check-input" type="radio" name="exampleRadios" id="exampleRadios11" value="option1" checked>
-                                        <label class="form-check-label" for="exampleRadios11">
-                                            Male
-                                        </label>
-                                    </div>
-                                </div>
-                                <div class="col-md-6">
-                                    <div class="form-check">
-                                        <input class="form-check-input" type="radio" name="exampleRadios" id="exampleRadios22" value="option2">
-                                        <label class="form-check-label" for="exampleRadios22">
-                                            Female
-                                        </label>
-                                    </div>
-                                </div>
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <label class="form-label">Nama Sekolah</label>
+                                <input type="text" name="name" class="form-control" required>
                             </div>
                         </div>
                         <div class="col-md-12">
-                            <label for="addnote" class="form-label">Add Note</label>
-                            <textarea  class="form-control" id="addnote" rows="3"></textarea>
+                            <div class="form-group">
+                                <label class="form-label">Nomor Pokok Sekolah Nasional (NPSN)</label>
+                                <input type="text" name="npsn" class="form-control" required>
+                            </div>
                         </div>
                     </div>
-
                     <button type="submit" class="btn btn-primary mt-4">Submit</button>
                 </form>
             </div>

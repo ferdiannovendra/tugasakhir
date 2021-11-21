@@ -30,10 +30,16 @@ Daftar Kelas
                 <h6 class="mb-0 fw-bold ">Pilih Mata Pelajaran :</h6>
                 <br>
                 <select name="mpselect" class="form-control" id="mpselect">
-                    <option value="-" disabled selected>--Pilih Mata Pelajaran--</option>
+                    <option value="/sekolah/kompetensidasar/0">Semua MK</option>
                     @if(isset($dataMP))
                         @foreach($dataMP as $mp)
-                        <option value="/sekolah/kompetensidasar/{{ $mp->idmata_pelajaran }}">{{ $mp->nama_mp }}</option>
+                        <?php
+                        $selected="";
+                        if ($mp->idmata_pelajaran == $id) {
+                            $selected="selected";
+                        }
+                        ?>
+                        <option value="/sekolah/kompetensidasar/{{ $mp->idmata_pelajaran }}" <?php echo $selected;?>>{{ $mp->nama_mp }}</option>
                         @endforeach
                     @else
                     <option value="-" disabled>Tidak ada data Mata Pelajaran</option>

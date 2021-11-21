@@ -26,7 +26,7 @@ class UserController extends Controller
     {
         $alldata =  DB::table('users')->where('status','siswa')->get();
 
-        return view('sekolah.admin.daftaruser',["data"=>$alldata]);
+        return view('sekolah.admin.daftarsiswa',["data"=>$alldata]);
     }
     public function destroy(Request $request)
     {
@@ -66,4 +66,11 @@ class UserController extends Controller
             return back()->with('status', 'Gagal di reset.');
         }
     }
+
+    public function importSiswa(Request $request)
+    {
+        Excel::import(new UsersImport, request()->file('file'));
+        return back()->with('status', 'Berhasil di tambah.');
+    }
+
 }

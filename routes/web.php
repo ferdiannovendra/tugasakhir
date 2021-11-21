@@ -44,7 +44,11 @@ Route::middleware(['auth:sanctum', 'verified'])->get('/dashboard', function () {
 
 Route::prefix('super-admin')->group(function () {
     Route::get('/home', [SuperAdminController::class, 'index'])->name('superadminhome')->middleware('auth');
+    Route::get('/home/{id}', [SuperAdminController::class, 'detailsekolah'])->name('detailsekolah')->middleware('auth');
     Route::view('/tambahdata', 'super-admin.tambahdata')->name('tambahdatasekolah');
+    Route::post('simpan_data_sekolah', [SuperAdminController::class, 'simpan_data_sekolah'])->name('simpan_data_sekolah');
+    Route::post('generateDB', [SuperAdminController::class, 'generateDB'])->name('generateDB');
+    Route::post('/simpanubah_tenant/{id}', [SuperAdminController::class, 'simpanubah_tenant'])->name('simpanubah_tenant');
 });
 
 Route::prefix('sekolah')->group(function () {
@@ -57,6 +61,7 @@ Route::prefix('sekolah')->group(function () {
     Route::post('postTambahUser', [UserController::class, 'store'])->name('postTambahUser');
     Route::post('postHapusUser', [UserController::class, 'destroy'])->name('postHapusUser');
     Route::post('resetpassword', [UserController::class, 'resetpassword'])->name('resetpassword');
+    Route::post('uploadsiswa',[UserController::class, 'importSiswa'])->name('uploadsiswa');
 
     //Kelas
     Route::get('/daftar-kelas', [KelasController::class, 'index'])->name('daftarkelas');
