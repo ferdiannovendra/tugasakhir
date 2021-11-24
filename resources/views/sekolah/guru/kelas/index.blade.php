@@ -19,11 +19,12 @@ Daftar Kelas
         <div role="alert" class="alert alert-danger">{{session('error')}}</div>
         @endif
     </div>
+
     <div class="col-md-12">
         <div class="card mb-3">
             <div class="card-header mt-2 py-3 d-flex justify-content-between bg-transparent border-bottom-0">
-                <h6 class="mb-0 fw-bold ">Daftar Mata Pelajaran</h6>
-                <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#TambahModal">Tambah Mata Pelajaran</button>
+                <h6 class="mb-0 fw-bold ">Daftar Kelas</h6>
+                <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#TambahModal">Tambah Kelas</button>
             </div>
             <div class="card-body">
                 <div class="table-responsive">
@@ -31,27 +32,28 @@ Daftar Kelas
                         <thead>
                         <tr>
                             <th scope="col">#</th>
-                            <th scope="col">Nama Mata Pelajaran</th>
+                            <th scope="col">Nama Kelas</th>
                             <th scope="col">Status</th>
-                            <th scope="col">Guru</th>
-                            <th scope="col">Created At</th>
-                            <th scope="col">Updated At</th>
+                            <th scope="col">Wali Kelas</th>
+                            <th scope="col">Jurusan</th>
+                            <th scope="col">Semester</th>
                             <th scope="col">Aksi</th>
                         </tr>
                         </thead>
                         <tbody>
                         @foreach($data as $d)
                         <tr>
-                            <th scope="row">{{ $d->idmata_pelajaran }}</th>
-                            <td>{{ $d->nama_mp }}</td>
+                            <th scope="row">{{ $d->idclass_list }}</th>
+                            <td>{{ $d->name_class }}</td>
                             <td>{{ $d->status }}</td>
                             <td>{{ $d->user->name }}</td>
-                            <td>{{ $d->created_at }}</td>
-                            <td>{{ $d->updated_at }}</td>
+                            <td>{{ $d->jurusan->nama_jurusan }}</td>
+                            <td>{{ $d->semester->nama_semester }} - {{ $d->semester->tahun_ajaran }}</td>
                             <td>
                                 <div class="btn-group" role="group" aria-label="Basic outlined example">
-                                    <button type="button" onclick="getDetail('{{ $d->idmata_pelajaran }}')" class="btn btn-outline-secondary" data-bs-toggle="modal" data-bs-target="#ubahmodal"><i class="icofont-edit text-success"></i></button>
-                                    <button type="button" onclick="hapus_data('{{csrf_token()}}','{{ $d->idmata_pelajaran }}')" class="btn btn-outline-secondary deleterow"><i class="icofont-ui-delete text-danger"></i></button>
+                                    <a href="{{route('view_siswa_kelas',$d->idclass_list)}}">
+                                        <button type="button" class="btn btn-outline-secondary"><i class="icofont-people text-success"></i></button>
+                                    </a>
                                 </div>
                             </td>
                         </tr>
@@ -64,48 +66,11 @@ Daftar Kelas
     </div>
 </div><!-- Row end  -->
 
-<div class="modal fade" id="TambahModal" tabindex="-1" aria-labelledby="exampleModalXlLabel" style="display: none;" aria-hidden="true">
-    <div class="modal-dialog modal-xl">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title h4" >Tambah Mata Pelajaran</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <form action="{{ route('postTambahMP') }}" method="post">
-            <div class="modal-body">
-                @csrf
-                <div class="row g-3 align-items-center">
-                    <div class="col-md-6">
-                        <label for="nama_mp" class="form-label">Nama Mata Pelajaran</label>
-                        <input type="text" class="form-control" id="nama_mp" name="nama_mp" required>
-                    </div>
-                    <div class="col-md-6">
-                        <label for="pengajar" class="form-label">Wali Kelas</label>
-                        <select name="pengajar" class="form-select" id="pengajar">
-                            @if(isset($dataGuru))
-                                @foreach($dataGuru as $guru)
-                                <option value="{{ $guru->id }}">{{ $guru->name }}</option>
-                                @endforeach
-                            @else
-                            <option value="-" disabled>Tidak ada data Guru</option>
-                            @endif
-                        </select>
-                    </div>
-                </div>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                <button type="submit" class="btn btn-primary">Submit</button>
-            </div>
-            </form>
-        </div>
-    </div>
-</div>
 <div class="modal fade" id="ubahmodal" tabindex="-1" aria-labelledby="ubahmodal" style="display: none;" aria-hidden="true">
     <div class="modal-dialog modal-xl">
         <div class="modal-content" id="modalcontent">
             <div class="modal-header">
-                <h5 class="modal-title h4">Ubah Mata Pelajaran</h5>
+                <h5 class="modal-title h4">Ubah Kelas</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
@@ -118,7 +83,6 @@ Daftar Kelas
         </div>
     </div>
 </div>
-
 @endsection
 @section('script')
 <!-- Plugin Js-->
@@ -141,7 +105,7 @@ Daftar Kelas
 
 </script>
 <script>
-function hapus_data(token, id) {
+        function hapus_data(token, id) {
     swal({
         title: "Yakin Ingin Menghapus Data?",
         text: "Jika dihapus data akan Sepenuhnya Hilang",
@@ -154,12 +118,12 @@ function hapus_data(token, id) {
         closeOnCancel: true,
         showLoaderOnConfirm: true
     }).then(function () {
-        var act = '/sekolah/postHapusMP';
-        $.post(act, { _token: token, idmata_pelajaran:id },
+        var act = '/sekolah/postHapusKelas';
+        $.post(act, { _token: token, idclass:id },
         function (data) {
             swal(
             'Terhapus!',
-            'Data Mata Pelajaran telah terhapus.',
+            'Data pengguna telah terhapus.',
             'success'
             ).then(function () {
                 location.reload();
@@ -177,22 +141,11 @@ function hapus_data(token, id) {
     })
 
 }
+
 function getDetail(id) {
-    $('#modalcontent').html(`
-    <div class="modal-header">
-        <h5 class="modal-title h4">Ubah Mata Pelajaran</h5>
-        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-    </div>
-    <div class='modal-body'>
-        <div class='row justify-content-center'>
-            <div class="spinner-border text-primary" role="status">
-                <span class="visually-hidden">Loading...</span>
-            </div>
-        </div>
-</div>`)
     $.ajax({
             type: 'POST',
-            url: '{{route("ubahMP")}}',
+            url: '{{route("ubahkelas")}}',
             data: {
                 '_token': '<?php echo csrf_token() ?>',
                 'id': id
@@ -202,5 +155,19 @@ function getDetail(id) {
             }
         });
     }
+function tambah_siswa(id) {
+    $.ajax({
+            type: 'POST',
+            url: '{{route("listsiswa_tambahkelas")}}',
+            data: {
+                '_token': '<?php echo csrf_token() ?>',
+                'id': id
+            },
+            success: function(data) {
+                $('#modalcontenttambahsiswa').html(data.msg)
+            }
+        });
+    }
+
 </script>
 @endsection

@@ -19,5 +19,9 @@ class MataPelajaran extends Model
     {
         return $this->hasMany(KompetensiDasar::class);
     }
+    public function presensi()
+    {
+        return $this->hasMany(Presensi::class);
+    }
 
 }

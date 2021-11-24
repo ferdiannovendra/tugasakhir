@@ -23,4 +23,9 @@ class Kelas extends Model
     {
         return $this->belongsTo(Semester::class, 'semester_idsemester', 'idsemester');
     }
+
+    public function presensi()
+    {
+        return $this->hasMany(Presensi::class);
+    }
 }

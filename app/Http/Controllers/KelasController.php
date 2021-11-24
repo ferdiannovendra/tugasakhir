@@ -6,6 +6,8 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Carbon\Carbon;
 use App\Models\Kelas;
+use App\Models\DetailSiswa;
+use Auth;
 
 class KelasController extends Controller
 {
@@ -25,9 +27,6 @@ class KelasController extends Controller
                                                 "dataJurusan"=>$dataJurusan,
                                                 "dataSemester"=>$dataSemester
                                             ]);
-        // $data = Kelas::all();
-
-        // return view('sekolah.admin.daftarkelas',["data"=>$data]);
     }
 
     /**
@@ -48,15 +47,6 @@ class KelasController extends Controller
      */
     public function store(Request $request)
     {
-        // $now =  Carbon::now();
-        // $insertData = DB::table('class_list')->insert([
-        //     'name_class' => $request->nama_kelas,
-        //     'wali_kelas' => $request->wali_kelas,
-        //     'status' => "Aktif",
-        //     'created_at' => $now,
-        //     'jurusan_idjurusan' => $request->jurusan,
-        //     'semester_idsemester' => $request->semester
-        // ]);
         $kelas = new Kelas();
         $kelas->name_class = $request->nama_kelas;
         $kelas->wali_kelas = $request->wali_kelas;
@@ -99,8 +89,6 @@ class KelasController extends Controller
             'status'=>'oke',
             'msg'=>view('sekolah.admin.kelas.editkelas',compact('kelas','id','dataGuru','dataJurusan','dataSemester'))->render()
         ),200);
-
-        // return view('sekolah.admin.kelas.editkelas',compact('kelas','id'));
     }
 
     /**
@@ -113,7 +101,6 @@ class KelasController extends Controller
     public function update(Request $request, $id)
     {
         $kelas = Kelas::find($id);
-        // return $id;
         $kelas->name_class = $request->nama_kelas;
         $kelas->wali_kelas = $request->wali_kelas;
         $kelas->status = "Aktif";
@@ -126,8 +113,8 @@ class KelasController extends Controller
         return redirect()->route('daftarkelas')
         ->with('error','Kelas baru gagal ditambahkan!');
         }
-
     }
+
 
     /**
      * Remove the specified resource from storage.
@@ -146,5 +133,45 @@ class KelasController extends Controller
             return redirect()->route('daftarkelas')
             ->with('error','Kelas gagal dihapus!');
         }
+    }
+    public function listsiswa_tambahkelas(Request $request)
+    {
+        $id = $request->id;
+        $kelas = Kelas::find($id);
+        $datasiswa = DetailSiswa::all();
+        return response()->json(array(
+            'status'=>'oke',
+            'msg'=>view('sekolah.admin.kelas.tambahsiswa',compact('kelas','id','datasiswa'))->render()
+        ),200);
+    }
+    public function tambah_siswa(Request $request, $id)
+    {
+        $arrSiswa = $request->siswa;
+        $idclass = $id;
+        foreach ($arrSiswa as $a) {
+            DB::table('siswa_di_kelas')->insert([
+                'users_idusers' => $a,
+                'classlist_idclass' => $idclass,
+                'semester_idsemester' =>$request->idsemester
+            ]);
+        }
+        return redirect()->route('daftarkelas')
+        ->with('status','Siswa berhasil ditambahkan!');
+
+    }
+
+    //---------------Buat Guru------------------
+
+    public function list_kelas()
+    {
+        $data = Kelas::where('wali_kelas', Auth::user()->id)->get();
+        return view('sekolah.guru.kelas.index',compact('data'));
+    }
+    public function view_siswa_kelas($id)
+    {
+        $data = DB::table('siswa_di_kelas')->where('classlist_idclass',$id)->
+                join('users','siswa_di_kelas.users_idusers','=','users.id')->get();
+        // dd($data);
+        return view('sekolah.guru.kelas.view_siswa_kelas',compact('data'));
     }
 }

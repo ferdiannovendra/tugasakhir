@@ -22,31 +22,68 @@ class UsersImport implements ToModel, WithHeadingRow
     //         //
     //     ]);
     // }
-    public function collection(Collection $rows)
+    public function model(array $row)
     {
-        foreach ($rows as $row)
-        {
-           $user = User::create([
-               'name' => $row[0],
-               'email'    => $row[6],
-               'password' => Hash::make($row[7]),
-           ]);
-           Customer::create([
-               'customer_name' => $row[0],
-               'gender' => $row[1],
-               'address' => $row[2],
-               'city' => $row[3],
-               'postal_code' => $row[4],
-               'country' => $row[5],
-           ]);
-           $myString = $row[8];
-           $myArray = explode(',', $myString);
-           foreach ($myArray as $value) {
-               Courses::create([
-                    'user_id' => $user->id,
-                    'course_name' => $value,
-               ]);
-           }
+        return $user = User::create([
+            'nik' => $row['nik'],
+            'name'    => $row['name'],
+            'lname'    => $row['lname'],
+            'email'    => $row['email'],
+            'password' => Hash::make($row['password']),
+            'address'    => $row['address'],
+            'phone'    => $row['phone'],
+            'status'    => 'siswa',
+            'religion'    => $row['religion'],
+            'gender'    => $row['gender'],
+            'birth_place'    => $this->transformDate($row['brith_place']),
+            'birth_date'    => $this->transformDate($row['birth_date']),
+         ]);
+        // foreach ($rows as $row)
+        // {
+
+        //     // $user = new User();
+        //     // $user->nik = $row['nik'];
+        //     // $user->name = $row['name'];
+        //     // $user->lname = $row['lname'];
+        //     // $user->email = $row['email'];
+        //     // $user->password = Hash::make($row['password']);
+        //     // $user->address = $row['address'];
+        //     // $user->phone = $row['phone'];
+        //     // $user->status = 'siswa';
+        //     // $user->religion = $row['religion'];
+        //     // $user->gender = $row['gender'];
+        //     // $user->birth_place = $row['birth_place'];
+        //     // $user->birth_date = $row['birth_date'];
+        //     // $user->save();
+
+        //     // $iduser = $user->id;
+
+        //     // $detail = new DetailSiswa();
+        //     // $detail->idusers = $iduser;
+        //     // $detail->nis = $row['nis'];
+        //     // $detail->nisn = $row['nisn'];
+        //     // $detail->status_dalam_keluarga = $row['status_dalam_keluarga'];
+        //     // $detail->anak_ke = $row['anak_ke'];
+        //     // $detail->sekolah_asal = $row['sekolah_asal'];
+        //     // $detail->kelas_masuk = $row['kelas_masuk'];
+        //     // $detail->save();
+        // //    $myString = $row[8];
+        // //    $myArray = explode(',', $myString);
+        // //    foreach ($myArray as $value) {
+        // //        Courses::create([
+        // //             'user_id' => $user->id,
+        // //             'course_name' => $value,
+        // //        ]);
+        // //    }
+        // }
+    }
+
+    public function transformDate($value, $format = 'Y-m-d')
+    {
+        try {
+            return \Carbon\Carbon::instance(\PhpOffice\PhpSpreadsheet\Shared\Date::excelToDateTimeObject($value));
+        } catch (\ErrorException $e) {
+            return \Carbon\Carbon::createFromFormat($format, $value);
         }
     }
 

@@ -35,8 +35,10 @@ Daftar Kelas
                         @foreach($dataMP as $mp)
                         <?php
                         $selected="";
-                        if ($mp->idmata_pelajaran == $id) {
-                            $selected="selected";
+                        if (isset($id)) {
+                            if ($mp->idmata_pelajaran == $id) {
+                                $selected="selected";
+                            }
                         }
                         ?>
                         <option value="/sekolah/kompetensidasar/{{ $mp->idmata_pelajaran }}" <?php echo $selected;?>>{{ $mp->nama_mp }}</option>

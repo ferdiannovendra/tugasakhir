@@ -27,6 +27,16 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
+        'name'  ,
+        'lname'   ,
+        'email'    ,
+        'password' ,
+        'address'   ,
+        'phone'    ,
+        'status'   ,
+        'gender'   ,
+        'birth_place'  ,
+        'birth_date'   ,
     ];
 
     /**
@@ -65,6 +75,10 @@ class User extends Authenticatable
     public function matapelajaran()
     {
         return $this->hasMany(MataPelajaran::class);
+    }
+    public function presensi()
+    {
+        return $this->hasMany(Presensi::class);
     }
     public function detail()
     {

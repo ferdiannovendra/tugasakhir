@@ -13,7 +13,7 @@ class DetailSiswa extends Model
 
     public function user()
     {
-        return $this->hasOne(User::class, 'idusers','id');
+        return $this->belongsTo(User::class, 'idusers','id');
     }
     public function jurusan()
     {

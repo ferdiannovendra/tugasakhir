@@ -105,7 +105,7 @@ Daftar Pengguna
                 <h5 class="modal-title h4" >Tambah Data</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
-            <form action="{{ route('uploadsiswa') }}" method="post">
+            <form action="{{ route('uploadsiswa') }}" enctype="multipart/form-data" method="post">
             <div class="modal-body">
                     @csrf
                     <div class="row g-3 align-items-center">

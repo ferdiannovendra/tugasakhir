@@ -53,6 +53,7 @@ Daftar Kelas
                                 <div class="btn-group" role="group" aria-label="Basic outlined example">
                                     <button type="button" onclick="getDetail('{{ $d->idclass_list }}')" class="btn btn-outline-secondary" data-bs-toggle="modal" data-bs-target="#ubahmodal"><i class="icofont-edit text-success"></i></button>
                                     <button type="button" onclick="hapus_data('{{csrf_token()}}','{{ $d->idclass_list }}')" class="btn btn-outline-secondary deleterow"><i class="icofont-ui-delete text-danger"></i></button>
+                                    <button type="button" onclick="tambah_siswa('{{ $d->idclass_list }}')" class="btn btn-outline-secondary deleterow" data-bs-toggle="modal" data-bs-target="#tambahsiswa"><i class="icofont-plus-circle"></i></button>
                                 </div>
                             </td>
                         </tr>
@@ -140,7 +141,24 @@ Daftar Kelas
     <div class="modal-dialog modal-xl">
         <div class="modal-content" id="modalcontent">
             <div class="modal-header">
-                <h5 class="modal-title h4">Ubah Semester</h5>
+                <h5 class="modal-title h4">Ubah Kelas</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="row justify-content-center">
+                    <div class="spinner-border text-primary" role="status">
+                        <span class="visually-hidden">Loading...</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal fade" id="tambahsiswa" tabindex="-1" aria-labelledby="tambahsiswa" style="display: none;" aria-hidden="true">
+    <div class="modal-dialog modal-xl">
+        <div class="modal-content" id="modalcontenttambahsiswa">
+            <div class="modal-header">
+                <h5 class="modal-title h4">Tambah Siswa</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
@@ -222,6 +240,19 @@ function getDetail(id) {
             },
             success: function(data) {
                 $('#modalcontent').html(data.msg)
+            }
+        });
+    }
+function tambah_siswa(id) {
+    $.ajax({
+            type: 'POST',
+            url: '{{route("listsiswa_tambahkelas")}}',
+            data: {
+                '_token': '<?php echo csrf_token() ?>',
+                'id': id
+            },
+            success: function(data) {
+                $('#modalcontenttambahsiswa').html(data.msg)
             }
         });
     }
