@@ -23,5 +23,9 @@ class MataPelajaran extends Model
     {
         return $this->hasMany(Presensi::class);
     }
+    public function kelas()
+    {
+        return $this->belongsToMany(Kelas::class, 'jadwal_kelas', 'idmatapelajaran', 'idclass_list');
+    }
 
 }

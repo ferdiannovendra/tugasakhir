@@ -1,5 +1,7 @@
 <ul class="menu-list flex-grow-1 mt-3">
     <li><a class="m-link" href="{{ route('superadminhome') }}"><i class="icofont-ui-home"></i><span>Home</span></a></li>
+    <li><a class="m-link" href="{{ route('presensi.admin') }}"><i class="icofont-ui-home"></i><span>Presensi</span></a></li>
+    <li><a class="m-link" href="{{ route('jadwalkelas') }}"><i class="icofont-ui-home"></i><span>Jadwal Pelajaran Kelas</span></a></li>
     <li class="collapsed">
         <a class="m-link" data-bs-toggle="collapse" data-bs-target="#user">
             <i class="icofont-ui-user"></i> <span>Pengguna</span> <span class="arrow icofont-dotted-down ms-auto text-end fs-5"></span></a>

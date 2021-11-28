@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\DB;
 use Carbon\Carbon;
 use App\Models\Kelas;
 use App\Models\DetailSiswa;
+use App\Models\User;
 use Auth;
 
 class KelasController extends Controller
@@ -138,7 +139,17 @@ class KelasController extends Controller
     {
         $id = $request->id;
         $kelas = Kelas::find($id);
-        $datasiswa = DetailSiswa::all();
+        $siswa = DetailSiswa::all();
+        $datasiswa = array();
+        foreach ($siswa as $s) {
+            $iduser = $s->idusers;
+            $db_siswakelas = DB::table('siswa_di_kelas')->where('classlist_idclass', $id)->where('users_idusers',$iduser)->get();
+            if (count($db_siswakelas) == 0) {
+                $u = DetailSiswa::where('idusers',$iduser)->first();
+                array_push($datasiswa,$u);
+            }
+        }
+        // dd($arr);
         return response()->json(array(
             'status'=>'oke',
             'msg'=>view('sekolah.admin.kelas.tambahsiswa',compact('kelas','id','datasiswa'))->render()

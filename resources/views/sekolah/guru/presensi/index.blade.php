@@ -32,11 +32,11 @@ Daftar Kelas
                         <thead>
                         <tr>
                             <th scope="col">#</th>
-                            <th scope="col">Nama Kelas</th>
-                            <th scope="col">Status</th>
-                            <th scope="col">Wali Kelas</th>
-                            <th scope="col">Jurusan</th>
-                            <th scope="col">Semester</th>
+                            <th scope="col">Materi</th>
+                            <th scope="col">Start Time</th>
+                            <th scope="col">End Time</th>
+                            <th scope="col">Catatan</th>
+                            <th scope="col">Kelas</th>
                             <th scope="col">Aksi</th>
                         </tr>
                         </thead>
@@ -50,7 +50,6 @@ Daftar Kelas
                             <td>{{ $d->end_time }}</td>
                             <td>{{ $d->catatan_pertemuan }}</td>
                             <td>{{ $d->kelas->name_class }}</td>
-                            <td>{{ $d->user->name }}</td>
                             <td>{{ $d->matapelajaran->nama_mp }}</td>
                             <td>
                                 <div class="btn-group" role="group" aria-label="Basic outlined example">

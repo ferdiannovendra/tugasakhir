@@ -70,7 +70,7 @@ class User extends Authenticatable
     ];
     public function kelas()
     {
-        return $this->hasMany(Kelas::class);
+        return $this->belongsToMany(Kelas::class, 'siswa_di_kelas', 'users_idusers', 'classlist_idclass');
     }
     public function matapelajaran()
     {

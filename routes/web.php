@@ -10,6 +10,8 @@ use App\Http\Controllers\PembayaranController;
 use App\Http\Controllers\MataPelajaranController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\KompetensiDasarController;
+use App\Http\Controllers\JadwalKelasController;
+use App\Http\Controllers\HariController;
 
 use App\Http\Controllers\HomeGuruSekolahController;
 use App\Http\Controllers\SiswaController;
@@ -115,6 +117,23 @@ Route::middleware(['auth'])->group(function () {
             Route::post('postHapusJenisPembayaran', [PembayaranController::class, 'destroy'])->name('postHapusSemester');
             Route::post('ubahJenisPembayaran', [PembayaranController::class, 'edit'])->name('ubahJenisPembayaran');
             Route::post('/simpan_ubahJenisPembayaran/{id}', [PembayaranController::class, 'update'])->name('simpan_ubahJenisPembayaran');
+
+
+            Route::get('/jadwalkelas', [JadwalKelasController::class, 'index'])->name('jadwalkelas');
+            Route::post('postTambahJadwal', [JadwalKelasController::class, 'store'])->name('postTambahJadwal');
+            Route::post('ubahjadwal', [JadwalKelasController::class, 'ubahjadwal'])->name('ubahjadwal');
+
+            //Presensi
+            Route::get('/presensi', [PresensiController::class, 'index'])->name('presensi.admin');
+            Route::get('/presensi/{id}', [PresensiController::class, 'showpresensimp'])->name('showpresensimp');
+            Route::post('postTambahPresensi', [PresensiController::class, 'store'])->name('postTambahPresensi');
+
+            //Hari
+            Route::get('/hari', [HariController::class, 'index'])->name('hari');
+            Route::post('postHapusHari', [HariController::class, 'destroy'])->name('postHapusHari');
+            Route::post('postTambahHari', [HariController::class, 'store'])->name('postTambahHari');
+            Route::post('ubahhari', [HariController::class, 'edit'])->name('ubahhari');
+            Route::post('/simpan_ubahhari/{id}', [HariController::class, 'update'])->name('simpan_ubahhari');
 
         });
     });

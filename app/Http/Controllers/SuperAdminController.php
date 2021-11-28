@@ -119,16 +119,17 @@ class SuperAdminController extends Controller
         $tenant = Tenant::find($request->id);
         $newSchema = 'tenancy'.$tenant->name;
         $sql = "create database ".$newSchema;
-        // $result = DB::statement($sql);
+        $result = DB::statement($sql);
         // url('/uploads/images/'.$mostafid->imageM);
 
-        $restore_file  = '/db/db.sql';
+        $restore_file  = public_path('db/db.sql');
         $server_name   = env('DB_HOST');
         $username      = env('DB_USERNAME');
         $password      = env('DB_PASSWORD');
 
 
-        $cmd = "mysql -h ".$server_name." -u ".$username." ". $newSchema. " < ../../../public/".$restore_file;
+        // $cmd = "mysql -h ".$server_name." -u ".$username." ". $newSchema. " < ../../../public/".$restore_file;
+        $cmd = "mysql -h ".$server_name." -u ".$username." ". $newSchema. " < ".$restore_file;
         $run = exec($cmd);
         // return $cmd;
 
