@@ -40,6 +40,8 @@
             @include('layoutsadmin.include.leftbar_adminsekolah')
             @elseif(Auth::user()->status == 'guru')
             @include('layoutsadmin.include.leftbar_guru')
+            @elseif(Auth::user()->status == 'siswa')
+            @include('layoutsadmin.include.leftbar_siswa')
             @endif
             <!-- Theme: Switch Theme -->
             <ul class="list-unstyled mb-0">
@@ -74,7 +76,15 @@
                         <div class="dropdown user-profile ml-2 ml-sm-3 d-flex align-items-center zindex-popover">
                             <div class="u-info me-2">
                                 <p class="mb-0 text-end line-height-sm "><span class="font-weight-bold">{{ Auth::user()->name }}</span></p>
-                                <small>Admin</small>
+                                <small>
+                                @if(Auth::user()->status == 'admin')
+                                Admin
+                                @elseif(Auth::user()->status == 'guru')
+                                Guru
+                                @elseif(Auth::user()->status == 'siswa')
+                                Siswa
+                                @endif
+                                </small>
                             </div>
                             <a class="nav-link dropdown-toggle pulse p-0" href="#" role="button" data-bs-toggle="dropdown" data-bs-display="static">
                                 <img class="avatar lg rounded-circle img-thumbnail" src="{{ asset('assets/images/profile_av.png') }}" alt="profile">

@@ -16,6 +16,8 @@ use App\Http\Controllers\HariController;
 use App\Http\Controllers\HomeGuruSekolahController;
 use App\Http\Controllers\SiswaController;
 use App\Http\Controllers\PresensiController;
+
+use App\Http\Controllers\HomeSiswaSekolahController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 
@@ -41,7 +43,7 @@ Route::middleware(['auth:sanctum', 'verified'])->get('/dashboard', function () {
     }elseif (Auth::user()->status == 'guru') {
         return redirect('sekolah/guru/home');
     }elseif (Auth::user()->status == 'siswa') {
-        // return redirect('sekolah/h ome');
+        return redirect('sekolah/siswa/home');
     }else{
         return redirect('super-admin/home');
     }
@@ -126,7 +128,9 @@ Route::middleware(['auth'])->group(function () {
             //Presensi
             Route::get('/presensi', [PresensiController::class, 'index'])->name('presensi.admin');
             Route::get('/presensi/{id}', [PresensiController::class, 'showpresensimp'])->name('showpresensimp');
-            Route::post('postTambahPresensi', [PresensiController::class, 'store'])->name('postTambahPresensi');
+            Route::post('postTambahPresensi', [PresensiController::class, 'store'])->name('postAdminTambahPresensi');
+            Route::post('postAdminHapusPresensi', [PresensiController::class, 'destroy'])->name('postAdminHapusPresensi');
+            Route::get('/presensi/detail/{id}', [PresensiController::class, 'detailpresensi'])->name('detailpresensi');
 
             //Hari
             Route::get('/hari', [HariController::class, 'index'])->name('hari');
@@ -157,7 +161,8 @@ Route::middleware(['auth'])->group(function () {
     //Route Untuk sekolah sebagai Siswa
     Route::middleware(['siswa'])->group(function () {
         Route::prefix('sekolah/siswa')->group(function () {
-            Route::get('/home', [HomeGuruSekolahController::class, 'index'])->name('');
+            Route::get('/home', [HomeSiswaSekolahController::class, 'index'])->name('');
+            Route::get('/presensi', [PresensiController::class, 'siswa_listpresensi'])->name('presensi.siswa');
 
         });
     });

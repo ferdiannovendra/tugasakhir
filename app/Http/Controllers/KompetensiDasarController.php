@@ -140,8 +140,9 @@ class KompetensiDasarController extends Controller
         $idmp = $id;
         if ($id == 0) {
             $data = KompetensiDasar::all();
+        }else{
+            $data = KompetensiDasar::where("idmata_pelajaran", $id)->get();
         }
-        $data = KompetensiDasar::where("idmata_pelajaran", $id)->get();
         $dataMP = MataPelajaran::all();
         $dataGuru = DB::table('users')->where('status','guru')->get();
 
