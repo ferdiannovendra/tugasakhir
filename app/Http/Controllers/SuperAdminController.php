@@ -144,5 +144,12 @@ class SuperAdminController extends Controller
         }
 
     }
+    public function validateNPSN($id)
+    {
+        $npsn = " ".$id;
+        $output = shell_exec(escapeshellcmd('python '.public_path("/python/cek.py").$npsn));
+        // $output = 'python '.public_path("/python/cek.py").$npsn;
+        echo $output;
+    }
 
 }

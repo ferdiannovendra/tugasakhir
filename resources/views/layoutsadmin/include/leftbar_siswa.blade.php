@@ -8,7 +8,6 @@
             <li><a class="ms-link" href="{{ route('list_kelas') }}"> <span>Daftar Kelas</span></a></li>
         </ul>
     </li>
-    <li><a class="m-link" href="{{ route('presensi') }}"><i class="icofont-ui-home"></i><span>Presensi</span></a></li>
-    <li><a class="m-link" href="{{ route('rencana_penilaian') }}"><i class="icofont-ui-home"></i><span>Rencana Penilaian</span></a></li>
+    <li><a class="m-link" href="{{ route('presensi.siswa') }}"><i class="icofont-ui-home"></i><span>Presensi</span></a></li>
 
 </ul>

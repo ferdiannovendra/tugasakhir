@@ -23,10 +23,30 @@ Daftar Kelas
     <div class="col-md-12">
         <div class="card mb-3">
             <div class="card-header mt-2 py-3 d-flex justify-content-between bg-transparent border-bottom-0">
-                <h6 class="mb-0 fw-bold ">Daftar Kelas</h6>
-                <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#TambahModal">Tambah Kelas</button>
+                <h6 class="mb-0 fw-bold ">Daftar Presensi</h6>
+                <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#TambahModal">Tambah Presensi</button>
             </div>
             <div class="card-body">
+                <h6 class="mb-0 fw-bold ">Pilih Mata Pelajaran :</h6>
+                <br>
+                <select name="matapelajaran" class="form-control" id="mpselect">
+                    <option value="-">Silahkan pilih mata pelajaran</option>
+
+                    @if(isset($mata_pelajaran))
+                        @foreach($mata_pelajaran as $mp)
+                        <option value="{{ $mp->idmata_pelajaran }}">{{ $mp->nama_mp }}</option>
+                        @endforeach
+                    @else
+                    <option value="-" disabled>Tidak ada data Mata Pelajaran</option>
+                    @endif
+                </select>
+                <br>
+                <h6 class="mb-0 fw-bold ">Pilih Kelas :</h6>
+                <br>
+                <select name="kelas" class="form-control" id="class_select">
+                    <option value="-" disabled>Pilih Mata Pelajaran Dahulu</option>
+                </select>
+                <br><br>
                 <div class="table-responsive">
                     <table id="patient-table" class="table table-hover align-middle mb-0" style="width: 100%;">
                         <thead>
@@ -42,24 +62,25 @@ Daftar Kelas
                         </thead>
                         <tbody>
                             <?php $count =1; ?>
-                        @foreach($data as $d)
-                        <tr>
-                            <th scope="row">{{ $count }}</th>
-                            <td>{{ $d->materi }}</td>
-                            <td>{{ $d->start_time }}</td>
-                            <td>{{ $d->end_time }}</td>
-                            <td>{{ $d->catatan_pertemuan }}</td>
-                            <td>{{ $d->kelas->name_class }}</td>
-                            <td>{{ $d->matapelajaran->nama_mp }}</td>
-                            <td>
-                                <div class="btn-group" role="group" aria-label="Basic outlined example">
-                                    <button type="button" onclick="getDetail('{{ $d->idpresensi }}')" class="btn btn-outline-secondary" data-bs-toggle="modal" data-bs-target="#ubahmodal"><i class="icofont-edit text-success"></i></button>
-                                    <button type="button" onclick="hapus_data('{{csrf_token()}}','{{ $d->idpresensi }}')" class="btn btn-outline-secondary deleterow"><i class="icofont-ui-delete text-danger"></i></button>
-                                </div>
-                            </td>
-                        </tr>
-                        <?php $count++; ?>
-                        @endforeach
+                            @if(isset($data))
+                            @foreach($data as $d)
+                            <tr>
+                                <th scope="row">{{ $d->idpresensi }}</th>
+                                <td>{{ $d->idmatapelajaran }}</td>
+                                <td>{{ $d->materi }}</td>
+                                <td>{{ $d->start_time }}</td>
+                                <td>{{ $d->end_time }}</td>
+                                <td>{{ $d->catatan_pertemuan }}</td>
+                                <td>
+                                    <div class="btn-group" role="group" aria-label="Basic outlined example">
+                                        <a href="{{route('detailpresensi',$d->idpresensi)}}"><button type="button" class="btn btn-outline-secondary"><i class="icofont-info-circle text-seconadary"></i></button></a>
+                                        <button type="button" onclick="getDetail('{{ $d->idpresensi }}')" class="btn btn-outline-secondary" data-bs-toggle="modal" data-bs-target="#ubahmodal"><i class="icofont-edit text-success"></i></button>
+                                        <button type="button" onclick="hapus_data('{{csrf_token()}}','{{ $d->idpresensi }}')" class="btn btn-outline-secondary deleterow"><i class="icofont-ui-delete text-danger"></i></button>
+                                    </div>
+                                </td>
+                            </tr>
+                            @endforeach
+                            @endif
                         </tbody>
                     </table>
                 </div>
@@ -103,14 +124,22 @@ Daftar Kelas
                     </div>
                     <div class="col-md-12">
                         <label for="matapelajaran" class="form-label">Mata Pelajaran</label>
-                        <select name="matapelajaran" class="form-select" id="matapelajaran">
+                        <select name="matapelajaran" class="form-select" id="matapelajaran2">
+                            <option value="-" selected disabled>Silahkan pilih mata pelajaran</option>
+
                             @if(isset($mata_pelajaran))
                             @foreach($mata_pelajaran as $mp)
-                            <option value="{{ $mp->id }}">{{ $mp->nama_mp }}</option>
+                            <option value="{{ $mp->idmata_pelajaran }}">{{ $mp->nama_mp }}</option>
                             @endforeach
                             @else
                             <option value="-" disabled>Tidak ada Mata Pelajaran</option>
                             @endif
+                        </select>
+                    </div>
+                    <div class="col-md-12">
+                        <label for="matapelajaran" class="form-label">Kelas</label>
+                        <select name="kelas" class="form-control" id="class_select2">
+                            <option value="-" disabled>Pilih Mata Pelajaran Dahulu</option>
                         </select>
                     </div>
                     <div class="col-md-12">
@@ -155,6 +184,50 @@ Daftar Kelas
        });
    });
 
+</script>
+<script>
+    $('#mpselect').on('change', function(e) {
+        var id_mp = e.target.value;
+        alert(id_mp);
+        $.ajax({
+            type: "POST",
+            url: "{{ route('listkelas') }}",
+            data: {
+                '_token': '<?php echo csrf_token() ?>',
+                'id_mp': id_mp
+            },
+            success: function(data) {
+                console.log(data.listkelas);
+                $('#class_select').empty();
+                $('#class_select').append('<option value="">--Pilih Kelas--</option>');
+                for (let i = 0; i < data.listkelas.length; i++) {
+                    $('#class_select').append('<option value="'+data.listkelas[i].idclass_list+'">'+data.listkelas[i].name_class+'</option>');
+                }
+
+            }
+        })
+    });
+    $('#matapelajaran2').on('change', function(e) {
+        var id_mp = e.target.value;
+        alert(id_mp);
+        $.ajax({
+            type: "POST",
+            url: "{{ route('listkelas') }}",
+            data: {
+                '_token': '<?php echo csrf_token() ?>',
+                'id_mp': id_mp
+            },
+            success: function(data) {
+                console.log(data.listkelas);
+                $('#class_select2').empty();
+                $('#class_select2').append('<option value="">--Pilih Kelas--</option>');
+                for (let i = 0; i < data.listkelas.length; i++) {
+                    $('#class_select2').append('<option value="'+data.listkelas[i].idclass+'">'+data.listkelas[i].name_class+'</option>');
+                }
+
+            }
+        })
+    });
 </script>
 <script>
         function hapus_data(token, id) {

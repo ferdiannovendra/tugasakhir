@@ -26,10 +26,14 @@ class HomeSiswaSekolahController extends Controller
 
             $data = DB::table('jadwal_kelas')->join('mata_pelajaran','idmatapelajaran','idmata_pelajaran')
             ->where('idclass_list',$kelas->idclass_list)->get();
+            $count = DB::table('jadwal_kelas')->join('mata_pelajaran','idmatapelajaran','idmata_pelajaran')
+            ->where('idclass_list',$kelas->idclass_list)->count();
             // dd($data);
-            return view('sekolah.siswa.index',compact('data','kelas','cekSemester'));
+            return view('sekolah.siswa.index',compact('count','data','kelas','cekSemester'));
         }else{
             echo "anu";
         }
+
+
     }
 }

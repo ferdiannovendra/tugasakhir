@@ -31,6 +31,7 @@ use Illuminate\Support\Facades\DB;
 | contains the "web" middleware group. Now create something great!
 |
 */
+Route::get('/cekpy/{id}', [SuperAdminController::class, 'validateNPSN']);
 
 Route::get('/', function () {
     return view('welcome');
@@ -152,6 +153,7 @@ Route::middleware(['auth'])->group(function () {
             Route::get('/view_siswa_kelas/{id}', [KelasController::class, 'view_siswa_kelas'])->name('view_siswa_kelas');
 
             Route::get('/presensi', [PresensiController::class, 'guru_listpresensi'])->name('presensi');
+            Route::post('listkelas', [PresensiController::class, 'listkelas'])->name('listkelas');
             Route::post('ubahpresensi', [PresensiController::class, 'ubahpresensi'])->name('ubahpresensi');
             Route::post('postTambahPresensi', [PresensiController::class, 'postTambahPresensi'])->name('postTambahPresensi');
 

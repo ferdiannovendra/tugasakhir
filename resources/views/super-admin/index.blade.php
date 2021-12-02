@@ -17,7 +17,7 @@ Super-Admin
             <div class="col-md-12">
                 <div class="card">
                     <div class="card-header mt-2 py-3 d-flex justify-content-between bg-transparent border-bottom-0">
-                        <h6 class="mb-0 fw-bold ">Daftar Sekolah </h6>
+                        <h6 class="mb-0 fw-bold ">Daftar Sekolah Mendaftar</h6>
                         <a href="{{ route('tambahdatasekolah') }}">
                             <button type="button" class="btn btn-primary">+ Sekolah</button>
                         </a>

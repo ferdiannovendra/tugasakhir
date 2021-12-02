@@ -20,6 +20,25 @@ Daftar Kelas
         @endif
     </div>
     <div class="col-md-12">
+        <div class="col-xl-4 col-lg-12 col-md-12">
+            <div class="row g-3 row-deck">
+                <div class="col-md-6 col-lg-6 col-xl-12">
+                    <div class="card bg-primary">
+                        <div class="card-body row">
+                            <div class="col">
+                                <span class="avatar lg bg-white rounded-circle text-center d-flex align-items-center justify-content-center"><i class="icofont-file-text fs-5"></i></span>
+                                <h1 class="mt-3 mb-0 fw-bold text-white">{{ $count }}</h1>
+                                <span class="text-white">Jumlah Mata Pelajaran</span>
+                            </div>
+                            <div class="col">
+                                <img class="img-fluid" src="{{ asset('assets/images/interview.svg') }}" alt="interview">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <br>
         <div class="card mb-3">
             <div class="card-header mt-2 py-3 d-flex justify-content-between bg-transparent border-bottom-0">
                 <h6 class="mb-0 fw-bold ">Daftar Mata Pelajaran</h6>
@@ -27,6 +46,8 @@ Daftar Kelas
             <div class="card-body">
                 <p style="text-transform: uppercase;">Semester : <b>{{$cekSemester->nama_semester}} - {{$cekSemester->tahun_ajaran}}</b></p>
                 <hr>
+
+
                 <div class="table-responsive">
                     <table id="patient-table" class="table table-hover align-middle mb-0" style="width: 100%;">
                         <thead>

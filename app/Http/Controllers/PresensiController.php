@@ -91,10 +91,30 @@ class PresensiController extends Controller
     public function guru_listpresensi()
     {
         $idpengajar = Auth::user()->id;
-        $data = Presensi::where('idpengajar', $idpengajar)->get();
+        // $idclass =
+        // $data = Presensi::where('idclass_list', $idpengajar)->get();
+        $data = DB::table('presensi')->join('class_list','presensi.idclass_list','class_list.idclass_list')
+        ->where('class_list.wali_kelas',$idpengajar)->get();
         $mata_pelajaran = MataPelajaran::where('guru_pengajar',$idpengajar)->get();
-        $kelas = $DB::table('siswa_di_kelas')->where();
-        return view('sekolah.guru.presensi.index',compact('data','mata_pelajaran'));
+        // $kelas = DB::table('siswa_di_kelas')->where();
+        // dd($data);
+        return view('sekolah.guru.presensi.index',compact('mata_pelajaran','data'));
+    }
+    public function listkelas(Request $request)
+    {
+        $id_mp = $request->id_mp;
+        $idpengajar = Auth::user()->id;
+        $mata_pelajaran = MataPelajaran::where('guru_pengajar',$idpengajar)->get();
+        $idclass = DB::table('jadwal_kelas')->select('jadwal_kelas.idclass_list as idclass','class_list.name_class as name_class')
+        ->join('class_list','jadwal_kelas.idclass_list','class_list.idclass_list')
+        ->where('idmatapelajaran',$id_mp)
+        ->groupBy('jadwal_kelas.idclass_list','class_list.name_class')->get();
+        // dd($idclass);
+        // $data = Presensi::where('idclass_list', $idpengajar)->get();
+        // $kelas = DB::table('siswa_di_kelas')->where();
+        return response()->json([
+            'listkelas' => $idclass
+        ]);
     }
     public function ubahpresensi(Request $request)
     {
@@ -121,7 +141,7 @@ class PresensiController extends Controller
         $idpengajar = Auth::user()->id;
         $data = Presensi::where('idpengajar', $idpengajar)->get();
         $mata_pelajaran = MataPelajaran::where('guru_pengajar',$idpengajar)->get();
-        $kelas = $DB::table('siswa_di_kelas')->where();
+        $kelas = DB::table('siswa_di_kelas')->where();
         return view('sekolah.siswa.presensi.index',compact('data','mata_pelajaran'));
     }
 }
