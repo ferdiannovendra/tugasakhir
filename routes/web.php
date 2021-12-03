@@ -132,6 +132,7 @@ Route::middleware(['auth'])->group(function () {
             Route::post('postTambahPresensi', [PresensiController::class, 'store'])->name('postAdminTambahPresensi');
             Route::post('postAdminHapusPresensi', [PresensiController::class, 'destroy'])->name('postAdminHapusPresensi');
             Route::get('/presensi/detail/{id}', [PresensiController::class, 'detailpresensi'])->name('detailpresensi');
+            Route::post('listkelas', [PresensiController::class, 'listkelas'])->name('listkelasadmin');
 
             //Hari
             Route::get('/hari', [HariController::class, 'index'])->name('hari');

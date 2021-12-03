@@ -102,7 +102,8 @@ Daftar Presensi
                 <div class="row g-3 align-items-center">
                     <div class="col-md-12">
                         <label for="nama_mp" class="form-label">Nama Mata Pelajaran</label>
-                        <select name="matapelajaran" class="form-select" id="matapelajaran" required>
+                        <select name="matapelajaran" class="form-select" id="matapelajaran2" required>
+                            <option value="-" selected disabled>Pilih mata pelajaran</option>
                             @if(isset($dataMP))
                                 @foreach($dataMP as $mp)
                                 <option value="{{ $mp->idmata_pelajaran }}">{{ $mp->nama_mp }}</option>
@@ -114,14 +115,8 @@ Daftar Presensi
                     </div>
                     <div class="col-md-12">
                         <label for="kelas" class="form-label">Kelas</label>
-                        <select name="kelas" class="form-select" id="kelas" required>
-                            @if(isset($kelas))
-                                @foreach($kelas as $k)
-                                <option value="{{ $k->idclass_list }}">{{ $k->name_class }}</option>
-                                @endforeach
-                            @else
-                            <option value="-" disabled>Tidak ada data Kelas</option>
-                            @endif
+                        <select name="kelas" class="form-select" id="class_select2" required>
+                            <option value="-" selected disabled>Silahkan pilih mata pelajaran</option>
                         </select>
                     </div>
                     <div class="col-md-6">
@@ -191,6 +186,27 @@ Daftar Presensi
     var url = $(this).val(); // get selected value
     window.location = url;
 });
+$('#matapelajaran2').on('change', function(e) {
+        var id_mp = e.target.value;
+        alert(id_mp);
+        $.ajax({
+            type: "POST",
+            url: "{{ route('listkelasadmin') }}",
+            data: {
+                '_token': '<?php echo csrf_token() ?>',
+                'id_mp': id_mp
+            },
+            success: function(data) {
+                console.log(data.listkelas);
+                $('#class_select2').empty();
+                $('#class_select2').append('<option value="">--Pilih Kelas--</option>');
+                for (let i = 0; i < data.listkelas.length; i++) {
+                    $('#class_select2').append('<option value="'+data.listkelas[i].idclass+'">'+data.listkelas[i].name_class+'</option>');
+                }
+
+            }
+        })
+    });
 </script>
 
 <script>
