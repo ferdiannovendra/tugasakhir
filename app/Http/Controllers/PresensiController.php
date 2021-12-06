@@ -8,6 +8,8 @@ use Carbon\Carbon;
 use App\Models\Presensi;
 use App\Models\MataPelajaran;
 use App\Models\Kelas;
+use App\Models\Semester;
+
 use Auth;
 
 class PresensiController extends Controller
@@ -53,7 +55,7 @@ class PresensiController extends Controller
             $presensi->idmatapelajaran = $request->matapelajaran;
             $presensi->idclass_list = $request->kelas;
             $presensi->save();
-            // $idpresensi = $presensi->idpresensi;
+            $idpresensi = $presensi->idpresensi;
             $siswa_di_kelas = DB::table('siswa_di_kelas')->where('classlist_idclass',$request->kelas)->get();
             // dd($siswa_di_kelas);
             foreach ($siswa_di_kelas as $key => $value) {
@@ -138,10 +140,40 @@ class PresensiController extends Controller
     //--------------- BUAT SISWA --------------------
     public function siswa_listpresensi()
     {
-        $idpengajar = Auth::user()->id;
-        $data = Presensi::where('idpengajar', $idpengajar)->get();
-        $mata_pelajaran = MataPelajaran::where('guru_pengajar',$idpengajar)->get();
-        $kelas = DB::table('siswa_di_kelas')->where();
-        return view('sekolah.siswa.presensi.index',compact('data','mata_pelajaran'));
+        $now = Carbon::now();
+        $hariIni = date('Y-m-d',strtotime($now));
+        $cekSemester = Semester::where('start_date','<=',$hariIni)
+        ->where('end_date','>=',$hariIni)
+        ->first();
+
+        if(isset($cekSemester)){
+            $iduser = Auth::user()->id;
+            $kelas = DB::table('siswa_di_kelas')->join('class_list','classlist_idclass','idclass_list')
+            ->where('siswa_di_kelas.semester_idsemester',$cekSemester->idsemester)
+            ->where('siswa_di_kelas.users_idusers',$iduser)
+            ->first();
+
+            $data = DB::table('jadwal_kelas')->select('idmatapelajaran','nama_mp')->join('mata_pelajaran','idmatapelajaran','idmata_pelajaran')
+            ->where('idclass_list',$kelas->idclass_list)->groupBy('idmatapelajaran','nama_mp')->get();
+            // dd($count);
+            $cekpresensi = DB::table('presensi')
+            ->join('rekap_presensi','presensi.idpresensi','rekap_presensi.idpresensi')
+            ->where('idclass_list', $kelas->idclass_list)
+            ->where('status_presensi','==',0)
+            ->where('start_time','<=',$now)
+            ->where('end_time','>=',$now)
+            ->where('idsiswa',$iduser)->get();
+            // dd($cekpresensi);
+            return view('sekolah.siswa.presensi.index',compact('data','cekSemester','cekpresensi'));
+        }else{
+            return view('sekolah.siswa.pending');
+        }
+    }
+    public function isipresensi(Request $request)
+    {
+        $idsiswa = Auth::user()->id;
+        $idpresensi = $request->id;
+        $ubah = DB::table('rekap_presensi')->where('idpresensi',$idpresensi)
+        ->update(['status_presensi' => 1]);
     }
 }

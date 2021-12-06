@@ -156,7 +156,8 @@ Route::middleware(['auth'])->group(function () {
             Route::get('/presensi', [PresensiController::class, 'guru_listpresensi'])->name('presensi');
             Route::post('listkelas', [PresensiController::class, 'listkelas'])->name('listkelas');
             Route::post('ubahpresensi', [PresensiController::class, 'ubahpresensi'])->name('ubahpresensi');
-            Route::post('postTambahPresensi', [PresensiController::class, 'postTambahPresensi'])->name('postTambahPresensi');
+            Route::post('postTambahPresensi', [PresensiController::class, 'store'])->name('postTambahPresensi');
+            Route::get('/presensi/detail/{id}', [PresensiController::class, 'detailpresensi'])->name('detailpresensiguru');
 
             Route::get('/rencana_penilaian', [PresensiController::class, 'rencana_penilaian'])->name('rencana_penilaian');
         });
@@ -166,6 +167,7 @@ Route::middleware(['auth'])->group(function () {
         Route::prefix('sekolah/siswa')->group(function () {
             Route::get('/home', [HomeSiswaSekolahController::class, 'index'])->name('');
             Route::get('/presensi', [PresensiController::class, 'siswa_listpresensi'])->name('presensi.siswa');
+            Route::post('isipresensi', [PresensiController::class, 'isipresensi'])->name('isipresensi');
 
         });
     });

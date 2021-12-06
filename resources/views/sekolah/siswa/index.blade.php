@@ -52,23 +52,23 @@ Daftar Kelas
                     <table id="patient-table" class="table table-hover align-middle mb-0" style="width: 100%;">
                         <thead>
                         <tr>
-                            <th scope="col">#</th>
+                            <th scope="col">Hari</th>
+                            <th scope="col">ID</th>
                             <th scope="col">Nama Mata Pelajaran</th>
+                            <th scope="col">Jam Mulai</th>
+                            <th scope="col">Jam Akhir</th>
                             <th scope="col">Status</th>
-                            <th scope="col">Aksi</th>
                         </tr>
                         </thead>
                         <tbody>
                         @foreach($data as $d)
                         <tr>
-                            <th scope="row">{{ $d->idmata_pelajaran }}</th>
+                            <th>{{ $d->nama }}</th>
+                            <td>{{ $d->idmata_pelajaran }}</td>
                             <td>{{ $d->nama_mp }}</td>
+                            <td>{{ $d->jam_mulai }}</td>
+                            <td>{{ $d->jam_akhir }}</td>
                             <td>{{ $d->status }}</td>
-                            <td>
-                                <div class="btn-group" role="group" aria-label="Basic outlined example">
-                                    <button type="button" onclick="getDetail('{{ $d->idmata_pelajaran }}')" class="btn btn-outline-secondary" data-bs-toggle="modal" data-bs-target="#ubahmodal"><i class="icofont-info-circle text-success"></i></button>
-                                </div>
-                            </td>
                         </tr>
                         @endforeach
                         </tbody>
@@ -109,12 +109,7 @@ Daftar Kelas
     $(document).ready(function() {
        $('#patient-table')
        .addClass( 'nowrap' )
-       .dataTable( {
-           responsive: true,
-           columnDefs: [
-               { targets: [-1, -3], className: 'dt-body-right' }
-           ]
-       });
+
    });
 
 </script>

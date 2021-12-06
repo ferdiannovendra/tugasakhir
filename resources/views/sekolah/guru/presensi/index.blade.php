@@ -73,7 +73,7 @@ Daftar Kelas
                                 <td>{{ $d->catatan_pertemuan }}</td>
                                 <td>
                                     <div class="btn-group" role="group" aria-label="Basic outlined example">
-                                        <a href="{{route('detailpresensi',$d->idpresensi)}}"><button type="button" class="btn btn-outline-secondary"><i class="icofont-info-circle text-seconadary"></i></button></a>
+                                        <a href="{{route('detailpresensiguru',$d->idpresensi)}}"><button type="button" class="btn btn-outline-secondary"><i class="icofont-info-circle text-seconadary"></i></button></a>
                                         <button type="button" onclick="getDetail('{{ $d->idpresensi }}')" class="btn btn-outline-secondary" data-bs-toggle="modal" data-bs-target="#ubahmodal"><i class="icofont-edit text-success"></i></button>
                                         <button type="button" onclick="hapus_data('{{csrf_token()}}','{{ $d->idpresensi }}')" class="btn btn-outline-secondary deleterow"><i class="icofont-ui-delete text-danger"></i></button>
                                     </div>
