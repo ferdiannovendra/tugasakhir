@@ -12,6 +12,7 @@ use App\Http\Controllers\UserController;
 use App\Http\Controllers\KompetensiDasarController;
 use App\Http\Controllers\JadwalKelasController;
 use App\Http\Controllers\HariController;
+use App\Http\Controllers\PenilaianController;
 
 use App\Http\Controllers\HomeGuruSekolahController;
 use App\Http\Controllers\SiswaController;
@@ -141,6 +142,15 @@ Route::middleware(['auth'])->group(function () {
             Route::post('ubahhari', [HariController::class, 'edit'])->name('ubahhari');
             Route::post('/simpan_ubahhari/{id}', [HariController::class, 'update'])->name('simpan_ubahhari');
 
+            Route::get('/rencana_penilaian', [PenilaianController::class, 'index'])->name('rencana_penilaian_admin');
+            Route::post('generate_rencana_pengetahuan', [PenilaianController::class, 'generate_rencana_pengetahuan'])->name('generate_rencana_pengetahuan');
+            Route::post('kirim_rencana', [PenilaianController::class, 'kirim_rencana'])->name('kirim_rencana');
+            Route::post('duplikatrencananilai', [PenilaianController::class, 'duplikatrencananilai'])->name('duplikatrencananilai');
+
+            Route::get('/input_pengetahuan', [PenilaianController::class, 'input_pengetahuan'])->name('input_pengetahuan');
+            Route::post('listpenilaian', [PenilaianController::class, 'listpenilaian'])->name('listpenilaianadmin');
+            Route::post('kirim_nilai', [PenilaianController::class, 'kirim_nilai'])->name('kirim_nilai');
+            Route::post('generate_input_nilai', [PenilaianController::class, 'generate_input_nilai'])->name('generate_input_nilai');
         });
     });
 

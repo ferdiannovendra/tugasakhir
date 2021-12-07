@@ -68,5 +68,26 @@
 
         </ul>
     </li>
+    <li class="collapsed">
+        <a class="m-link" data-bs-toggle="collapse" data-bs-target="#rencananilai">
+            <i class="icofont-data"></i> <span>Rencana Penilaian</span> <span class="arrow icofont-dotted-down ms-auto text-end fs-5"></span></a>
+        <!-- Menu: Sub menu ul -->
+        <ul class="sub-menu collapse" id="rencananilai">
+            <li><a class="m-link" href="{{ route('rencana_penilaian_admin') }}"><i class="icofont-ui-home"></i><span>Penilaian Pengetahuan</span></a></li>
+            <li><a class="m-link" href="{{ route('rencana_penilaian_admin') }}"><i class="icofont-ui-home"></i><span>Penilaian Keterampilan</span></a></li>
+            <!-- <li><a class="ms-link" href=""><span>Tambah Semester</span></a></li> -->
+
+        </ul>
+    </li>
+    <li class="collapsed">
+        <a class="m-link" data-bs-toggle="collapse" data-bs-target="#inputnilai">
+            <i class="icofont-data"></i> <span>Input Penilaian</span> <span class="arrow icofont-dotted-down ms-auto text-end fs-5"></span></a>
+        <!-- Menu: Sub menu ul -->
+        <ul class="sub-menu collapse" id="inputnilai">
+            <li><a class="ms-link" href="{{ route('input_pengetahuan') }}"><span>Input Pengetahuan</span></a></li>
+            <li><a class="ms-link" href=""><span>Input Keterampilan</span></a></li>
+        </ul>
+    </li>
+
 
 </ul>

@@ -149,10 +149,14 @@ class KelasController extends Controller
                 array_push($datasiswa,$u);
             }
         }
+        // $siswakelas = DB::table('siswa_di_kelas')->where('classlist_idclass', $id)
+        // ->join('users','users_idusers','id')
+        // ->join('detail_siswa','id','idusers')->get();
         // dd($arr);
+
         return response()->json(array(
             'status'=>'oke',
-            'msg'=>view('sekolah.admin.kelas.tambahsiswa',compact('kelas','id','datasiswa'))->render()
+            'msg'=>view('sekolah.admin.kelas.tambahsiswa',compact('kelas','id','datasiswa','siswakelas'))->render()
         ),200);
     }
     public function tambah_siswa(Request $request, $id)
