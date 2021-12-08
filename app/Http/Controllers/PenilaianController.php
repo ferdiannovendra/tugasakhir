@@ -17,6 +17,23 @@ class PenilaianController extends Controller
         $dataMP = MataPelajaran::all();
         return view('sekolah.admin.rencana_penilaian.index',compact('dataMP'));
     }
+    public function index_keterampilan()
+    {
+        $dataMP = MataPelajaran::all();
+        return view('sekolah.admin.rencana_penilaian.keterampilan',compact('dataMP'));
+    }
+    public function generate_rencana_keterampilan(Request $request)
+    {
+        $idmp = $request->idmp;
+        $jumlah = $request->jumlah;
+        $idclass= $request->idclass;
+        $kd = KompetensiDasar::where('idmata_pelajaran',$idmp)->where('jenis_kd','Keterampilan')->get();
+
+        return response()->json([
+            'jumlah' => $jumlah,
+            'kd' => $kd
+        ]);
+    }
     public function generate_rencana_pengetahuan(Request $request)
     {
         $idmp = $request->idmp;
@@ -75,6 +92,28 @@ class PenilaianController extends Controller
         $pas = $request->pas;
         for ($i=0; $i < count($pas); $i++) {
             $penilaian->kompetensidasar()->attach($pas[$i]);
+        }
+    }
+    public function kirim_rencana_keterampilan(Request $request)
+    {
+        // dd($request);
+        for ($i=1; $i <= $request->jumlah; $i++) {
+            $nama = $request->{'nama_p'.$i};
+            $bobot = $request->{'bobot_p'.$i};
+            $teknik_penilaian = $request->{'teknik_'.$i};
+            // dd($request);
+            $penilaian = new Penilaian();
+            $penilaian->teknik_penilaian = $teknik_penilaian;
+            $penilaian->nama = $nama;
+            $penilaian->bobot = $bobot;
+            $penilaian->idmata_pelajaran = $request->matapelajaran;
+            $penilaian->idclass = $request->kelas;
+            $penilaian->save();
+
+            $p = $request->{'p'.$i};
+            for ($j=0; $j < count($p); $j++) {
+                $penilaian->kompetensidasar()->attach([$p[$j]]);
+            }
         }
     }
 
