@@ -15,6 +15,7 @@ use App\Http\Controllers\HariController;
 use App\Http\Controllers\PenilaianController;
 use App\Http\Controllers\BobotController;
 use App\Http\Controllers\KategoriMapelController;
+use App\Http\Controllers\PengolahanNilaiController;
 use App\Http\Controllers\MasterWebController;
 
 use App\Http\Controllers\HomeGuruSekolahController;
@@ -155,14 +156,21 @@ Route::middleware(['auth'])->group(function () {
             Route::post('/simpan_ubahhari/{id}', [HariController::class, 'update'])->name('simpan_ubahhari');
 
             Route::get('/rencana_penilaian', [PenilaianController::class, 'index'])->name('rencana_penilaian_admin');
-            Route::get('/rencana_penilaian_keterampilan', [PenilaianController::class, 'index_keterampilan'])->name('rencana_penilaian_keterampilan_admin');
-            Route::post('generate_rencana_keterampilan', [PenilaianController::class, 'generate_rencana_keterampilan'])->name('generate_rencana_keterampilan');
             Route::post('generate_rencana_pengetahuan', [PenilaianController::class, 'generate_rencana_pengetahuan'])->name('generate_rencana_pengetahuan');
             Route::post('kirim_rencana', [PenilaianController::class, 'kirim_rencana'])->name('kirim_rencana');
             Route::post('kirim_rencana_keterampilan', [PenilaianController::class, 'kirim_rencana_keterampilan'])->name('kirim_rencana_keterampilan');
+            Route::get('/rencana_penilaian_keterampilan', [PenilaianController::class, 'index_keterampilan'])->name('rencana_penilaian_keterampilan_admin');
+            Route::post('generate_rencana_keterampilan', [PenilaianController::class, 'generate_rencana_keterampilan'])->name('generate_rencana_keterampilan');
+
             Route::post('duplikatrencananilai', [PenilaianController::class, 'duplikatrencananilai'])->name('duplikatrencananilai');
+            Route::get('/lihatrencana', [PenilaianController::class, 'lihatrencana'])->name('lihatrencana');
+            Route::get('/lihatrencana_keterampilan', [PenilaianController::class, 'lihatrencana_keterampilan'])->name('lihatrencana_keterampilan');
+            Route::post('/detail_rencana', [PenilaianController::class, 'detail_rencana'])->name('detail_rencana');
+            Route::post('/detail_rencana_keterampilan', [PenilaianController::class, 'detail_rencana_keterampilan'])->name('detail_rencana_keterampilan');
 
             Route::get('/rencana_bobot', [BobotController::class, 'index'])->name('rencana_bobot');
+            Route::post('detail_bobot', [BobotController::class, 'detail_bobot'])->name('detail_bobot');
+            Route::post('input_bobot', [BobotController::class, 'input_bobot'])->name('input_bobot');
 
             //Input Pengetahuan
             Route::get('/input_pengetahuan', [PenilaianController::class, 'input_pengetahuan'])->name('input_pengetahuan');
@@ -175,6 +183,12 @@ Route::middleware(['auth'])->group(function () {
             Route::post('listpenilaian_keterampilan', [PenilaianController::class, 'listpenilaian_keterampilan'])->name('listpenilaian_keterampilan');
             Route::post('kirim_nilai', [PenilaianController::class, 'kirim_nilai'])->name('kirim_nilai');
             Route::post('generate_input_nilai', [PenilaianController::class, 'generate_input_nilai'])->name('generate_input_nilai');
+
+            //Pengolahan Nilai-Pengetahuan
+            Route::get('/olahnilai_pengetahuan', [PengolahanNilaiController::class, 'index_pengetahuan'])->name('olahnilai_pengetahuan');
+
+            //Pengolahan Nilai-Keterampilan
+            Route::get('/olahnilai_keterampilan', [PengolahanNilaiController::class, 'index_keterampilan'])->name('olahnilai_keterampilan');
         });
     });
 

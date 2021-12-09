@@ -205,6 +205,7 @@ class PenilaianController extends Controller
         ),200);
 
     }
+
     public function kirim_nilai(Request $request)
     {
         // dd($request);
@@ -226,6 +227,59 @@ class PenilaianController extends Controller
             }
         }
         return redirect()->back()->with('status','Sukses tambah nilai');
+
+    }
+
+    public function lihatrencana()
+    {
+        $dataMP = MataPelajaran::all();
+        return view('sekolah.admin.rencana_penilaian.lihatrencana',compact('dataMP'));
+    }
+    public function lihatrencana_keterampilan()
+    {
+        $dataMP = MataPelajaran::all();
+        return view('sekolah.admin.rencana_penilaian.lihatrencanaketerampilan',compact('dataMP'));
+    }
+    public function detail_rencana(Request $request)
+    {
+        $kelas = $request->idclass;
+        $mp = $request->idmp;
+        // $kelas = 1;
+        // $mp = 1;
+        $data = KompetensiDasar::whereHas('penilaian',function($q) use($mp,$kelas) {
+            $q->where('idmata_pelajaran',$mp)->where('idclass', $kelas)->where('jenispenilaian', "Pengetahuan");
+        })->get();
+        // dd($data);
+        // $data = DB::table('penilaian_has_kompetensi_dasar')->join('kompetensi_dasar','penilaian_has_kompetensi_dasar.idkompetensi_dasar','kompetensi_dasar.idkompetensi_dasar')->get();
+        // $kd = Penilaian::where('idclass', $kelas)->where('idmata_pelajaran',$mp)->get();
+        // dd($kd);
+        // $getSiswa = DB::table('siswa_di_kelas')->where('classlist_idclass',$kelas)->join('users','users_idusers','id')->get();
+        // $nilai = DB::table('nilai_per_penilaian')->where('penilaian_idpenilaian',$idpenilaian)->get();
+        return response()->json(array(
+            'status'=>'oke',
+            'msg'=>view('sekolah.admin.rencana_penilaian.detail_rencana',compact('data'))->render()
+        ),200);
+
+    }
+    public function detail_rencana_keterampilan(Request $request)
+    {
+        $kelas = $request->idclass;
+        $mp = $request->idmp;
+        // $kelas = 1;
+        // $mp = 1;
+        $data = KompetensiDasar::whereHas('penilaian',function($q) use($mp,$kelas) {
+            $q->where('idmata_pelajaran',$mp)->where('idclass', $kelas)->where('jenispenilaian', "Keterampilan");
+        })->get();
+        // dd($data);
+        // $data = DB::table('penilaian_has_kompetensi_dasar')->join('kompetensi_dasar','penilaian_has_kompetensi_dasar.idkompetensi_dasar','kompetensi_dasar.idkompetensi_dasar')->get();
+        // $kd = Penilaian::where('idclass', $kelas)->where('idmata_pelajaran',$mp)->get();
+        // dd($kd);
+        // $getSiswa = DB::table('siswa_di_kelas')->where('classlist_idclass',$kelas)->join('users','users_idusers','id')->get();
+        // $nilai = DB::table('nilai_per_penilaian')->where('penilaian_idpenilaian',$idpenilaian)->get();
+        return response()->json(array(
+            'status'=>'oke',
+            'msg'=>view('sekolah.admin.rencana_penilaian.detail_rencana',compact('data'))->render()
+        ),200);
 
     }
 }

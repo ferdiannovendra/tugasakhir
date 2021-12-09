@@ -1,7 +1,7 @@
 @extends('layoutsadmin.adminsekolah')
 
 @section('title')
-Perencanaan Nilai Pengetahuan
+Lihat Rencana Nilai Pengetahuan
 @endsection
 
 @section('style')
@@ -22,9 +22,9 @@ Perencanaan Nilai Pengetahuan
     <div class="col-md-12">
         <div class="card mb-3">
             <div class="card-header mt-2 py-3 d-flex justify-content-between bg-transparent border-bottom-0">
-                <h6 class="mb-0 fw-bold ">Perencanaan Penilaian Pengetahuan</h6>
+                <h6 class="mb-0 fw-bold ">Lihat Perencanaan Penilaian Keterampilan</h6>
                 <div>
-                    <a href="{{route('lihatrencana')}}"><button type="button" class="btn btn-warning">Lihat Rencana</button></a>
+                    <a href=""><button type="button" class="btn btn-primary">Tambah Rencana</button></a>
                     <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#TambahModal">Duplikat Rencana</button>
                 </div>
             </div>
@@ -56,33 +56,14 @@ Perencanaan Nilai Pengetahuan
                     <option value="-" selected disabled>Silahkan pilih mata pelajaran</option>
                 </select>
                 <br>
-                <h6 class="mb-0 fw-bold ">Jumlah Penilaian :</h6>
-                <br>
-                <select name="jumlah" class="form-select" id="jumlah" required>
-                    <option value="1" selected>1</option>
-                    <option value="2" >2</option>
-                    <option value="3" >3</option>
-                    <option value="4" >4</option>
-                    <option value="5" >5</option>
-                    <option value="6" >6</option>
-                    <option value="7" >7</option>
-                    <option value="8" >8</option>
-                    <option value="9" >9</option>
-                    <option value="10" >10</option>
-                </select>
-                <button type="button" id="btntambah" class="btn btn-primary" >Tambah</button>
+                <button type="button" id="btnLihat" class="btn btn-primary" >Lihat</button>
 
                 <br>
                 <hr>
                 <br>
-                <form method="post" action="{{ route('kirim_rencana') }}" id="formkirim">
-                    @csrf
-                <input type="hidden" name="jumlah" id="jumlahkirim">
-                <input type="hidden" name="matapelajaran" id="matapelajarankirim">
-                <input type="hidden" name="kelas" id="kelaskirim">
-                <table class="table table-hover align-middle mb-0" style="width:100%" id="table">
-                </table>
-                </form>
+                <div id="tabeldata">
+
+                </div>
             </div>
         </div>
     </div>
@@ -194,94 +175,20 @@ $('#matapelajaran2').on('change', function(e) {
         })
     });
 
-$('#btntambah').on('click', function(e) {
-        var jumlah = parseInt($('#jumlah').val());
+$('#btnLihat').on('click', function(e) {
         var id_mp = $('#matapelajaran2').val();
         var id_class = $('#class_select2').val();
-
-        $('#jumlahkirim').val(jumlah);
-        $('#matapelajarankirim').val(id_mp);
-        $('#kelaskirim').val(id_class);
         $.ajax({
             type: "POST",
-            url: "{{ route('generate_rencana_pengetahuan') }}",
+            url: "{{ route('detail_rencana_keterampilan') }}",
             data: {
                 '_token': '<?php echo csrf_token() ?>',
                 'idmp': id_mp,
-                'jumlah': jumlah,
                 'idclass': id_class
             },
             success: function(data) {
-                $('#table').empty();
-                console.log(data);
-                $('#table').append('<thead>' +
-                        '<tr>');
-                for (let i = 0; i <= jumlah; i++) {
-                    if (i==0) {
-                        $('#table').append('<th>Penilaian</th>');
-                    }else{
-                        $('#table').append('<th>PH.'+i+'</th>');
-                    }
-                }
-                $('#table').append('<th rowspan="2">PTS</th>');
-                $('#table').append('<th rowspan="2">PAS</th>');
-                $('#table').append('<thead>' +
-                        '<tr>');
-                for (let i = 0; i <= jumlah; i++) {
-                    if (i==0) {
-                        $('#table').append('<th>Kelompok/Teknik Penilaian</th>');
-                    }else{
-                        $('#table').append('<th><select class="form-select" name="teknik_'+i+'">'+
-                        '<option value="Tes Tulis">Tes Tulis</option>' +
-                        '<option value="Tes Lisan">Tes Lisan</option>' +
-                        '<option value="Penugasan">Penugasan</option>' +
-                        '</select></th>');
-                    }
-                }
-                $('#table').append('<thead>' +
-                        '<tr>');
-
-                for (let i = 0; i <= jumlah; i++) {
-                    if (i==0) {
-                        $('#table').append('<th>Nama Penilaian</th>');
-                    }else{
-                        $('#table').append('<th><input class="form-control" type="text" name="nama_p'+i+'"></th>');
-                    }
-                }
-                $('#table').append('<thead>' +
-                        '<tr>');
-
-                for (let i = 0; i <= jumlah+2; i++) {
-                    if (i==0) {
-                        $('#table').append('<th>Bobot Penilaian</th>');
-                    }else if(i == jumlah+1){
-                        $('#table').append('<th><input class="form-control" type="text" name="bobot_pts"></th>');
-                    }else if(i == jumlah+2){
-                        $('#table').append('<th><input class="form-control" type="text" name="bobot_pas"></th>');
-                    }else{
-                        $('#table').append('<th><input class="form-control" type="text" name="bobot_p'+i+'"></th>');
-                    }
-                }
-                $('#table').append('<tbody>');
-                // $('#table > tbody').append('<tr>...</tr><tr>...</tr>');
-
-                for (let i = 0; i < data.kd.length; i++) {
-                    $('#table > tbody').append('<tr>' +
-                        '<td>'+data.kd[i].kode_kd+'. '+ data.kd[i].kompetensi_dasar+'</th>' +
-                        '</tr>');
-                        for (let j = 1; j <= jumlah+2; j++) {
-                            if (j == jumlah+1) {
-                                $('#table tr:last').append('<td><input name="pts[]" value="'+data.kd[i].idkompetensi_dasar+'" type="checkbox"></td>');
-                            } else if (j == jumlah+2){
-                                $('#table tr:last').append('<td><input name="pas[]" value="'+data.kd[i].idkompetensi_dasar+'" type="checkbox"></td>');
-                            }else{
-                                $('#table tr:last').append('<td><input name="p'+j+'[]" value="'+data.kd[i].idkompetensi_dasar+'" type="checkbox"></td>');
-                            }
-                        }
-                    }
-
-                    $('#table').append('<button type="submit" id="btntambah" class="btn btn-primary" >Simpan</button>');
-                }
+                $('#tabeldata').html(data.msg);
+            }
         })
     });
 </script>

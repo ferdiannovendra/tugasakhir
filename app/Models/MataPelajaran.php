@@ -31,5 +31,9 @@ class MataPelajaran extends Model
     {
         return $this->belongsToMany(Kelas::class, 'jadwal_kelas', 'idmatapelajaran', 'idclass_list');
     }
+    public function bobot()
+    {
+        return $this->belongsToMany(Kelas::class,'bobot_nilai_akhir','idmata_pelajaran','idclass_list')->withPivot('bobot_pengetahuan','bobot_keterampilan');
+    }
 
 }

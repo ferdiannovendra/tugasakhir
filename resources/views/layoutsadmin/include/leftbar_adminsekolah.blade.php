@@ -88,6 +88,15 @@
             <li><a class="ms-link" href="{{ route('input_keterampilan') }}"><span>Input Keterampilan</span></a></li>
         </ul>
     </li>
+    <li class="collapsed">
+        <a class="m-link" data-bs-toggle="collapse" data-bs-target="#lihatolahnilai">
+            <i class="icofont-data"></i> <span>Lihat Pengolahan Nilai</span> <span class="arrow icofont-dotted-down ms-auto text-end fs-5"></span></a>
+        <!-- Menu: Sub menu ul -->
+        <ul class="sub-menu collapse" id="lihatolahnilai">
+            <li><a class="ms-link" href="{{ route('olahnilai_pengetahuan') }}"><span>Nilai Pengetahuan</span></a></li>
+            <li><a class="ms-link" href="{{ route('olahnilai_keterampilan') }}"><span>Nilai Keterampilan</span></a></li>
+        </ul>
+    </li>
 
     <!-- ================ Data Website ======================== -->
     <li class="collapsed">

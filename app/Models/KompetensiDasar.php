@@ -15,5 +15,9 @@ class KompetensiDasar extends Model
     {
         return $this->belongsTo(MataPelajaran::class,'idmata_pelajaran','idmata_pelajaran');
     }
+    public function penilaian()
+    {
+        return $this->belongsToMany(Penilaian::class,'penilaian_has_kompetensi_dasar','idkompetensi_dasar','penilaian_idpenilaian');
+    }
 
 }

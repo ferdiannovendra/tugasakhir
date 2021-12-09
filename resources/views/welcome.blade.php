@@ -137,7 +137,7 @@
                 @php
                 $masterweb = App\Models\MasterWeb::all();
                 @endphp
-                <img width="500px" height="500px"src="{{ asset('fileupload/'.$masterweb[0]->logo) }}" alt="">
+                <img width="500px" height="500px" src="{{ asset('fileupload/'.$masterweb[0]->logo) }}" alt="">
             </div>
           </div>
         </div>
@@ -152,11 +152,11 @@
           <div class="row justify-content-center">
             <div class="col-xl-4 col-lg-4 col-md-6">
               <div class="footer-widget text-center">
-                <!-- <div class="logo mb-30">
+                <div class="logo mb-30">
                   <a href="index.html">
-                    <img src="assets/img/logo/logo.svg" alt="" />
+                    <img width="100px" height="100px" src="{{ asset('fileupload/'.$masterweb[0]->logo) }}" alt="" />
                   </a>
-                </div> -->
+                </div>
                 <div class="row justify-content-center">
                     <p class="desc mb-30 text-white">
                     Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed
@@ -164,19 +164,19 @@
                     </p>
                 </div>
                 <div class="row justify-content-center">
-                    <ul class="socials">
+                    <ul class="socials" style="align-items: center;justify-content: center;">
                     <li>
-                        <a href="jvascript:void(0)">
+                        <a href="{{$masterweb[0]->facebook}}">
                         <i class="lni lni-facebook-filled"></i>
                         </a>
                     </li>
                     <li>
-                        <a href="jvascript:void(0)">
+                        <a href="{{$masterweb[0]->twitter}}">
                         <i class="lni lni-twitter-filled"></i>
                         </a>
                     </li>
                     <li>
-                        <a href="jvascript:void(0)">
+                        <a href="{{$masterweb[0]->instagram}}">
                         <i class="lni lni-instagram-filled"></i>
                         </a>
                     </li>

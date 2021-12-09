@@ -1391,7 +1391,7 @@ p {
 
 @media only screen and (min-width: 1400px) {
   .footer .widget-wrapper .footer-widget .desc {
-    padding-right: 100px;
+    /* padding-right: 100px; */
   }
 }
 
@@ -1412,6 +1412,10 @@ p {
 
 .footer .widget-wrapper .footer-widget .socials li {
   margin-right: 20px;
+}
+.footer .widget-wrapper .footer-widget .socials ul {
+    width: 70%;
+    margin: auto;
 }
 
 .footer .widget-wrapper .footer-widget .socials li:last-child {
