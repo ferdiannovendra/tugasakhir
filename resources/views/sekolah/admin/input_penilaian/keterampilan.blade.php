@@ -22,7 +22,7 @@ Input Nilai Pengetahuan
     <div class="col-md-12">
         <div class="card mb-3">
             <div class="card-header mt-2 py-3 d-flex justify-content-between bg-transparent border-bottom-0">
-                <h6 class="mb-0 fw-bold ">Perencanaan Penilaian Pengetahuan</h6>
+                <h6 class="mb-0 fw-bold ">Perencanaan Penilaian Keterampilan</h6>
                 <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#TambahModal">Duplikat Penilaian</button>
             </div>
             <div class="card-body">
@@ -123,7 +123,7 @@ $('#class_select2').on('change', function(e) {
         alert(idclass);
         $.ajax({
             type: "POST",
-            url: "{{ route('listpenilaian_pengetahuan') }}",
+            url: "{{ route('listpenilaian_keterampilan') }}",
             data: {
                 '_token': '<?php echo csrf_token() ?>',
                 'idclass': idclass,

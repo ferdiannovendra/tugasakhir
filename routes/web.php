@@ -13,6 +13,9 @@ use App\Http\Controllers\KompetensiDasarController;
 use App\Http\Controllers\JadwalKelasController;
 use App\Http\Controllers\HariController;
 use App\Http\Controllers\PenilaianController;
+use App\Http\Controllers\BobotController;
+use App\Http\Controllers\KategoriMapelController;
+use App\Http\Controllers\MasterWebController;
 
 use App\Http\Controllers\HomeGuruSekolahController;
 use App\Http\Controllers\SiswaController;
@@ -64,6 +67,9 @@ Route::middleware(['auth'])->group(function () {
         Route::prefix('sekolah')->group(function () {
             Route::get('/home', [HomeAdminSekolahController::class, 'index'])->name('adminsekolahnhome')->middleware('auth');
 
+            Route::get('/masterweb', [MasterWebController::class, 'index'])->name('masterweb');
+            Route::post('update_masterweb', [MasterWebController::class, 'update'])->name('update_masterweb');
+
             //User
             Route::get('/daftar-user', [UserController::class, 'index'])->name('daftarUser');
             Route::get('/daftar-user/guru', [UserController::class, 'daftarguru'])->name('daftarGuru');
@@ -104,6 +110,12 @@ Route::middleware(['auth'])->group(function () {
             Route::post('postHapusMP', [MataPelajaranController::class, 'destroy'])->name('postHapusMP');
             Route::post('ubahMP', [MataPelajaranController::class, 'edit'])->name('ubahMP');
             Route::post('/simpan_ubahMP/{id}', [MataPelajaranController::class, 'update'])->name('simpan_ubahMP');
+
+            Route::get('/daftar-kategorimp', [KategoriMapelController::class, 'index'])->name('daftarkategori');
+            Route::post('postTambahKategoriMP', [KategoriMapelController::class, 'store'])->name('postTambahKategoriMP');
+            Route::post('postHapusKategoriMP', [KategoriMapelController::class, 'destroy'])->name('postHapusKategoriMP');
+            Route::post('ubahKategoriMP', [KategoriMapelController::class, 'edit'])->name('ubahKategoriMP');
+            Route::post('/simpan_ubahKategoriMP/{id}', [KategoriMapelController::class, 'update'])->name('simpan_ubahKategoriMP');
 
             //Kompetensi Dasar
             Route::get('/kompetensidasar', [KompetensiDasarController::class, 'index'])->name('daftarkompetensidasar');
@@ -150,8 +162,17 @@ Route::middleware(['auth'])->group(function () {
             Route::post('kirim_rencana_keterampilan', [PenilaianController::class, 'kirim_rencana_keterampilan'])->name('kirim_rencana_keterampilan');
             Route::post('duplikatrencananilai', [PenilaianController::class, 'duplikatrencananilai'])->name('duplikatrencananilai');
 
+            Route::get('/rencana_bobot', [BobotController::class, 'index'])->name('rencana_bobot');
+
+            //Input Pengetahuan
             Route::get('/input_pengetahuan', [PenilaianController::class, 'input_pengetahuan'])->name('input_pengetahuan');
-            Route::post('listpenilaian', [PenilaianController::class, 'listpenilaian'])->name('listpenilaianadmin');
+            Route::post('listpenilaian_pengetahuan', [PenilaianController::class, 'listpenilaian_pengetahuan'])->name('listpenilaian_pengetahuan');
+            Route::post('kirim_nilai', [PenilaianController::class, 'kirim_nilai'])->name('kirim_nilai');
+            Route::post('generate_input_nilai', [PenilaianController::class, 'generate_input_nilai'])->name('generate_input_nilai');
+
+            //Input Keterampilan
+            Route::get('/input_keterampilan', [PenilaianController::class, 'input_keterampilan'])->name('input_keterampilan');
+            Route::post('listpenilaian_keterampilan', [PenilaianController::class, 'listpenilaian_keterampilan'])->name('listpenilaian_keterampilan');
             Route::post('kirim_nilai', [PenilaianController::class, 'kirim_nilai'])->name('kirim_nilai');
             Route::post('generate_input_nilai', [PenilaianController::class, 'generate_input_nilai'])->name('generate_input_nilai');
         });

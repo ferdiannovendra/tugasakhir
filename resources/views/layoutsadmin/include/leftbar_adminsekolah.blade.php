@@ -36,6 +36,7 @@
         <!-- Menu: Sub menu ul -->
         <ul class="sub-menu collapse" id="matapelajaran">
             <li><a class="ms-link" href="{{ route('daftarmatapelajaran') }}"> <span>Daftar Mata Pelajaran</span></a></li>
+            <li><a class="ms-link" href="{{ route('daftarkategori') }}"> <span>Daftar Kategori</span></a></li>
         </ul>
     </li>
     <li class="collapsed">
@@ -75,6 +76,7 @@
         <ul class="sub-menu collapse" id="rencananilai">
             <li><a class="ms-link" href="{{ route('rencana_penilaian_admin') }}"><span>Penilaian Pengetahuan</span></a></li>
             <li><a class="ms-link" href="{{ route('rencana_penilaian_keterampilan_admin') }}"><span>Penilaian Keterampilan</span></a></li>
+            <li><a class="ms-link" href="{{ route('rencana_bobot') }}"><span>Perncanaan Bobot</span></a></li>
         </ul>
     </li>
     <li class="collapsed">
@@ -83,7 +85,17 @@
         <!-- Menu: Sub menu ul -->
         <ul class="sub-menu collapse" id="inputnilai">
             <li><a class="ms-link" href="{{ route('input_pengetahuan') }}"><span>Input Pengetahuan</span></a></li>
-            <li><a class="ms-link" href=""><span>Input Keterampilan</span></a></li>
+            <li><a class="ms-link" href="{{ route('input_keterampilan') }}"><span>Input Keterampilan</span></a></li>
+        </ul>
+    </li>
+
+    <!-- ================ Data Website ======================== -->
+    <li class="collapsed">
+        <a class="m-link" data-bs-toggle="collapse" data-bs-target="#dataweb">
+            <i class="icofont-people"></i> <span>Data Website</span> <span class="arrow icofont-dotted-down ms-auto text-end fs-5"></span></a>
+        <!-- Menu: Sub menu ul -->
+        <ul class="sub-menu collapse" id="dataweb">
+            <li><a class="ms-link" href="{{ route('masterweb') }}"> <span>Master Web</span></a></li>
         </ul>
     </li>
 
