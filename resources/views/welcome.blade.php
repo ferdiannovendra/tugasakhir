@@ -134,10 +134,16 @@
           </div>
           <div class="col-lg-6">
             <div class="hero-img wow fadeInUp" data-wow-delay=".5s">
+            @if(\Spatie\Multitenancy\Models\Tenant::checkCurrent())
+
                 @php
                 $masterweb = App\Models\MasterWeb::all();
                 @endphp
                 <img width="500px" height="500px" src="{{ asset('fileupload/'.$masterweb[0]->logo) }}" alt="">
+                @else
+
+                <img src="{{asset('asset_front/img/hero/hero-img.png') }}" alt="" />
+                @endif
             </div>
           </div>
         </div>
@@ -154,8 +160,10 @@
               <div class="footer-widget text-center">
                 <div class="logo mb-30">
                   <a href="index.html">
+                  @if(\Spatie\Multitenancy\Models\Tenant::checkCurrent())
                     <img width="100px" height="100px" src="{{ asset('fileupload/'.$masterweb[0]->logo) }}" alt="" />
-                  </a>
+                  @endif
+                    </a>
                 </div>
                 <div class="row justify-content-center">
                     <p class="desc mb-30 text-white">
@@ -163,6 +171,7 @@
                     dinonumy eirmod tempor invidunt.
                     </p>
                 </div>
+                @if(\Spatie\Multitenancy\Models\Tenant::checkCurrent())
                 <div class="row justify-content-center">
                     <ul class="socials" style="align-items: center;justify-content: center;">
                     <li>
@@ -182,6 +191,27 @@
                     </li>
                     </ul>
                 </div>
+                @else
+                <div class="row justify-content-center">
+                    <ul class="socials" style="align-items: center;justify-content: center;">
+                    <li>
+                        <a href="">
+                        <i class="lni lni-facebook-filled"></i>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="">
+                        <i class="lni lni-twitter-filled"></i>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="">
+                        <i class="lni lni-instagram-filled"></i>
+                        </a>
+                    </li>
+                    </ul>
+                </div>
+                @endif
 
               </div>
             </div>
