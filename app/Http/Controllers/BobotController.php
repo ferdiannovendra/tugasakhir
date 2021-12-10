@@ -5,11 +5,18 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\MataPelajaran;
 use Illuminate\Support\Facades\DB;
+use Auth;
 
 class BobotController extends Controller
 {
     public function index()
     {
+        $dataMP = MataPelajaran::all();
+        if (Auth::user()->status == "admin") {
+            $dataMP = MataPelajaran::all();
+        }else{
+            $dataMP = MataPelajaran::where('guru_pengajar', Auth::user()->id)->get();
+        }
         $dataMP = MataPelajaran::all();
         return view('sekolah.admin.bobot.index',compact('dataMP'));
     }

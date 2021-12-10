@@ -21,7 +21,7 @@ class MataPelajaran extends Model
     }
     public function kompetensidasar()
     {
-        return $this->hasMany(KompetensiDasar::class);
+        return $this->hasMany(KompetensiDasar::class,'idmata_pelajaran','idmata_pelajaran');
     }
     public function presensi()
     {

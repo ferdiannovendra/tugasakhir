@@ -13,6 +13,13 @@ Master Web
 @section('isi-content')
 <div class="row align-item-center">
     <div class="col-md-12">
+        @if (session('status'))
+        <div role="alert" class="alert alert-success">{{session('status')}}</div>
+        @elseif (session('error'))
+        <div role="alert" class="alert alert-danger">{{session('error')}}</div>
+        @endif
+    </div>
+    <div class="col-md-12">
         <div class="card mb-3">
             <div class="card-header mt-2 py-3 d-flex justify-content-between bg-transparent border-bottom-0">
                 <h6 class="mb-0 fw-bold ">Master Web</h6>

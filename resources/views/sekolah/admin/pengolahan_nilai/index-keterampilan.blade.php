@@ -1,7 +1,7 @@
 @extends('layoutsadmin.adminsekolah')
 
 @section('title')
-Lihat Rencana Nilai Pengetahuan
+Lihat Rencana Nilai Keterampilan
 @endsection
 
 @section('style')
@@ -22,7 +22,7 @@ Lihat Rencana Nilai Pengetahuan
     <div class="col-md-12">
         <div class="card mb-3">
             <div class="card-header mt-2 py-3 d-flex justify-content-between bg-transparent border-bottom-0">
-                <h6 class="mb-0 fw-bold ">Lihat Hasil Pengolahan Nilai Pengetahuan</h6>
+                <h6 class="mb-0 fw-bold ">Lihat Hasil Pengolahan Nilai Keterampilan</h6>
             </div>
             <div class="card-body">
                 <h6 class="mb-0 fw-bold ">Pilih Mata Pelajaran :</h6>
@@ -132,7 +132,7 @@ $('#btnLihatRincian').on('click', function(e) {
         var id_class = $('#class_select2').val();
         $.ajax({
             type: "POST",
-            url: "{{ route('lihat_rincian_pengetahuan') }}",
+            url: "{{ route('lihat_rincian_keterampilan') }}",
             data: {
                 '_token': '<?php echo csrf_token() ?>',
                 'idmp': id_mp,
@@ -148,7 +148,7 @@ $('#btnLihatRapor').on('click', function(e) {
         var id_class = $('#class_select2').val();
         $.ajax({
             type: "POST",
-            url: "{{ route('lihat_rapor_pengetahuan') }}",
+            url: "{{ route('detail_rencana') }}",
             data: {
                 '_token': '<?php echo csrf_token() ?>',
                 'idmp': id_mp,

@@ -105,6 +105,7 @@
         <!-- Menu: Sub menu ul -->
         <ul class="sub-menu collapse" id="dataweb">
             <li><a class="ms-link" href="{{ route('masterweb') }}"> <span>Master Web</span></a></li>
+            <li><a class="ms-link" href="{{ route('setting') }}"> <span>Setting</span></a></li>
         </ul>
     </li>
 

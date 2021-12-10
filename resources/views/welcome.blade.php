@@ -139,7 +139,7 @@
                 @php
                 $masterweb = App\Models\MasterWeb::all();
                 @endphp
-                <img width="500px" height="500px" src="{{ asset('fileupload/'.$masterweb[0]->logo) }}" alt="">
+                <img width="70%" height="70%" style="padding-bottom:100px;" src="{{ asset('fileupload/'.$masterweb[0]->logo) }}" alt="">
                 @else
 
                 <img src="{{asset('asset_front/img/hero/hero-img.png') }}" alt="" />

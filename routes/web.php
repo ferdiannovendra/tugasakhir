@@ -68,6 +68,9 @@ Route::middleware(['auth'])->group(function () {
         Route::prefix('sekolah')->group(function () {
             Route::get('/home', [HomeAdminSekolahController::class, 'index'])->name('adminsekolahnhome')->middleware('auth');
 
+            Route::get('/setting', [MasterWebController::class, 'setting'])->name('setting');
+            Route::post('update_setting', [MasterWebController::class, 'update_setting'])->name('update_setting');
+
             Route::get('/masterweb', [MasterWebController::class, 'index'])->name('masterweb');
             Route::post('update_masterweb', [MasterWebController::class, 'update'])->name('update_masterweb');
 
@@ -119,14 +122,14 @@ Route::middleware(['auth'])->group(function () {
             Route::post('/simpan_ubahKategoriMP/{id}', [KategoriMapelController::class, 'update'])->name('simpan_ubahKategoriMP');
 
             //Kompetensi Dasar
-            Route::get('/kompetensidasar', [KompetensiDasarController::class, 'index'])->name('daftarkompetensidasar');
-            // Route::view('/tambahkd', 'sekolah.admin.tambahkompetensidasar')->name('tambahkd');
-            Route::get('/kompetensidasar/{id}', [KompetensiDasarController::class, 'showkdmp'])->name('showkdmp');
-            Route::get('/tambahkd', [KompetensiDasarController::class, 'formtambahkd'])->name('tambahkd');
-            Route::post('postTambahKD', [KompetensiDasarController::class, 'store'])->name('postTambahKD');
-            Route::post('postHapusKD', [KompetensiDasarController::class, 'destroy'])->name('postHapusKD');
-            Route::post('ubahkd', [KompetensiDasarController::class, 'edit'])->name('ubahkd');
-            Route::post('/simpan_ubahkd/{id}', [KompetensiDasarController::class, 'update'])->name('simpan_ubahkd');
+            // Route::get('/kompetensidasar', [KompetensiDasarController::class, 'index'])->name('daftarkompetensidasar');
+            // // Route::view('/tambahkd', 'sekolah.admin.tambahkompetensidasar')->name('tambahkd');
+            // Route::get('/kompetensidasar/{id}', [KompetensiDasarController::class, 'showkdmp'])->name('showkdmp');
+            // Route::get('/tambahkd', [KompetensiDasarController::class, 'formtambahkd'])->name('tambahkd');
+            // Route::post('postTambahKD', [KompetensiDasarController::class, 'store'])->name('postTambahKD');
+            // Route::post('postHapusKD', [KompetensiDasarController::class, 'destroy'])->name('postHapusKD');
+            // Route::post('ubahkd', [KompetensiDasarController::class, 'edit'])->name('ubahkd');
+            // Route::post('/simpan_ubahkd/{id}', [KompetensiDasarController::class, 'update'])->name('simpan_ubahkd');
 
             //Keuangan - Jenis Pembayaran
             Route::get('/keuangan/jenispembayaran', [PembayaranController::class, 'index'])->name('daftarJenisPembayaran');
@@ -146,7 +149,7 @@ Route::middleware(['auth'])->group(function () {
             Route::post('postTambahPresensi', [PresensiController::class, 'store'])->name('postAdminTambahPresensi');
             Route::post('postAdminHapusPresensi', [PresensiController::class, 'destroy'])->name('postAdminHapusPresensi');
             Route::get('/presensi/detail/{id}', [PresensiController::class, 'detailpresensi'])->name('detailpresensi');
-            Route::post('listkelas', [PresensiController::class, 'listkelas'])->name('listkelasadmin');
+            // Route::post('listkelas', [PresensiController::class, 'listkelas'])->name('listkelasadmin');
 
             //Hari
             Route::get('/hari', [HariController::class, 'index'])->name('hari');
@@ -154,6 +157,57 @@ Route::middleware(['auth'])->group(function () {
             Route::post('postTambahHari', [HariController::class, 'store'])->name('postTambahHari');
             Route::post('ubahhari', [HariController::class, 'edit'])->name('ubahhari');
             Route::post('/simpan_ubahhari/{id}', [HariController::class, 'update'])->name('simpan_ubahhari');
+
+            // Route::get('/rencana_penilaian', [PenilaianController::class, 'index'])->name('rencana_penilaian_admin');
+            // Route::post('generate_rencana_pengetahuan', [PenilaianController::class, 'generate_rencana_pengetahuan'])->name('generate_rencana_pengetahuan');
+            // Route::post('kirim_rencana', [PenilaianController::class, 'kirim_rencana'])->name('kirim_rencana');
+            // Route::post('kirim_rencana_keterampilan', [PenilaianController::class, 'kirim_rencana_keterampilan'])->name('kirim_rencana_keterampilan');
+            // Route::get('/rencana_penilaian_keterampilan', [PenilaianController::class, 'index_keterampilan'])->name('rencana_penilaian_keterampilan_admin');
+            // Route::post('generate_rencana_keterampilan', [PenilaianController::class, 'generate_rencana_keterampilan'])->name('generate_rencana_keterampilan');
+
+            // Route::post('duplikatrencananilai', [PenilaianController::class, 'duplikatrencananilai'])->name('duplikatrencananilai');
+            // Route::get('/lihatrencana', [PenilaianController::class, 'lihatrencana'])->name('lihatrencana');
+            // Route::get('/lihatrencana_keterampilan', [PenilaianController::class, 'lihatrencana_keterampilan'])->name('lihatrencana_keterampilan');
+            // Route::post('/detail_rencana', [PenilaianController::class, 'detail_rencana'])->name('detail_rencana');
+            // Route::post('/detail_rencana_keterampilan', [PenilaianController::class, 'detail_rencana_keterampilan'])->name('detail_rencana_keterampilan');
+
+            // Route::get('/rencana_bobot', [BobotController::class, 'index'])->name('rencana_bobot');
+            // Route::post('detail_bobot', [BobotController::class, 'detail_bobot'])->name('detail_bobot');
+            // Route::post('input_bobot', [BobotController::class, 'input_bobot'])->name('input_bobot');
+
+            // //Input Pengetahuan
+            // Route::get('/input_pengetahuan', [PenilaianController::class, 'input_pengetahuan'])->name('input_pengetahuan');
+            // Route::post('listpenilaian_pengetahuan', [PenilaianController::class, 'listpenilaian_pengetahuan'])->name('listpenilaian_pengetahuan');
+            // Route::post('kirim_nilai', [PenilaianController::class, 'kirim_nilai'])->name('kirim_nilai');
+            // Route::post('generate_input_nilai', [PenilaianController::class, 'generate_input_nilai'])->name('generate_input_nilai');
+
+            // //Input Keterampilan
+            // Route::get('/input_keterampilan', [PenilaianController::class, 'input_keterampilan'])->name('input_keterampilan');
+            // Route::post('listpenilaian_keterampilan', [PenilaianController::class, 'listpenilaian_keterampilan'])->name('listpenilaian_keterampilan');
+            // Route::post('kirim_nilai', [PenilaianController::class, 'kirim_nilai'])->name('kirim_nilai');
+            // Route::post('generate_input_nilai', [PenilaianController::class, 'generate_input_nilai'])->name('generate_input_nilai');
+
+            // //Pengolahan Nilai-Pengetahuan
+            // Route::get('/olahnilai_pengetahuan', [PengolahanNilaiController::class, 'index_pengetahuan'])->name('olahnilai_pengetahuan');
+            // Route::post('lihat_rincian_pengetahuan', [PengolahanNilaiController::class, 'lihat_rincian_pengetahuan'])->name('lihat_rincian_pengetahuan');
+
+            // //Pengolahan Nilai-Keterampilan
+            // Route::get('/olahnilai_keterampilan', [PengolahanNilaiController::class, 'index_keterampilan'])->name('olahnilai_keterampilan');
+            // Route::post('lihat_rincian_keterampilan', [PengolahanNilaiController::class, 'lihat_rincian_keterampilan'])->name('lihat_rincian_keterampilan');
+        });
+    });
+    Route::middleware(['adminguru'])->group(function () {
+        Route::prefix('sekolah')->group(function () {
+            Route::post('listkelas', [PresensiController::class, 'listkelas'])->name('listkelasadmin');
+
+            Route::get('/kompetensidasar', [KompetensiDasarController::class, 'index'])->name('daftarkompetensidasar');
+            // Route::view('/tambahkd', 'sekolah.admin.tambahkompetensidasar')->name('tambahkd');
+            Route::get('/kompetensidasar/{id}', [KompetensiDasarController::class, 'showkdmp'])->name('showkdmp');
+            Route::get('/tambahkd', [KompetensiDasarController::class, 'formtambahkd'])->name('tambahkd');
+            Route::post('postTambahKD', [KompetensiDasarController::class, 'store'])->name('postTambahKD');
+            Route::post('postHapusKD', [KompetensiDasarController::class, 'destroy'])->name('postHapusKD');
+            Route::post('ubahkd', [KompetensiDasarController::class, 'edit'])->name('ubahkd');
+            Route::post('/simpan_ubahkd/{id}', [KompetensiDasarController::class, 'update'])->name('simpan_ubahkd');
 
             Route::get('/rencana_penilaian', [PenilaianController::class, 'index'])->name('rencana_penilaian_admin');
             Route::post('generate_rencana_pengetahuan', [PenilaianController::class, 'generate_rencana_pengetahuan'])->name('generate_rencana_pengetahuan');
@@ -186,12 +240,14 @@ Route::middleware(['auth'])->group(function () {
 
             //Pengolahan Nilai-Pengetahuan
             Route::get('/olahnilai_pengetahuan', [PengolahanNilaiController::class, 'index_pengetahuan'])->name('olahnilai_pengetahuan');
+            Route::post('lihat_rincian_pengetahuan', [PengolahanNilaiController::class, 'lihat_rincian_pengetahuan'])->name('lihat_rincian_pengetahuan');
+            Route::post('lihat_rapor_pengetahuan', [PengolahanNilaiController::class, 'lihat_rapor_pengetahuan'])->name('lihat_rapor_pengetahuan');
 
             //Pengolahan Nilai-Keterampilan
             Route::get('/olahnilai_keterampilan', [PengolahanNilaiController::class, 'index_keterampilan'])->name('olahnilai_keterampilan');
+            Route::post('lihat_rincian_keterampilan', [PengolahanNilaiController::class, 'lihat_rincian_keterampilan'])->name('lihat_rincian_keterampilan');
         });
     });
-
     Route::post('getdetailsiswa', [SiswaController::class, 'getdetailsiswa'])->name('getdetailsiswa');
     //Route Untuk sekolah sebagai Guru
     Route::middleware(['guru'])->group(function () {

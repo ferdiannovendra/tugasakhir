@@ -7,6 +7,7 @@ use App\Models\KompetensiDasar;
 use Illuminate\Support\Facades\DB;
 use Carbon\Carbon;
 use App\Models\MataPelajaran;
+use Auth;
 
 class KompetensiDasarController extends Controller
 {
@@ -19,9 +20,22 @@ class KompetensiDasarController extends Controller
     {
         $data = KompetensiDasar::all();
         $dataMP = MataPelajaran::all();
-        $dataGuru = DB::table('users')->where('status','guru')->get();
 
-        return view('sekolah.admin.kompetensidasar.daftarkompetensidasar',["data"=>$data,"dataMP"=>$dataMP,"dataGuru"=>$dataGuru]);
+        if (Auth::user()->status == "admin") {
+            $data = KompetensiDasar::all();
+            $dataMP = MataPelajaran::all();
+        } else {
+            $data = array();
+            $dataMP = MataPelajaran::where('guru_pengajar', Auth::user()->id)->get();
+
+            foreach ($dataMP as $dt) {
+                foreach ($dt->kompetensidasar as $d) {
+                    $data[]=$d;
+                }
+            }
+
+        }
+        return view('sekolah.admin.kompetensidasar.daftarkompetensidasar',["data"=>$data,"dataMP"=>$dataMP]);
     }
 
     /**

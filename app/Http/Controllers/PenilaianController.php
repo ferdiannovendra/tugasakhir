@@ -120,9 +120,8 @@ class PenilaianController extends Controller
             for ($j=0; $j < count($p); $j++) {
                 $penilaian->kompetensidasar()->attach([$p[$j]]);
             }
-            return redirect()->back()->with('status','Berhasil Membuat Rencana Keterampilan!');
-
         }
+        return redirect()->back()->with('status','Berhasil Membuat Rencana Keterampilan!');
     }
 
     public function duplikatrencananilai(Request $request)

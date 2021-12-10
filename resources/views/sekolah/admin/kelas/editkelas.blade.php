@@ -16,7 +16,7 @@
                 <select name="wali_kelas" class="form-select" id="wali_kelas">
                     @if(isset($dataGuru))
                         @foreach($dataGuru as $guru)
-                        <option value="{{ $guru->id }}">{{ $guru->name }}</option>
+                        <option value="{{ $guru->id }}" @if($guru->id == $kelas->wali_kelas) selected @endif>{{ $guru->name }}</option>
                         @endforeach
                     @else
                     <option value="-" disabled>Tidak ada data Guru</option>
@@ -32,15 +32,8 @@
                 <select name="semester" class="form-select" id="semester">
                     @if(isset($dataSemester))
                         @foreach($dataSemester as $semester)
-                        <?php $selected="" ?>
-                        @if($semester->idsemester == $kelas->semester_idsemester)
-                        @php
-                        $selected == "selected";
-                        @endphp
-                        @endif
-                        <option value="{{ $semester->idsemester }}" <?php echo $selected;?>>{{ $semester->nama_semester }} - {{ $semester->tahun_ajaran }}</option>
-                        @endforeach
-                    @else
+                            <option value="{{ $semester->idsemester }}"  @if($semester->idsemester == $kelas->idsemester) selected @endif>{{ $semester->nama_semester }} - {{ $semester->tahun_ajaran }}</option>
+                        @else
                     <option value="-" disabled>Tidak ada data semester</option>
                     @endif
 

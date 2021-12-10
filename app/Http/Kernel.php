@@ -64,6 +64,7 @@ class Kernel extends HttpKernel
         'siswa' => \App\Http\Middleware\SiswaSekolahRole::class,
         'admin' => \App\Http\Middleware\AdminSekolahRole::class,
         'guru' => \App\Http\Middleware\GuruSekolahRole::class,
+        'adminguru' => \App\Http\Middleware\AdminGuruSekolah::class,
         'auth.basic' => \Illuminate\Auth\Middleware\AuthenticateWithBasicAuth::class,
         'cache.headers' => \Illuminate\Http\Middleware\SetCacheHeaders::class,
         'can' => \Illuminate\Auth\Middleware\Authorize::class,
