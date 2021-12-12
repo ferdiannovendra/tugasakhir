@@ -1,7 +1,7 @@
 @extends('layoutsadmin.adminsekolah')
 
 @section('title')
-Lihat Rencana Nilai Pengetahuan
+Lihat Pengolahan Nilai Pengetahuan
 @endsection
 
 @section('style')

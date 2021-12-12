@@ -3,18 +3,18 @@
         <tr style="border:1px solid black">
             <th style="text-align:center;border:1px solid black; background-color:#F0DD41;" rowspan="3">No</th>
             <th style="text-align:center;border:1px solid black; background-color:#F0DD41;" rowspan="3">Nama Siswa</th>
-            <th style="text-align:center;border:1px solid black; background-color:#F0DD41;" colspan="{{$counter}}">Nilai Pengetahuan</th>
+            <th style="text-align:center;border:1px solid black; background-color:#F0DD41;" colspan="{{$counter}}">Nilai</th>
         </tr>
+
         <tr>
             @foreach($data as $d)
-            <td style="text-align:center;border:1px solid black; background-color:#6CD98A;" colspan="{{$d->penilaian()->count()}}">{{$d->kode_kd}}</td>
+            <td style="text-align:center;border:1px solid black; background-color:#6CD98A;" colspan="{{$d->penilaian()->where('idclass', $kelas)->where('idmata_pelajaran', $mp)->count()}}">{{$d->kode_kd}}</td>
             @endforeach
         </tr>
         <tr>
             @foreach ($data as $d)
-                @foreach ($d->penilaian()->get() as $p)
+                @foreach ($d->penilaian()->where('idclass', $kelas)->where('idmata_pelajaran', $mp)->get() as $p)
                     <td style="text-align:center;border:1px solid black;background-color:#f0be84;">{{$p->nama}} <br><b>({{$p->bobot}})</b></td>
-
                 @endforeach
             @endforeach
         </tr>

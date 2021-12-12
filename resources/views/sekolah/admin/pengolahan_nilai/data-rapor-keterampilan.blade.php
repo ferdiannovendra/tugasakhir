@@ -3,7 +3,7 @@
         <tr style="border:1px solid black">
             <th style="text-align:center;border:1px solid black; background-color:#F0DD41;" rowspan="3">No</th>
             <th style="text-align:center;border:1px solid black; background-color:#F0DD41;" rowspan="3">Nama Siswa</th>
-            <th style="text-align:center;border:1px solid black; background-color:#F0DD41;" colspan="{{$counter}}">Nilai Pengetahuan</th>
+            <th style="text-align:center;border:1px solid black; background-color:#F0DD41;" colspan="{{$counter}}">Nilai Keterampilan</th>
             <th style="text-align:center;border:1px solid black; background-color:#F0DD41;" rowspan="3">Nilai Rapor</th>
         </tr>
         <tr>

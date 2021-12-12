@@ -20,25 +20,6 @@ Daftar Kelas
         @endif
     </div>
     <div class="col-md-12">
-        <div class="col-xl-4 col-lg-12 col-md-12">
-            <div class="row g-3 row-deck">
-                <div class="col-md-6 col-lg-6 col-xl-12">
-                    <div class="card bg-primary">
-                        <div class="card-body row">
-                            <div class="col">
-                                <span class="avatar lg bg-white rounded-circle text-center d-flex align-items-center justify-content-center"><i class="icofont-file-text fs-5"></i></span>
-                                <h1 class="mt-3 mb-0 fw-bold text-white">{{ $count }}</h1>
-                                <span class="text-white">Jumlah Mata Pelajaran {{ $kelas->name_class }}</span>
-                            </div>
-                            <div class="col">
-                                <img class="img-fluid" src="{{ asset('assets/images/interview.svg') }}" alt="interview">
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <br>
         <div class="card mb-3">
             <div class="card-header mt-2 py-3 d-flex justify-content-between bg-transparent border-bottom-0">
                 <h6 class="mb-0 fw-bold ">Daftar Mata Pelajaran</h6>
@@ -79,24 +60,6 @@ Daftar Kelas
     </div>
 </div><!-- Row end  -->
 
-<div class="modal fade" id="ubahmodal" tabindex="-1" aria-labelledby="ubahmodal" style="display: none;" aria-hidden="true">
-    <div class="modal-dialog modal-xl">
-        <div class="modal-content" id="modalcontent">
-            <div class="modal-header">
-                <h5 class="modal-title h4">Ubah Mata Pelajaran</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body">
-                <div class="row justify-content-center">
-                    <div class="spinner-border text-primary" role="status">
-                        <span class="visually-hidden">Loading...</span>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
-
 @endsection
 @section('script')
 <!-- Plugin Js-->
@@ -112,32 +75,5 @@ Daftar Kelas
 
    });
 
-</script>
-<script>
-function getDetail(id) {
-    $('#modalcontent').html(`
-    <div class="modal-header">
-        <h5 class="modal-title h4">Ubah Mata Pelajaran</h5>
-        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-    </div>
-    <div class='modal-body'>
-        <div class='row justify-content-center'>
-            <div class="spinner-border text-primary" role="status">
-                <span class="visually-hidden">Loading...</span>
-            </div>
-        </div>
-</div>`)
-    $.ajax({
-            type: 'POST',
-            url: '{{route("ubahMP")}}',
-            data: {
-                '_token': '<?php echo csrf_token() ?>',
-                'id': id
-            },
-            success: function(data) {
-                $('#modalcontent').html(data.msg)
-            }
-        });
-    }
 </script>
 @endsection

@@ -29,15 +29,25 @@ Daftar Siswa
                 <h6 class="mb-0 fw-bold ">Daftar Siswa</h6>
             </div>
             <div class="card-body">
-                <h5>
-                <span class="badge bg-primary">Jumlah Siswa : {{$countsiswa}}</span>
-                </h5>
-                <h5>
-                <span class="badge bg-success">Siswa Hadir : {{$countHadir}}</span>
-                </h5>
-                <h5>
-                <span class="badge bg-danger">Siswa Tidak Hadir : {{$countTidakHadir}}</span>
-                </h5>
+                <div class="row justify-content-between">
+                    <div class="col-6">
+                        <h5>
+                        <span class="badge bg-primary">Jumlah Siswa : {{$countsiswa}}</span>
+                        </h5>
+                        <h5>
+                        <span class="badge bg-success">Siswa Hadir : {{$countHadir}}</span>
+                        </h5>
+                        <h5>
+                        <span class="badge bg-danger">Siswa Tidak Hadir : {{$countTidakHadir}}</span>
+                        </h5>
+                    </div>
+                    <div class="col-6">
+                        <h5>
+                        <span class="badge bg-primary">Mata Pelajaran {{$countsiswa}}</span>
+                        </h5>
+                    </div>
+                </div>
+
                 <br>
                 <!-- <p><b>Siswa Hadir :</b></p>
                 <p><b>Siswa Tidak Hadir &emsp;:</b></p> -->

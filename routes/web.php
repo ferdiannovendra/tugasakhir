@@ -246,6 +246,9 @@ Route::middleware(['auth'])->group(function () {
             //Pengolahan Nilai-Keterampilan
             Route::get('/olahnilai_keterampilan', [PengolahanNilaiController::class, 'index_keterampilan'])->name('olahnilai_keterampilan');
             Route::post('lihat_rincian_keterampilan', [PengolahanNilaiController::class, 'lihat_rincian_keterampilan'])->name('lihat_rincian_keterampilan');
+
+            Route::get('/lihatnilai-akhir', [PengolahanNilaiController::class, 'index_keterampilan'])->name('olahnilai_keterampilan');
+
         });
     });
     Route::post('getdetailsiswa', [SiswaController::class, 'getdetailsiswa'])->name('getdetailsiswa');
@@ -273,6 +276,7 @@ Route::middleware(['auth'])->group(function () {
             Route::get('/presensi', [PresensiController::class, 'siswa_listpresensi'])->name('presensi.siswa');
             Route::post('isipresensi', [PresensiController::class, 'isipresensi'])->name('isipresensi');
 
+            Route::get('/lihatnilai', [PenilaianController::class, 'lihatnilai'])->name('lihatnilai.siswa');
         });
     });
 });

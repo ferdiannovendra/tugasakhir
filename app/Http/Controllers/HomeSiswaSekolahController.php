@@ -31,9 +31,10 @@ class HomeSiswaSekolahController extends Controller
             ->where('idclass_list',$kelas->idclass_list)
             ->orderBy('hari_id', 'asc')
             ->orderBy('jam_mulai','asc')->get();
+
             $count = DB::table('jadwal_kelas')->join('mata_pelajaran','idmatapelajaran','idmata_pelajaran')
-            ->where('idclass_list',$kelas->idclass_list)->groupBy('idmatapelajaran')->count();
-            // dd($data);
+            ->select('idclass_list','idmatapelajaran')->where('idclass_list',$kelas->idclass_list)->groupBy('idclass_list','idmatapelajaran')->get()->count();
+            // dd($count);
             return view('sekolah.siswa.index',compact('count','data','kelas','cekSemester'));
         }else{
             return view('sekolah.siswa.pending');

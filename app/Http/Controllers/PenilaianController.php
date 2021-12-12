@@ -9,6 +9,8 @@ use App\Models\Semester;
 use App\Models\Penilaian;
 use App\Models\KompetensiDasar;
 use Illuminate\Support\Facades\DB;
+use Carbon\Carbon;
+use Auth;
 
 class PenilaianController extends Controller
 {
@@ -241,13 +243,20 @@ class PenilaianController extends Controller
     }
     public function detail_rencana(Request $request)
     {
+        $kelas = 0;
+        $mp = 0;
+
         $kelas = $request->idclass;
         $mp = $request->idmp;
         // $kelas = 1;
         // $mp = 1;
-        $data = KompetensiDasar::whereHas('penilaian',function($q) use($mp,$kelas) {
+        // dd($kelas." ".$mp);
+        $data = KompetensiDasar::whereHas('penilaian',function($q) use ($kelas, $mp) {
             $q->where('idmata_pelajaran',$mp)->where('idclass', $kelas)->where('jenispenilaian', "Pengetahuan");
+
         })->get();
+        // dd(count($data));
+        // dd($data[0]->penilaian()->where('idclass', $kelas)->where('idmata_pelajaran', $mp)->get());
         // dd($data);
         // $data = DB::table('penilaian_has_kompetensi_dasar')->join('kompetensi_dasar','penilaian_has_kompetensi_dasar.idkompetensi_dasar','kompetensi_dasar.idkompetensi_dasar')->get();
         // $kd = Penilaian::where('idclass', $kelas)->where('idmata_pelajaran',$mp)->get();
@@ -256,7 +265,7 @@ class PenilaianController extends Controller
         // $nilai = DB::table('nilai_per_penilaian')->where('penilaian_idpenilaian',$idpenilaian)->get();
         return response()->json(array(
             'status'=>'oke',
-            'msg'=>view('sekolah.admin.rencana_penilaian.detail_rencana',compact('data'))->render()
+            'msg'=>view('sekolah.admin.rencana_penilaian.detail_rencana',compact('data','kelas','mp'))->render()
         ),200);
 
     }
@@ -264,21 +273,42 @@ class PenilaianController extends Controller
     {
         $kelas = $request->idclass;
         $mp = $request->idmp;
-        // $kelas = 1;
+        // $kelas = 2;
         // $mp = 1;
+
         $data = KompetensiDasar::whereHas('penilaian',function($q) use($mp,$kelas) {
             $q->where('idmata_pelajaran',$mp)->where('idclass', $kelas)->where('jenispenilaian', "Keterampilan");
         })->get();
-        // dd($data);
-        // $data = DB::table('penilaian_has_kompetensi_dasar')->join('kompetensi_dasar','penilaian_has_kompetensi_dasar.idkompetensi_dasar','kompetensi_dasar.idkompetensi_dasar')->get();
-        // $kd = Penilaian::where('idclass', $kelas)->where('idmata_pelajaran',$mp)->get();
-        // dd($kd);
-        // $getSiswa = DB::table('siswa_di_kelas')->where('classlist_idclass',$kelas)->join('users','users_idusers','id')->get();
-        // $nilai = DB::table('nilai_per_penilaian')->where('penilaian_idpenilaian',$idpenilaian)->get();
+
         return response()->json(array(
             'status'=>'oke',
-            'msg'=>view('sekolah.admin.rencana_penilaian.detail_rencana',compact('data'))->render()
+            'msg'=>view('sekolah.admin.rencana_penilaian.detail_rencana',compact('data','kelas','mp'))->render()
         ),200);
 
+    }
+
+    // ================== UNTUK SISWA ==================
+    public function lihatnilai()
+    {
+        $now = Carbon::now();
+        $hariIni = date('Y-m-d',strtotime($now));
+        $cekSemester = Semester::where('start_date','<=',$hariIni)
+        ->where('end_date','>=',$hariIni)
+        ->first();
+        if(isset($cekSemester)){
+            $iduser = Auth::user()->id;
+
+            $kelas = DB::table('siswa_di_kelas')->join('class_list','classlist_idclass','idclass_list')
+            ->where('siswa_di_kelas.semester_idsemester',$cekSemester->idsemester)
+            ->where('siswa_di_kelas.users_idusers',$iduser)
+            ->first();
+
+            $count = DB::table('jadwal_kelas')->join('mata_pelajaran','idmatapelajaran','idmata_pelajaran')
+            ->select('idclass_list','idmatapelajaran')->where('idclass_list',$kelas->idclass_list)->groupBy('idclass_list','idmatapelajaran')->get();
+            dd($count);
+            return view('sekolah.siswa.nilai.index',compact('data'));
+        }else{
+            return view('sekolah.siswa.pending');
+        }
     }
 }
