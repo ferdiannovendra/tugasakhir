@@ -97,7 +97,7 @@
             <li><a class="ms-link" href="{{ route('olahnilai_keterampilan') }}"><span>Nilai Keterampilan</span></a></li>
         </ul>
     </li>
-    <li><a class="m-link" href="{{ route('presensi.admin') }}"><i class="icofont-ui-home"></i><span>Nilai Akhir</span></a></li>
+    <li><a class="m-link" href="{{ route('lihatnilai-akhir') }}"><i class="icofont-ui-home"></i><span>Nilai Akhir</span></a></li>
 
     <!-- ================ Data Website ======================== -->
     <li class="collapsed">

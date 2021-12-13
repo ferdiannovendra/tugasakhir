@@ -303,10 +303,12 @@ class PenilaianController extends Controller
             ->where('siswa_di_kelas.users_idusers',$iduser)
             ->first();
 
-            $count = DB::table('jadwal_kelas')->join('mata_pelajaran','idmatapelajaran','idmata_pelajaran')
-            ->select('idclass_list','idmatapelajaran')->where('idclass_list',$kelas->idclass_list)->groupBy('idclass_list','idmatapelajaran')->get();
-            dd($count);
-            return view('sekolah.siswa.nilai.index',compact('data'));
+            $da = DB::table('nilai_akhir')->join('mata_pelajaran','nilai_akhir.idmata_pelajaran','mata_pelajaran.idmata_pelajaran')->join('users','users_id','id')->where('nilai_akhir.users_id',$iduser)->get();
+            // dd($da[0]->nilai_pengetahuan);
+            $data = DB::table('jadwal_kelas')->join('mata_pelajaran','idmatapelajaran','idmata_pelajaran')
+            ->select('idclass_list','idmatapelajaran','nama_mp')->where('idclass_list',$kelas->idclass_list)->groupBy('idclass_list','idmatapelajaran','nama_mp')->get();
+            // dd($count);
+            return view('sekolah.siswa.nilai.index',compact('data','cekSemester','da'));
         }else{
             return view('sekolah.siswa.pending');
         }

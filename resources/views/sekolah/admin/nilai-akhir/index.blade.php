@@ -53,7 +53,6 @@ Lihat Nilai Akhir
                 </select>
                 <br>
                 <button type="button" id="btnLihatRincian" class="btn btn-primary" >Lihat Rincian Nilai Siswa</button>
-                <button type="button" id="btnLihatRapor" class="btn btn-primary" >Lihat Nilai Rapor</button>
 
                 <br>
                 <hr>
@@ -132,23 +131,7 @@ $('#btnLihatRincian').on('click', function(e) {
         var id_class = $('#class_select2').val();
         $.ajax({
             type: "POST",
-            url: "{{ route('lihat_rincian_pengetahuan') }}",
-            data: {
-                '_token': '<?php echo csrf_token() ?>',
-                'idmp': id_mp,
-                'idclass': id_class
-            },
-            success: function(data) {
-                $('#tabeldata').html(data.msg);
-            }
-        })
-    });
-$('#btnLihatRapor').on('click', function(e) {
-        var id_mp = $('#matapelajaran2').val();
-        var id_class = $('#class_select2').val();
-        $.ajax({
-            type: "POST",
-            url: "{{ route('lihat_rapor_pengetahuan') }}",
+            url: "{{ route('nilai_akhir') }}",
             data: {
                 '_token': '<?php echo csrf_token() ?>',
                 'idmp': id_mp,

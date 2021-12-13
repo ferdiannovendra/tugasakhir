@@ -242,12 +242,16 @@ Route::middleware(['auth'])->group(function () {
             Route::get('/olahnilai_pengetahuan', [PengolahanNilaiController::class, 'index_pengetahuan'])->name('olahnilai_pengetahuan');
             Route::post('lihat_rincian_pengetahuan', [PengolahanNilaiController::class, 'lihat_rincian_pengetahuan'])->name('lihat_rincian_pengetahuan');
             Route::post('lihat_rapor_pengetahuan', [PengolahanNilaiController::class, 'lihat_rapor_pengetahuan'])->name('lihat_rapor_pengetahuan');
+            Route::post('kirimnilai_pengetahuan', [PengolahanNilaiController::class, 'kirimnilai_pengetahuan'])->name('kirimnilai_pengetahuan');
 
             //Pengolahan Nilai-Keterampilan
             Route::get('/olahnilai_keterampilan', [PengolahanNilaiController::class, 'index_keterampilan'])->name('olahnilai_keterampilan');
             Route::post('lihat_rincian_keterampilan', [PengolahanNilaiController::class, 'lihat_rincian_keterampilan'])->name('lihat_rincian_keterampilan');
+            Route::post('lihat_rapor_keterampilan', [PengolahanNilaiController::class, 'lihat_rapor_keterampilan'])->name('lihat_rapor_keterampilan');
+            Route::post('kirimnilai_keterampilan', [PengolahanNilaiController::class, 'kirimnilai_keterampilan'])->name('kirimnilai_keterampilan');
 
-            Route::get('/lihatnilai-akhir', [PengolahanNilaiController::class, 'index_keterampilan'])->name('olahnilai_keterampilan');
+            Route::get('/lihatnilai-akhir', [PengolahanNilaiController::class, 'lihatnilaiakhir'])->name('lihatnilai-akhir');
+            Route::post('nilai_akhir', [PengolahanNilaiController::class, 'nilai_akhir'])->name('nilai_akhir');
 
         });
     });
@@ -272,7 +276,7 @@ Route::middleware(['auth'])->group(function () {
     //Route Untuk sekolah sebagai Siswa
     Route::middleware(['siswa'])->group(function () {
         Route::prefix('sekolah/siswa')->group(function () {
-            Route::get('/home', [HomeSiswaSekolahController::class, 'index'])->name('');
+            Route::get('/home', [HomeSiswaSekolahController::class, 'index'])->name('homesiswa');
             Route::get('/presensi', [PresensiController::class, 'siswa_listpresensi'])->name('presensi.siswa');
             Route::post('isipresensi', [PresensiController::class, 'isipresensi'])->name('isipresensi');
 

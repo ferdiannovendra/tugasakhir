@@ -1,3 +1,6 @@
+<form action="{{route('kirimnilai_pengetahuan')}}" method="post">
+    @csrf
+    <input type="hidden" name="matapelajaran" value="{{$mp}}">
 <table class="table" style="border:1px solid black">
     <thead>
         <tr style="border:1px solid black">
@@ -29,6 +32,7 @@
             <tr>
                 <td style="text-align:center;border:1px solid black">{{$loop->iteration}}</td>
                 <td style="text-align:center;border:1px solid black">{{$ns[0]->name}} {{$ns[0]->lname}}</td>
+                <input type="hidden" name="idsiswa[]" value="{{{$ns[0]->id}}}">
                 <?php $color=""?>
                 @for ($i = 0; $i < count($ns[1]); $i++)
                     @if ($ns[1][$i]->nilai == 0)
@@ -49,12 +53,13 @@
                     <td style="text-align:center;border:1px solid black;background-color:{{$color}};">{{$ns[1][$i]->nilai}}</td>
                     <?php $color=""?>
                 @endfor
-                <td style="text-align:center;border:1px solid black;background-color:rgb(167, 255, 109)">
+                <td style="width:10%;text-align:center;border:1px solid black;background-color:rgb(167, 255, 109)">
                     <?php
                         $hph = $totalNilai / $totalBobot;
                         $nilai_rapor = (($hph * $totalBobot) + $totalNilaiUjian) / ($totalBobot + $totalBobotUjian);
-                        echo $nilai_rapor;
-                    ?>
+                        echo round($nilai_rapor);
+                        ?>
+                        <input type="hidden"  class="form-control" name="nilai[]" id="" value="{{$nilai_rapor}}">
                     <?php $hph =0;?>
                     <?php $totalBobot =0;?>
                     <?php $totalNilai =0;?>
@@ -64,3 +69,6 @@
         @endforeach
     </tbody>
 </table>
+<button type="submit" class="btn btn-primary" >Kirim</button>
+
+</form>

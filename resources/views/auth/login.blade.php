@@ -34,7 +34,7 @@
                                 </svg>
                             </div>
                             <div class="mb-5">
-                                <h2 class="color-900 text-center">My-Task Let's Management Better</h2>
+                                <h2 class="color-900 text-center">Sistem Informasi Akademik - Software as a Service</h2>
                             </div>
                             <!-- Image block -->
                             <div class="">
@@ -49,7 +49,7 @@
                             @csrf
                                 <div class="col-12 text-center mb-1 mb-lg-5">
                                     <h1>Sign in</h1>
-                                    <span>Free access to our dashboard.</span>
+                                    {{-- <span>Free access to our dashboard.</span> --}}
                                 </div>
 
                                 <div class="col-12">
@@ -63,7 +63,7 @@
                                         <div class="form-label">
                                             <span class="d-flex justify-content-between align-items-center">
                                                 Password
-                                                <a class="text-secondary" href="auth-password-reset.html">Forgot Password?</a>
+                                                {{-- <a class="text-secondary" href="auth-password-reset.html">Forgot Password?</a> --}}
                                             </span>
                                         </div>
                                         <input type="password" name="password" required class="form-control form-control-lg" placeholder="***************">
@@ -82,7 +82,7 @@
                                     <!-- <a href="index.html" class="btn btn-lg btn-block btn-light lift text-uppercase" atl="signin">SIGN IN</a> -->
                                 </div>
                                 <div class="col-12 text-center mt-4">
-                                    <span class="text-muted">Don't have an account yet? <a href="auth-signup.html" class="text-secondary">Sign up here</a></span>
+                                    {{-- <span class="text-muted">Don't have an account yet? <a href="auth-signup.html" class="text-secondary">Sign up here</a></span> --}}
                                 </div>
                             </form>
                             <!-- End Form -->

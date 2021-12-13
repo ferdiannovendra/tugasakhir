@@ -148,7 +148,7 @@ $('#btnLihatRapor').on('click', function(e) {
         var id_class = $('#class_select2').val();
         $.ajax({
             type: "POST",
-            url: "{{ route('detail_rencana') }}",
+            url: "{{ route('lihat_rapor_keterampilan') }}",
             data: {
                 '_token': '<?php echo csrf_token() ?>',
                 'idmp': id_mp,

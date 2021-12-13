@@ -33,23 +33,27 @@ Daftar Kelas
                     <table id="patient-table" class="table table-hover align-middle mb-0" style="width: 100%;">
                         <thead>
                         <tr>
-                            <th scope="col">Hari</th>
                             <th scope="col">ID</th>
                             <th scope="col">Nama Mata Pelajaran</th>
-                            <th scope="col">Jam Mulai</th>
-                            <th scope="col">Jam Akhir</th>
-                            <th scope="col">Status</th>
+                            <th scope="col">Nilai Akhir Pengetahuan</th>
+                            <th scope="col">Nilai Akhir Keterampilan</th>
+                            <th scope="col">Nilai Akhir</th>
                         </tr>
                         </thead>
                         <tbody>
                         @foreach($data as $d)
                         <tr>
-                            <th>{{ $d->nama }}</th>
-                            <td>{{ $d->idmata_pelajaran }}</td>
+                            <th>{{ $d->idmatapelajaran }}</th>
                             <td>{{ $d->nama_mp }}</td>
-                            <td>{{ $d->jam_mulai }}</td>
-                            <td>{{ $d->jam_akhir }}</td>
-                            <td>{{ $d->status }}</td>
+                            @foreach ($da as $das)
+                            @if ($das->idmata_pelajaran == $d->idmatapelajaran)
+                            <td>{{ $das->nilai_pengetahuan }}</td>
+                            <td>{{ $das->nilai_keterampilan }}</td>
+
+                            @else
+
+                            @endif
+                            @endforeach
                         </tr>
                         @endforeach
                         </tbody>
