@@ -117,7 +117,7 @@ class SuperAdminController extends Controller
     public function generateDB(Request $request)
     {
         $tenant = Tenant::find($request->id);
-        $newSchema = 'tenancy'.$tenant->name;
+        $newSchema = 'tenancy'.$tenant->database;
         $sql = "create database ".$newSchema;
         $result = DB::statement($sql);
         // url('/uploads/images/'.$mostafid->imageM);

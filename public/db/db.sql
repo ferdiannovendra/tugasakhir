@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Nov 18, 2021 at 12:48 PM
+-- Generation Time: Dec 13, 2021 at 06:20 PM
 -- Server version: 10.1.36-MariaDB
 -- PHP Version: 7.2.11
 
@@ -19,8 +19,28 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8mb4 */;
 
 --
--- Database: `tenancy_sinlui`
+-- Database: `tenancysinlui`
 --
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `bobot_nilai_akhir`
+--
+
+CREATE TABLE `bobot_nilai_akhir` (
+  `idmata_pelajaran` int(11) NOT NULL,
+  `idclass_list` int(11) NOT NULL,
+  `bobot_pengetahuan` int(11) NOT NULL,
+  `bobot_keterampilan` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Dumping data for table `bobot_nilai_akhir`
+--
+
+INSERT INTO `bobot_nilai_akhir` (`idmata_pelajaran`, `idclass_list`, `bobot_pengetahuan`, `bobot_keterampilan`) VALUES
+(1, 1, 70, 40);
 
 -- --------------------------------------------------------
 
@@ -44,7 +64,8 @@ CREATE TABLE `class_list` (
 --
 
 INSERT INTO `class_list` (`idclass_list`, `name_class`, `status`, `created_at`, `updated_at`, `wali_kelas`, `jurusan_idjurusan`, `semester_idsemester`) VALUES
-(1, 'X-TKJ12', 'Aktif', '2021-10-27 06:55:39', '2021-11-12 15:05:55', 5, 4, 1);
+(1, 'X-TKJ12', 'Aktif', '2021-10-26 23:55:39', '2021-11-12 08:05:55', 5, 4, 1),
+(2, 'X-TPM1', 'Aktif', '2021-11-29 03:28:15', '2021-12-03 06:51:44', 6, 4, 1);
 
 -- --------------------------------------------------------
 
@@ -62,8 +83,21 @@ CREATE TABLE `detail_siswa` (
   `sekolah_asal` varchar(85) DEFAULT NULL,
   `kelas_masuk` varchar(5) DEFAULT NULL,
   `jurusan` varchar(45) DEFAULT NULL,
-  `jurusan_idjurusan` int(11) NOT NULL
+  `jurusan_idjurusan` int(11) DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL,
+  `created_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='	';
+
+--
+-- Dumping data for table `detail_siswa`
+--
+
+INSERT INTO `detail_siswa` (`iddetail_siswa`, `idusers`, `nis`, `nisn`, `status_dalam_keluarga`, `anak_ke`, `sekolah_asal`, `kelas_masuk`, `jurusan`, `jurusan_idjurusan`, `updated_at`, `created_at`) VALUES
+(2, 2, '789', '901', NULL, NULL, NULL, NULL, NULL, 4, NULL, NULL),
+(3, 3, '12', '31', NULL, NULL, NULL, NULL, NULL, 4, NULL, NULL),
+(4, 4, '5213', '1233', NULL, NULL, NULL, NULL, NULL, 4, NULL, NULL),
+(5, 9, '123123123', '542132', 'kandung', 1, 'IPH', '10', NULL, NULL, '2021-12-10 20:31:22', '2021-12-10 20:31:22'),
+(6, 10, '321321321', '242145', 'kandung', 3, 'Sinlui', '10', NULL, NULL, '2021-12-10 20:31:22', '2021-12-10 20:31:22');
 
 -- --------------------------------------------------------
 
@@ -73,13 +107,36 @@ CREATE TABLE `detail_siswa` (
 
 CREATE TABLE `failed_jobs` (
   `id` bigint(20) UNSIGNED NOT NULL,
-  `uuid` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `connection` text COLLATE utf8mb4_unicode_ci NOT NULL,
-  `queue` text COLLATE utf8mb4_unicode_ci NOT NULL,
-  `payload` longtext COLLATE utf8mb4_unicode_ci NOT NULL,
-  `exception` longtext COLLATE utf8mb4_unicode_ci NOT NULL,
+  `uuid` varchar(191) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  `connection` text CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  `queue` text CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  `payload` longtext CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  `exception` longtext CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
   `failed_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `hari`
+--
+
+CREATE TABLE `hari` (
+  `id` int(11) NOT NULL,
+  `nama` varchar(45) DEFAULT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `hari`
+--
+
+INSERT INTO `hari` (`id`, `nama`, `created_at`, `updated_at`) VALUES
+(1, 'Senin', '2021-11-28 10:43:55', '2021-11-28 10:43:55'),
+(2, 'Selasa', '2021-11-28 10:44:05', '2021-11-28 10:52:41'),
+(3, 'Rabu', NULL, NULL),
+(4, 'Kamis', NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -88,13 +145,24 @@ CREATE TABLE `failed_jobs` (
 --
 
 CREATE TABLE `jadwal_kelas` (
-  `class_list_idclass_list` int(11) NOT NULL,
-  `class_list_wali_kelas` int(11) NOT NULL,
-  `mata_pelajaran_idmatapelajaran` int(11) NOT NULL,
-  `hari` varchar(45) DEFAULT NULL,
+  `idclass_list` int(11) NOT NULL,
+  `idmatapelajaran` int(11) NOT NULL,
+  `hari_id` int(11) NOT NULL,
   `jam_mulai` time DEFAULT NULL,
   `jam_akhir` time DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Dumping data for table `jadwal_kelas`
+--
+
+INSERT INTO `jadwal_kelas` (`idclass_list`, `idmatapelajaran`, `hari_id`, `jam_mulai`, `jam_akhir`) VALUES
+(1, 1, 1, '00:37:00', '01:37:00'),
+(1, 1, 2, '00:37:00', '02:38:00'),
+(1, 1, 4, '15:28:00', '15:28:00'),
+(1, 2, 1, '05:00:00', '06:00:00'),
+(2, 1, 1, '13:49:00', '14:49:00'),
+(2, 2, 1, '13:49:00', '14:49:00');
 
 -- --------------------------------------------------------
 
@@ -108,14 +176,6 @@ CREATE TABLE `jenis_pembayaran` (
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
---
--- Dumping data for table `jenis_pembayaran`
---
-
-INSERT INTO `jenis_pembayaran` (`idjenis_pembayaran`, `nama_jenis`, `created_at`, `updated_at`) VALUES
-(2, 'SPP', '2021-10-27 12:34:30', '2021-10-27 12:34:30'),
-(4, 'tesqwe', '2021-11-12 15:45:19', '2021-11-12 15:47:36');
 
 -- --------------------------------------------------------
 
@@ -143,6 +203,30 @@ INSERT INTO `jurusan` (`id`, `nama_jurusan`, `description`, `status`, `created_a
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `kategori_matapelajaran`
+--
+
+CREATE TABLE `kategori_matapelajaran` (
+  `id` int(11) NOT NULL,
+  `nama_kategori` varchar(45) DEFAULT NULL,
+  `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  `updated_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00'
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `kategori_matapelajaran`
+--
+
+INSERT INTO `kategori_matapelajaran` (`id`, `nama_kategori`, `created_at`, `updated_at`) VALUES
+(1, 'Muatan Lokal', '2021-12-09 08:24:38', '2021-12-09 08:24:38'),
+(3, 'Muatan Nasional', '2021-12-09 08:26:27', '2021-12-09 08:26:27'),
+(4, 'Muatan Kewilayahan', '2021-12-10 19:12:24', '2021-12-10 19:12:24'),
+(5, 'Dasar Bidang Keahlian', '2021-12-10 19:13:25', '2021-12-10 19:13:25'),
+(6, 'Dasar Program Keahlian', '2021-12-10 19:14:23', '2021-12-10 19:14:23');
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `kompetensi_dasar`
 --
 
@@ -165,9 +249,40 @@ CREATE TABLE `kompetensi_dasar` (
 --
 
 INSERT INTO `kompetensi_dasar` (`idkompetensi_dasar`, `jenis_kd`, `semester`, `kode_kd`, `tingkat_pendidikan`, `kompetensi_dasar`, `ringkasan_deskripsi`, `status`, `updated_at`, `created_at`, `idmata_pelajaran`) VALUES
-(1, 'Keterampilan', '2', '123', 'XI', 'gege', 'hehewoakwoawk', 'Aktif', '2021-11-16 08:13:44', NULL, 1),
-(2, 'Pengetahuan', '1', '123', 'X', 'hehe', 'haha', NULL, '2021-11-16 07:23:34', '2021-11-16 07:23:34', 1),
-(3, 'Pengetahuan', '2', '11', 'X', 'heh', NULL, 'Aktif', '2021-11-16 07:27:05', '2021-11-16 07:27:05', 1);
+(1, 'Pengetahuan', '1', '3.1', 'X', 'Menerapkan logika dan\r\nalgoritma komputer', 'Menerapkan logika dan\r\nalgoritma komputer', 'Aktif', '2021-12-07 14:53:25', '2021-12-07 14:53:25', 1),
+(2, 'Pengetahuan', '1', '3.2', 'X', 'Menerapkan metode peta-\r\nminda', 'Menerapkan metode peta-\r\nminda', 'Aktif', '2021-12-07 14:53:25', '2021-12-07 14:53:25', 1),
+(3, 'Pengetahuan', '1', '3.3', 'X', 'Mengevaluasi paragraf\r\ndeskriptif, argumentatif,\r\nnaratif dan persuasif', 'Mengevaluasi paragraf\r\ndeskriptif, argumentatif,\r\nnaratif dan persuasif', 'Aktif', '2021-12-07 14:53:25', '2021-12-07 14:53:25', 1),
+(4, 'Pengetahuan', '1', '3.4', 'X', 'Menerapkan logika dan\r\noperasi perhitungan data', 'Menerapkan logika dan\r\noperasi perhitungan data', 'Aktif', '2021-12-07 14:53:25', '2021-12-07 14:53:25', 1),
+(5, 'Pengetahuan', '1', '3.5', 'X', 'Menganalisis fitur yang tepat\r\nuntuk pembuatan slide', 'Menganalisis fitur yang tepat\r\nuntuk pembuatan slide', 'Aktif', '2021-12-07 14:53:25', '2021-12-07 14:53:25', 1),
+(6, 'Keterampilan', '1', '4.1', 'X', 'Menggunakan fungsi-fungsi\r\nperintah (Command)', 'Menggunakan fungsi-fungsi\r\nperintah (Command)', 'Aktif', '2021-12-07 14:53:25', '2021-12-07 14:53:25', 1),
+(7, 'Keterampilan', '1', '4.2', 'X', 'Membuat peta-minda', 'Membuat peta-minda', 'Aktif', '2021-12-07 14:53:25', '2021-12-07 14:53:25', 1),
+(8, 'Keterampilan', '1', '4.3', 'X', 'Menyusun kembali format\r\ndokumen pengolah kata', 'Menyusun kembali format\r\ndokumen pengolah kata', 'Aktif', '2021-12-07 14:53:25', '2021-12-07 14:53:25', 1),
+(9, 'Pengetahuan', '1', '3.14', 'X', 'PTS Ganjil', 'PTS', 'Aktif', '2021-12-09 16:41:35', '2021-12-09 16:41:35', 1),
+(10, 'Pengetahuan', '1', '3.14', 'X', 'PAS Ganjil', 'PAS', 'Aktif', '2021-12-09 16:41:35', '2021-12-09 16:41:35', 1);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `master_web`
+--
+
+CREATE TABLE `master_web` (
+  `id` int(11) NOT NULL,
+  `logo` varchar(200) DEFAULT NULL,
+  `footer_text` longtext,
+  `instagram` longtext,
+  `facebook` longtext,
+  `twitter` int(11) DEFAULT NULL,
+  `updated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  `created_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00'
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `master_web`
+--
+
+INSERT INTO `master_web` (`id`, `logo`, `footer_text`, `instagram`, `facebook`, `twitter`, `updated_at`, `created_at`) VALUES
+(1, 'logo1_20211209183335_logo-st-louis.png', NULL, NULL, NULL, NULL, '2021-12-09 11:33:35', '0000-00-00 00:00:00');
 
 -- --------------------------------------------------------
 
@@ -179,22 +294,24 @@ CREATE TABLE `mata_pelajaran` (
   `idmata_pelajaran` int(11) NOT NULL,
   `nama_mp` varchar(45) DEFAULT NULL,
   `status` varchar(45) DEFAULT NULL,
+  `skm` int(10) DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL,
-  `guru_pengajar` int(11) NOT NULL
+  `guru_pengajar` int(11) NOT NULL,
+  `id_kategori` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
 -- Dumping data for table `mata_pelajaran`
 --
 
-INSERT INTO `mata_pelajaran` (`idmata_pelajaran`, `nama_mp`, `status`, `created_at`, `updated_at`, `guru_pengajar`) VALUES
-(1, 'Jaringan Komputer', 'Aktif', NULL, NULL, 1),
-(2, 'Pemrograman Web', 'Aktif', NULL, NULL, 5),
-(3, 'Agama', 'Aktif', NULL, NULL, 5),
-(4, 'PKN', 'Aktif', NULL, NULL, 5),
-(5, 'Matematika', 'Aktif', '2021-10-27 19:43:36', '2021-10-27 19:43:36', 5),
-(7, 'uuuuas', 'Aktif', '2021-11-12 15:34:08', '2021-11-12 15:35:52', 5);
+INSERT INTO `mata_pelajaran` (`idmata_pelajaran`, `nama_mp`, `status`, `skm`, `created_at`, `updated_at`, `guru_pengajar`, `id_kategori`) VALUES
+(1, 'Jaringan Komputer', 'Aktif', NULL, NULL, NULL, 5, 1),
+(2, 'Pemrograman Web', 'Aktif', NULL, NULL, NULL, 6, 3),
+(3, 'Agama', 'Aktif', NULL, NULL, NULL, 5, 3),
+(4, 'PKN', 'Aktif', NULL, NULL, NULL, 5, 3),
+(5, 'Matematika', 'Aktif', NULL, '2021-10-27 12:43:36', '2021-10-27 12:43:36', 5, 3),
+(7, 'uuuuas', 'Aktif', 85, '2021-11-12 08:34:08', '2021-12-09 08:48:14', 5, 1);
 
 -- --------------------------------------------------------
 
@@ -204,19 +321,33 @@ INSERT INTO `mata_pelajaran` (`idmata_pelajaran`, `nama_mp`, `status`, `created_
 
 CREATE TABLE `migrations` (
   `id` int(10) UNSIGNED NOT NULL,
-  `migration` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `migration` varchar(191) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
   `batch` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+-- --------------------------------------------------------
 
 --
--- Dumping data for table `migrations`
+-- Table structure for table `nilai_akhir`
 --
 
-INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES
-(1, '2014_10_12_000000_create_users_table', 1),
-(2, '2014_10_12_100000_create_password_resets_table', 1),
-(3, '2019_08_19_000000_create_failed_jobs_table', 1),
-(4, '2019_12_14_000001_create_personal_access_tokens_table', 1);
+CREATE TABLE `nilai_akhir` (
+  `idmata_pelajaran` int(11) NOT NULL,
+  `users_id` int(11) NOT NULL,
+  `nilai_pengetahuan` int(11) DEFAULT '0',
+  `nilai_keterampilan` int(11) DEFAULT '0',
+  `nilai_akhir` int(11) DEFAULT '0',
+  `predikat` varchar(5) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Dumping data for table `nilai_akhir`
+--
+
+INSERT INTO `nilai_akhir` (`idmata_pelajaran`, `users_id`, `nilai_pengetahuan`, `nilai_keterampilan`, `nilai_akhir`, `predikat`) VALUES
+(1, 2, 78, 54, 0, NULL),
+(1, 3, 64, 48, 0, NULL),
+(1, 4, 88, 0, 0, NULL);
 
 -- --------------------------------------------------------
 
@@ -226,11 +357,42 @@ INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES
 
 CREATE TABLE `nilai_per_penilaian` (
   `penilaian_idpenilaian` int(11) NOT NULL,
-  `idmata_pelajaran` int(11) NOT NULL,
   `idkompetensi_dasar` int(11) NOT NULL,
   `users_idusers` int(11) NOT NULL,
   `nilai` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Dumping data for table `nilai_per_penilaian`
+--
+
+INSERT INTO `nilai_per_penilaian` (`penilaian_idpenilaian`, `idkompetensi_dasar`, `users_idusers`, `nilai`) VALUES
+(27, 1, 2, 100),
+(27, 1, 3, 90),
+(27, 2, 2, 80),
+(27, 2, 3, 70),
+(28, 1, 2, 0),
+(28, 1, 3, 0),
+(28, 2, 2, 0),
+(28, 2, 3, 0),
+(28, 3, 2, 100),
+(28, 3, 3, 0),
+(29, 9, 2, 100),
+(29, 9, 3, 0),
+(30, 10, 2, 100),
+(30, 10, 3, 100),
+(32, 6, 2, 0),
+(32, 6, 3, 0),
+(33, 7, 2, 90),
+(33, 7, 3, 80),
+(34, 6, 4, 100),
+(34, 7, 4, 70),
+(35, 6, 4, 90),
+(35, 7, 4, 70),
+(36, 7, 4, 100),
+(37, 1, 4, 100),
+(38, 9, 4, 80),
+(39, 10, 4, 90);
 
 -- --------------------------------------------------------
 
@@ -239,17 +401,10 @@ CREATE TABLE `nilai_per_penilaian` (
 --
 
 CREATE TABLE `password_resets` (
-  `email` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `token` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `email` varchar(191) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  `token` varchar(191) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
   `created_at` timestamp NULL DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-
---
--- Dumping data for table `password_resets`
---
-
-INSERT INTO `password_resets` (`email`, `token`, `created_at`) VALUES
-('ferdiannovendra15@gmail.com', '$2y$10$6WPjCawHduA/CQ/fudeHGegtG88TpfG2Gspupfvgvuxjm6nKy2JEm', '2021-10-22 05:37:05');
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
 
@@ -261,10 +416,31 @@ CREATE TABLE `penilaian` (
   `idpenilaian` int(11) NOT NULL,
   `jenispenilaian` enum('Pengetahuan','Keterampilan') DEFAULT NULL,
   `nama` varchar(45) DEFAULT NULL,
-  `teknik_penilaian` enum('Tulis','Lisan','Penugasan') DEFAULT NULL,
-  `mata_pelajaran_idmata_pelajaran` int(11) NOT NULL,
-  `bobot` int(2) DEFAULT NULL
+  `teknik_penilaian` varchar(45) DEFAULT NULL,
+  `idmata_pelajaran` int(11) NOT NULL,
+  `bobot` int(2) DEFAULT NULL,
+  `idclass` int(11) NOT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Dumping data for table `penilaian`
+--
+
+INSERT INTO `penilaian` (`idpenilaian`, `jenispenilaian`, `nama`, `teknik_penilaian`, `idmata_pelajaran`, `bobot`, `idclass`, `created_at`, `updated_at`) VALUES
+(27, 'Pengetahuan', 'p1', 'Tes Tulis', 1, 1, 1, '2021-12-10 17:12:09', '2021-12-10 17:12:09'),
+(28, 'Pengetahuan', 'p2', 'Tes Tulis', 1, 1, 1, '2021-12-10 17:12:09', '2021-12-10 17:12:09'),
+(29, 'Pengetahuan', 'PTS', NULL, 1, 2, 1, '2021-12-10 17:12:09', '2021-12-10 17:12:09'),
+(30, 'Pengetahuan', 'PAS', NULL, 1, 3, 1, '2021-12-10 17:12:09', '2021-12-10 17:12:09'),
+(32, 'Keterampilan', 'k1', 'Projek', 1, 2, 1, '2021-12-10 17:24:54', '2021-12-10 17:24:54'),
+(33, 'Keterampilan', 'k2', 'Kinerja', 1, 3, 1, '2021-12-10 17:24:54', '2021-12-10 17:24:54'),
+(34, 'Keterampilan', 'k1', 'Kinerja', 1, 2, 2, '2021-12-12 11:34:16', '2021-12-12 11:34:16'),
+(35, 'Keterampilan', 'k2', 'Kinerja', 1, 1, 2, '2021-12-12 11:34:16', '2021-12-12 11:34:16'),
+(36, 'Keterampilan', 'k3', 'Kinerja', 1, 1, 2, '2021-12-12 11:34:16', '2021-12-12 11:34:16'),
+(37, 'Pengetahuan', 'hehe', 'Tes Lisan', 1, 1, 2, '2021-12-12 11:59:02', '2021-12-12 11:59:02'),
+(38, 'Pengetahuan', 'PTS', NULL, 1, 2, 2, '2021-12-12 11:59:02', '2021-12-12 11:59:02'),
+(39, 'Pengetahuan', 'PAS', NULL, 1, 3, 2, '2021-12-12 11:59:02', '2021-12-12 11:59:02');
 
 -- --------------------------------------------------------
 
@@ -274,9 +450,31 @@ CREATE TABLE `penilaian` (
 
 CREATE TABLE `penilaian_has_kompetensi_dasar` (
   `penilaian_idpenilaian` int(11) NOT NULL,
-  `penilaian_idmata_pelajaran` int(11) NOT NULL,
   `idkompetensi_dasar` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Dumping data for table `penilaian_has_kompetensi_dasar`
+--
+
+INSERT INTO `penilaian_has_kompetensi_dasar` (`penilaian_idpenilaian`, `idkompetensi_dasar`) VALUES
+(27, 1),
+(27, 2),
+(28, 1),
+(28, 2),
+(28, 3),
+(29, 9),
+(30, 10),
+(32, 6),
+(33, 7),
+(34, 6),
+(34, 7),
+(35, 6),
+(35, 7),
+(36, 7),
+(37, 1),
+(38, 9),
+(39, 10);
 
 -- --------------------------------------------------------
 
@@ -286,15 +484,15 @@ CREATE TABLE `penilaian_has_kompetensi_dasar` (
 
 CREATE TABLE `personal_access_tokens` (
   `id` bigint(20) UNSIGNED NOT NULL,
-  `tokenable_type` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `tokenable_type` varchar(191) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
   `tokenable_id` bigint(20) UNSIGNED NOT NULL,
-  `name` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `token` varchar(64) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `abilities` text COLLATE utf8mb4_unicode_ci,
+  `name` varchar(191) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  `token` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  `abilities` text CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci,
   `last_used_at` timestamp NULL DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
 
@@ -310,10 +508,22 @@ CREATE TABLE `presensi` (
   `catatan_pertemuan` longtext,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL,
-  `idclass` int(11) NOT NULL,
-  `idwalikelas` int(11) NOT NULL,
+  `idclass_list` int(11) NOT NULL,
   `idmatapelajaran` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Dumping data for table `presensi`
+--
+
+INSERT INTO `presensi` (`idpresensi`, `materi`, `start_time`, `end_time`, `catatan_pertemuan`, `created_at`, `updated_at`, `idclass_list`, `idmatapelajaran`) VALUES
+(5, 'tes', '2021-12-04 15:13:00', '2021-12-04 15:19:00', 'tes', '2021-12-04 08:15:06', '2021-12-04 08:15:06', 1, 2),
+(6, 'kelas', '2021-12-04 16:00:00', '2021-12-04 16:06:00', NULL, '2021-12-04 09:00:20', '2021-12-04 09:00:20', 2, 2),
+(7, 'hehehehehe', '2021-12-04 16:33:00', '2021-12-04 17:44:00', NULL, '2021-12-04 09:33:46', '2021-12-04 09:33:46', 1, 2),
+(8, 'gdx', '2021-12-04 16:44:00', '2021-12-04 17:50:00', NULL, '2021-12-04 09:44:26', '2021-12-04 09:44:26', 1, 1),
+(9, NULL, NULL, NULL, NULL, '2021-12-07 19:19:54', '2021-12-07 19:19:54', 2, 1),
+(11, 'Testing', '2021-12-13 18:27:00', '2021-12-13 20:27:00', 'tes', '2021-12-13 10:27:25', '2021-12-13 10:27:25', 1, 1),
+(12, 'Tes', '2021-12-13 22:37:00', '2021-12-13 23:39:00', NULL, '2021-12-13 14:37:08', '2021-12-13 14:37:08', 1, 2);
 
 -- --------------------------------------------------------
 
@@ -341,11 +551,30 @@ CREATE TABLE `rekap_keuangan` (
 --
 
 CREATE TABLE `rekap_presensi` (
-  `presensi_idpresensi` int(11) NOT NULL,
-  `users_idusers` int(11) NOT NULL,
+  `idpresensi` int(11) NOT NULL,
+  `idsiswa` int(11) NOT NULL,
   `time_presensi` datetime DEFAULT NULL,
   `status_presensi` tinyint(1) DEFAULT '0'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Dumping data for table `rekap_presensi`
+--
+
+INSERT INTO `rekap_presensi` (`idpresensi`, `idsiswa`, `time_presensi`, `status_presensi`) VALUES
+(5, 2, NULL, 0),
+(5, 3, NULL, 0),
+(7, 2, NULL, 0),
+(7, 3, NULL, 0),
+(8, 2, NULL, 1),
+(8, 3, NULL, 1),
+(9, 4, NULL, 0),
+(10, 2, NULL, 0),
+(10, 3, NULL, 0),
+(11, 2, NULL, 0),
+(11, 3, NULL, 0),
+(12, 2, NULL, 1),
+(12, 3, NULL, 0);
 
 -- --------------------------------------------------------
 
@@ -368,12 +597,29 @@ CREATE TABLE `semester` (
 --
 
 INSERT INTO `semester` (`idsemester`, `nama_semester`, `tahun_ajaran`, `start_date`, `end_date`, `created_at`, `updated_at`) VALUES
-(1, 'genap', '2021/2022', '2021-10-10', '2022-10-15', '2021-10-19 01:42:45', '2021-11-12 12:23:38'),
-(2, 'ganjil', '2021/2022', '2022-02-23', '2022-04-13', '2021-11-12 10:19:38', '2021-11-12 10:19:38'),
-(3, 'ganjil', '2022/2023', '2021-11-12', '2021-12-04', '2021-11-12 10:20:02', '2021-11-12 10:20:02'),
-(4, 'genap', '2023/2024', '2021-12-11', '2022-02-26', '2021-11-12 10:20:39', '2021-11-12 10:20:39'),
-(5, 'genap', '2025/2026', '2021-11-06', '2021-11-25', '2021-11-12 10:24:02', '2021-11-12 10:24:02'),
-(7, 'genap', '2023/2024', '2021-12-11', '2022-03-05', '2021-11-12 11:52:13', '2021-11-12 11:52:13');
+(1, 'ganjil', '2021/2022', '2021-12-01', '2021-12-18', NULL, NULL);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `setting`
+--
+
+CREATE TABLE `setting` (
+  `idsetting` int(11) NOT NULL,
+  `idsemester` int(11) NOT NULL,
+  `kepala_sekolah` int(11) NOT NULL,
+  `model_presensi` varchar(45) DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL,
+  `created_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `setting`
+--
+
+INSERT INTO `setting` (`idsetting`, `idsemester`, `kepala_sekolah`, `model_presensi`, `updated_at`, `created_at`) VALUES
+(1, 1, 6, 'Satuan', '2021-12-10 19:55:03', NULL);
 
 -- --------------------------------------------------------
 
@@ -386,6 +632,15 @@ CREATE TABLE `siswa_di_kelas` (
   `classlist_idclass` int(11) NOT NULL,
   `semester_idsemester` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Dumping data for table `siswa_di_kelas`
+--
+
+INSERT INTO `siswa_di_kelas` (`users_idusers`, `classlist_idclass`, `semester_idsemester`) VALUES
+(2, 1, 1),
+(3, 1, 1),
+(4, 2, 1);
 
 -- --------------------------------------------------------
 
@@ -417,21 +672,32 @@ CREATE TABLE `users` (
 --
 
 INSERT INTO `users` (`id`, `nik`, `name`, `lname`, `email`, `password`, `address`, `phone`, `status`, `remember_token`, `religion`, `gender`, `birth_place`, `birth_date`, `created_at`, `updated_at`) VALUES
-(1, NULL, 'ferdian', NULL, 'ferdiannovendra15@gmail.com', '$2y$10$pDOMKX8iT5KwkmMUzW1G.uLwjBPHf5pBDq/EUr1C4JQekgYyQbw0a', NULL, NULL, 'admin', NULL, NULL, NULL, NULL, NULL, '2021-10-01 09:22:15', '2021-10-01 23:54:18'),
-(2, '12342', 'Noven', 'dra', 'nov@gmail.com', NULL, NULL, NULL, 'siswa', NULL, NULL, NULL, NULL, NULL, '2021-10-22 12:06:00', '2021-10-22 12:06:00'),
-(3, '43122', 'bryan', 'hugo', 'bryan@gmail.com', NULL, NULL, NULL, 'siswa', NULL, NULL, NULL, NULL, NULL, '2021-10-22 12:06:10', '2021-10-22 12:06:10'),
-(4, '51213', 'sean ', 'jember', 'sean@gmail.com', NULL, NULL, NULL, 'siswa', NULL, NULL, NULL, NULL, NULL, '2021-10-22 12:14:45', '2021-10-22 12:14:45'),
-(5, '26342', 'starif', 'girsang', 'starif@gmail.com', '$2y$10$2t/sFuWllX9E2Z/jtRNKWud9rZKlpbfSrxaf.N1tu1gBw4eTJqMNy', NULL, NULL, 'guru', NULL, NULL, NULL, NULL, NULL, '2021-10-22 12:20:19', '2021-11-16 08:48:20');
+(1, NULL, 'ferdian hehe', NULL, 'ferdiannovendra15@gmail.com', '$2y$10$pDOMKX8iT5KwkmMUzW1G.uLwjBPHf5pBDq/EUr1C4JQekgYyQbw0a', NULL, NULL, 'admin', NULL, NULL, NULL, NULL, '2021-11-23', '2021-10-01 02:22:15', '2021-10-01 16:54:18'),
+(2, '12342', 'Noven', 'dra', 'nov@gmail.com', '$2y$10$lUjRV8vOTyzoMIq34J62wO34mpSWvstP0CEGP8ykstDxpZkAht7oW', NULL, NULL, 'siswa', NULL, NULL, NULL, NULL, NULL, '2021-10-22 05:06:00', '2021-11-28 22:45:22'),
+(3, '43122', 'bryan', 'hugo', 'bryan@gmail.com', NULL, NULL, NULL, 'siswa', NULL, NULL, NULL, NULL, NULL, '2021-10-22 05:06:10', '2021-10-22 05:06:10'),
+(4, '51213', 'sean ', 'jember', 'sean@gmail.com', '$2y$10$y9ACL69HbojBef9oCVarVOsfelf8HUxv1RB41QVJKRu2tnYDDrz3u', NULL, NULL, 'siswa', NULL, NULL, NULL, NULL, NULL, '2021-10-22 05:14:45', '2021-12-04 09:03:30'),
+(5, '26342', 'starif', 'girsang', 'starif@gmail.com', '$2y$10$1yNpwFPTSP4BwfkutbXPlu8AGMQmtjR2yqXnhklnWkzTPjQZQ4R4e', NULL, NULL, 'guru', NULL, NULL, NULL, NULL, NULL, '2021-10-22 05:20:19', '2021-11-21 07:46:12'),
+(6, '263421', 'john', 'doe', 'john@gmail.com', '$2y$10$K7VCJdy2Ho9ukJ6vLIsQd.dZx1LMk.XPSqb3KxYZkb58KrjC20kMK', NULL, NULL, 'guru', NULL, NULL, NULL, NULL, NULL, '2021-10-22 05:20:19', '2021-12-04 09:43:51'),
+(9, '1122334455', 'ivan', 'dragono', 'helo@gmail.com', '$2y$10$cEPg//xVOVXSrUHSFj5H6.Ly.nB1Y4djcRN4SNFZN56YGttv580oq', 'purimas', '123456', 'siswa', NULL, 'kristen', 'L', 'Surabaya', '2021-11-21', '2021-12-10 20:31:22', '2021-12-10 20:34:26'),
+(10, '6655443322', 'kenneth', 'marciano', 'hehe@gmail.com', '$2y$10$amhPxFC0Fzgdx4qOhiZ.A.wRx03ax6r8k9g5hRKy6.GV.nzk5RHPy', 'bromo', '654321', 'siswa', NULL, 'budha', 'L', 'Surabaya', '2021-11-02', '2021-12-10 20:31:22', '2021-12-10 20:31:22');
 
 --
 -- Indexes for dumped tables
 --
 
 --
+-- Indexes for table `bobot_nilai_akhir`
+--
+ALTER TABLE `bobot_nilai_akhir`
+  ADD PRIMARY KEY (`idmata_pelajaran`,`idclass_list`),
+  ADD KEY `fk_mata_pelajaran_has_class_list_class_list1_idx` (`idclass_list`),
+  ADD KEY `fk_mata_pelajaran_has_class_list_mata_pelajaran1_idx` (`idmata_pelajaran`);
+
+--
 -- Indexes for table `class_list`
 --
 ALTER TABLE `class_list`
-  ADD PRIMARY KEY (`idclass_list`,`wali_kelas`),
+  ADD PRIMARY KEY (`idclass_list`),
   ADD KEY `fk_class_list_users1_idx` (`wali_kelas`),
   ADD KEY `fk_class_list_jurusan1_idx` (`jurusan_idjurusan`),
   ADD KEY `fk_class_list_semester1_idx` (`semester_idsemester`);
@@ -452,12 +718,19 @@ ALTER TABLE `failed_jobs`
   ADD UNIQUE KEY `failed_jobs_uuid_unique` (`uuid`);
 
 --
+-- Indexes for table `hari`
+--
+ALTER TABLE `hari`
+  ADD PRIMARY KEY (`id`);
+
+--
 -- Indexes for table `jadwal_kelas`
 --
 ALTER TABLE `jadwal_kelas`
-  ADD PRIMARY KEY (`class_list_idclass_list`,`class_list_wali_kelas`,`mata_pelajaran_idmatapelajaran`),
-  ADD KEY `fk_class_list_has_mata_pelajaran_mata_pelajaran1_idx` (`mata_pelajaran_idmatapelajaran`),
-  ADD KEY `fk_class_list_has_mata_pelajaran_class_list1_idx` (`class_list_idclass_list`,`class_list_wali_kelas`);
+  ADD PRIMARY KEY (`idclass_list`,`idmatapelajaran`,`hari_id`),
+  ADD KEY `fk_class_list_has_mata_pelajaran_mata_pelajaran1_idx` (`idmatapelajaran`),
+  ADD KEY `fk_class_list_has_mata_pelajaran_class_list1_idx` (`idclass_list`),
+  ADD KEY `fk_jadwal_kelas_hari1_idx` (`hari_id`);
 
 --
 -- Indexes for table `jenis_pembayaran`
@@ -472,6 +745,12 @@ ALTER TABLE `jurusan`
   ADD PRIMARY KEY (`id`);
 
 --
+-- Indexes for table `kategori_matapelajaran`
+--
+ALTER TABLE `kategori_matapelajaran`
+  ADD PRIMARY KEY (`id`);
+
+--
 -- Indexes for table `kompetensi_dasar`
 --
 ALTER TABLE `kompetensi_dasar`
@@ -479,11 +758,18 @@ ALTER TABLE `kompetensi_dasar`
   ADD KEY `fk_kompetensi_dasar_mata_pelajaran1_idx` (`idmata_pelajaran`);
 
 --
+-- Indexes for table `master_web`
+--
+ALTER TABLE `master_web`
+  ADD PRIMARY KEY (`id`);
+
+--
 -- Indexes for table `mata_pelajaran`
 --
 ALTER TABLE `mata_pelajaran`
   ADD PRIMARY KEY (`idmata_pelajaran`),
-  ADD KEY `fk_mata_pelajaran_users1_idx` (`guru_pengajar`);
+  ADD KEY `fk_mata_pelajaran_users1_idx` (`guru_pengajar`),
+  ADD KEY `fk_mata_pelajaran_kategori_matapelajaran1_idx` (`id_kategori`);
 
 --
 -- Indexes for table `migrations`
@@ -492,12 +778,20 @@ ALTER TABLE `migrations`
   ADD PRIMARY KEY (`id`);
 
 --
+-- Indexes for table `nilai_akhir`
+--
+ALTER TABLE `nilai_akhir`
+  ADD PRIMARY KEY (`idmata_pelajaran`,`users_id`),
+  ADD KEY `fk_mata_pelajaran_has_users_users1_idx` (`users_id`),
+  ADD KEY `fk_mata_pelajaran_has_users_mata_pelajaran1_idx` (`idmata_pelajaran`);
+
+--
 -- Indexes for table `nilai_per_penilaian`
 --
 ALTER TABLE `nilai_per_penilaian`
-  ADD PRIMARY KEY (`penilaian_idpenilaian`,`idmata_pelajaran`,`idkompetensi_dasar`,`users_idusers`),
+  ADD PRIMARY KEY (`penilaian_idpenilaian`,`idkompetensi_dasar`,`users_idusers`),
   ADD KEY `fk_penilaian_has_kompetensi_dasar_has_users_users1_idx` (`users_idusers`),
-  ADD KEY `fk_penilaian_has_kompetensi_dasar_has_users_penilaian_has_k_idx` (`penilaian_idpenilaian`,`idmata_pelajaran`,`idkompetensi_dasar`);
+  ADD KEY `fk_penilaian_has_kompetensi_dasar_has_users_penilaian_has_k_idx` (`penilaian_idpenilaian`,`idkompetensi_dasar`);
 
 --
 -- Indexes for table `password_resets`
@@ -509,16 +803,17 @@ ALTER TABLE `password_resets`
 -- Indexes for table `penilaian`
 --
 ALTER TABLE `penilaian`
-  ADD PRIMARY KEY (`idpenilaian`,`mata_pelajaran_idmata_pelajaran`),
-  ADD KEY `fk_penilaian_mata_pelajaran1_idx` (`mata_pelajaran_idmata_pelajaran`);
+  ADD PRIMARY KEY (`idpenilaian`),
+  ADD KEY `fk_penilaian_mata_pelajaran1_idx` (`idmata_pelajaran`),
+  ADD KEY `fk_penilaian_class_list1_idx` (`idclass`);
 
 --
 -- Indexes for table `penilaian_has_kompetensi_dasar`
 --
 ALTER TABLE `penilaian_has_kompetensi_dasar`
-  ADD PRIMARY KEY (`penilaian_idpenilaian`,`penilaian_idmata_pelajaran`,`idkompetensi_dasar`),
+  ADD PRIMARY KEY (`penilaian_idpenilaian`,`idkompetensi_dasar`),
   ADD KEY `fk_penilaian_has_kompetensi_dasar_kompetensi_dasar1_idx` (`idkompetensi_dasar`),
-  ADD KEY `fk_penilaian_has_kompetensi_dasar_penilaian1_idx` (`penilaian_idpenilaian`,`penilaian_idmata_pelajaran`);
+  ADD KEY `fk_penilaian_has_kompetensi_dasar_penilaian1_idx` (`penilaian_idpenilaian`);
 
 --
 -- Indexes for table `personal_access_tokens`
@@ -533,7 +828,8 @@ ALTER TABLE `personal_access_tokens`
 --
 ALTER TABLE `presensi`
   ADD PRIMARY KEY (`idpresensi`),
-  ADD KEY `fk_presensi_jadwal_kelas1_idx` (`idclass`,`idwalikelas`,`idmatapelajaran`);
+  ADD KEY `fk_presensi_jadwal_kelas1_idx` (`idclass_list`,`idmatapelajaran`),
+  ADD KEY `fk_mp` (`idmatapelajaran`);
 
 --
 -- Indexes for table `rekap_keuangan`
@@ -548,15 +844,23 @@ ALTER TABLE `rekap_keuangan`
 -- Indexes for table `rekap_presensi`
 --
 ALTER TABLE `rekap_presensi`
-  ADD PRIMARY KEY (`presensi_idpresensi`,`users_idusers`),
-  ADD KEY `fk_presensi_has_users_users1_idx` (`users_idusers`),
-  ADD KEY `fk_presensi_has_users_presensi1_idx` (`presensi_idpresensi`);
+  ADD PRIMARY KEY (`idpresensi`,`idsiswa`),
+  ADD KEY `fk_presensi_has_users_users1_idx` (`idsiswa`),
+  ADD KEY `fk_presensi_has_users_presensi1_idx` (`idpresensi`);
 
 --
 -- Indexes for table `semester`
 --
 ALTER TABLE `semester`
   ADD PRIMARY KEY (`idsemester`);
+
+--
+-- Indexes for table `setting`
+--
+ALTER TABLE `setting`
+  ADD PRIMARY KEY (`idsetting`),
+  ADD KEY `fk_setting_semester1_idx` (`idsemester`),
+  ADD KEY `fk_setting_users1_idx` (`kepala_sekolah`);
 
 --
 -- Indexes for table `siswa_di_kelas`
@@ -581,13 +885,13 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT for table `class_list`
 --
 ALTER TABLE `class_list`
-  MODIFY `idclass_list` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `idclass_list` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT for table `detail_siswa`
 --
 ALTER TABLE `detail_siswa`
-  MODIFY `iddetail_siswa` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `iddetail_siswa` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- AUTO_INCREMENT for table `failed_jobs`
@@ -596,10 +900,16 @@ ALTER TABLE `failed_jobs`
   MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
 
 --
+-- AUTO_INCREMENT for table `hari`
+--
+ALTER TABLE `hari`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+
+--
 -- AUTO_INCREMENT for table `jenis_pembayaran`
 --
 ALTER TABLE `jenis_pembayaran`
-  MODIFY `idjenis_pembayaran` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `idjenis_pembayaran` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `jurusan`
@@ -608,10 +918,22 @@ ALTER TABLE `jurusan`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
+-- AUTO_INCREMENT for table `kategori_matapelajaran`
+--
+ALTER TABLE `kategori_matapelajaran`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+
+--
 -- AUTO_INCREMENT for table `kompetensi_dasar`
 --
 ALTER TABLE `kompetensi_dasar`
-  MODIFY `idkompetensi_dasar` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `idkompetensi_dasar` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
+
+--
+-- AUTO_INCREMENT for table `master_web`
+--
+ALTER TABLE `master_web`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT for table `mata_pelajaran`
@@ -623,13 +945,13 @@ ALTER TABLE `mata_pelajaran`
 -- AUTO_INCREMENT for table `migrations`
 --
 ALTER TABLE `migrations`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `penilaian`
 --
 ALTER TABLE `penilaian`
-  MODIFY `idpenilaian` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `idpenilaian` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=40;
 
 --
 -- AUTO_INCREMENT for table `personal_access_tokens`
@@ -641,7 +963,7 @@ ALTER TABLE `personal_access_tokens`
 -- AUTO_INCREMENT for table `presensi`
 --
 ALTER TABLE `presensi`
-  MODIFY `idpresensi` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `idpresensi` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
 
 --
 -- AUTO_INCREMENT for table `rekap_keuangan`
@@ -653,25 +975,31 @@ ALTER TABLE `rekap_keuangan`
 -- AUTO_INCREMENT for table `semester`
 --
 ALTER TABLE `semester`
-  MODIFY `idsemester` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+  MODIFY `idsemester` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 
 --
 -- Constraints for dumped tables
 --
 
 --
+-- Constraints for table `bobot_nilai_akhir`
+--
+ALTER TABLE `bobot_nilai_akhir`
+  ADD CONSTRAINT `fk_mata_pelajaran_has_class_list_class_list1` FOREIGN KEY (`idclass_list`) REFERENCES `class_list` (`idclass_list`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  ADD CONSTRAINT `fk_mata_pelajaran_has_class_list_mata_pelajaran1` FOREIGN KEY (`idmata_pelajaran`) REFERENCES `mata_pelajaran` (`idmata_pelajaran`) ON DELETE NO ACTION ON UPDATE NO ACTION;
+
+--
 -- Constraints for table `class_list`
 --
 ALTER TABLE `class_list`
   ADD CONSTRAINT `fk_class_list_jurusan1` FOREIGN KEY (`jurusan_idjurusan`) REFERENCES `jurusan` (`id`) ON DELETE NO ACTION ON UPDATE CASCADE,
-  ADD CONSTRAINT `fk_class_list_semester1` FOREIGN KEY (`semester_idsemester`) REFERENCES `semester` (`idsemester`) ON DELETE NO ACTION ON UPDATE CASCADE,
-  ADD CONSTRAINT `fk_class_list_users1` FOREIGN KEY (`wali_kelas`) REFERENCES `users` (`id`) ON DELETE NO ACTION ON UPDATE CASCADE;
+  ADD CONSTRAINT `fk_class_list_semester1` FOREIGN KEY (`semester_idsemester`) REFERENCES `semester` (`idsemester`) ON DELETE NO ACTION ON UPDATE CASCADE;
 
 --
 -- Constraints for table `detail_siswa`
@@ -684,8 +1012,9 @@ ALTER TABLE `detail_siswa`
 -- Constraints for table `jadwal_kelas`
 --
 ALTER TABLE `jadwal_kelas`
-  ADD CONSTRAINT `fk_class_list_has_mata_pelajaran_class_list1` FOREIGN KEY (`class_list_idclass_list`,`class_list_wali_kelas`) REFERENCES `class_list` (`idclass_list`, `wali_kelas`) ON DELETE NO ACTION ON UPDATE NO ACTION,
-  ADD CONSTRAINT `fk_class_list_has_mata_pelajaran_mata_pelajaran1` FOREIGN KEY (`mata_pelajaran_idmatapelajaran`) REFERENCES `mata_pelajaran` (`idmata_pelajaran`) ON DELETE NO ACTION ON UPDATE NO ACTION;
+  ADD CONSTRAINT `fk_class` FOREIGN KEY (`idclass_list`) REFERENCES `class_list` (`idclass_list`),
+  ADD CONSTRAINT `fk_hari` FOREIGN KEY (`hari_id`) REFERENCES `hari` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  ADD CONSTRAINT `fk_idmatapelajaran` FOREIGN KEY (`idmatapelajaran`) REFERENCES `mata_pelajaran` (`idmata_pelajaran`);
 
 --
 -- Constraints for table `kompetensi_dasar`
@@ -697,33 +1026,43 @@ ALTER TABLE `kompetensi_dasar`
 -- Constraints for table `mata_pelajaran`
 --
 ALTER TABLE `mata_pelajaran`
-  ADD CONSTRAINT `fk_mata_pelajaran_users1` FOREIGN KEY (`guru_pengajar`) REFERENCES `users` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION;
+  ADD CONSTRAINT `fk_mata_pelajaran_kategori_matapelajaran1` FOREIGN KEY (`id_kategori`) REFERENCES `kategori_matapelajaran` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  ADD CONSTRAINT `fk_pengajar` FOREIGN KEY (`guru_pengajar`) REFERENCES `users` (`id`);
+
+--
+-- Constraints for table `nilai_akhir`
+--
+ALTER TABLE `nilai_akhir`
+  ADD CONSTRAINT `fk_mata_pelajaran_has_users_mata_pelajaran1` FOREIGN KEY (`idmata_pelajaran`) REFERENCES `mata_pelajaran` (`idmata_pelajaran`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  ADD CONSTRAINT `fk_mata_pelajaran_has_users_users1` FOREIGN KEY (`users_id`) REFERENCES `users` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION;
 
 --
 -- Constraints for table `nilai_per_penilaian`
 --
 ALTER TABLE `nilai_per_penilaian`
-  ADD CONSTRAINT `fk_penilaian_has_kompetensi_dasar_has_users_penilaian_has_kom1` FOREIGN KEY (`penilaian_idpenilaian`,`idmata_pelajaran`,`idkompetensi_dasar`) REFERENCES `penilaian_has_kompetensi_dasar` (`penilaian_idpenilaian`, `penilaian_idmata_pelajaran`, `idkompetensi_dasar`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  ADD CONSTRAINT `fk_penilaian_has_kompetensi_dasar_has_users_penilaian_has_kom1` FOREIGN KEY (`penilaian_idpenilaian`,`idkompetensi_dasar`) REFERENCES `penilaian_has_kompetensi_dasar` (`penilaian_idpenilaian`, `idkompetensi_dasar`) ON DELETE NO ACTION ON UPDATE NO ACTION,
   ADD CONSTRAINT `fk_penilaian_has_kompetensi_dasar_has_users_users1` FOREIGN KEY (`users_idusers`) REFERENCES `users` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION;
 
 --
 -- Constraints for table `penilaian`
 --
 ALTER TABLE `penilaian`
-  ADD CONSTRAINT `fk_penilaian_mata_pelajaran1` FOREIGN KEY (`mata_pelajaran_idmata_pelajaran`) REFERENCES `mata_pelajaran` (`idmata_pelajaran`) ON DELETE NO ACTION ON UPDATE NO ACTION;
+  ADD CONSTRAINT `fk_penilaian_class_list1` FOREIGN KEY (`idclass`) REFERENCES `class_list` (`idclass_list`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  ADD CONSTRAINT `fk_penilaian_mata_pelajaran1` FOREIGN KEY (`idmata_pelajaran`) REFERENCES `mata_pelajaran` (`idmata_pelajaran`) ON DELETE NO ACTION ON UPDATE NO ACTION;
 
 --
 -- Constraints for table `penilaian_has_kompetensi_dasar`
 --
 ALTER TABLE `penilaian_has_kompetensi_dasar`
   ADD CONSTRAINT `fk_penilaian_has_kompetensi_dasar_kompetensi_dasar1` FOREIGN KEY (`idkompetensi_dasar`) REFERENCES `kompetensi_dasar` (`idkompetensi_dasar`) ON DELETE NO ACTION ON UPDATE NO ACTION,
-  ADD CONSTRAINT `fk_penilaian_has_kompetensi_dasar_penilaian1` FOREIGN KEY (`penilaian_idpenilaian`,`penilaian_idmata_pelajaran`) REFERENCES `penilaian` (`idpenilaian`, `mata_pelajaran_idmata_pelajaran`) ON DELETE NO ACTION ON UPDATE NO ACTION;
+  ADD CONSTRAINT `fk_penilaian_has_kompetensi_dasar_penilaian1` FOREIGN KEY (`penilaian_idpenilaian`) REFERENCES `penilaian` (`idpenilaian`) ON DELETE NO ACTION ON UPDATE NO ACTION;
 
 --
 -- Constraints for table `presensi`
 --
 ALTER TABLE `presensi`
-  ADD CONSTRAINT `fk_presensi_jadwal_kelas1` FOREIGN KEY (`idclass`,`idwalikelas`,`idmatapelajaran`) REFERENCES `jadwal_kelas` (`class_list_idclass_list`, `class_list_wali_kelas`, `mata_pelajaran_idmatapelajaran`) ON DELETE NO ACTION ON UPDATE NO ACTION;
+  ADD CONSTRAINT `fk_idclass` FOREIGN KEY (`idclass_list`) REFERENCES `class_list` (`idclass_list`),
+  ADD CONSTRAINT `fk_mp` FOREIGN KEY (`idmatapelajaran`) REFERENCES `mata_pelajaran` (`idmata_pelajaran`);
 
 --
 -- Constraints for table `rekap_keuangan`
@@ -734,19 +1073,18 @@ ALTER TABLE `rekap_keuangan`
   ADD CONSTRAINT `fk_rekap_keuangan_users1` FOREIGN KEY (`users_idusers`) REFERENCES `users` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION;
 
 --
--- Constraints for table `rekap_presensi`
+-- Constraints for table `setting`
 --
-ALTER TABLE `rekap_presensi`
-  ADD CONSTRAINT `fk_presensi_has_users_presensi1` FOREIGN KEY (`presensi_idpresensi`) REFERENCES `presensi` (`idpresensi`) ON DELETE NO ACTION ON UPDATE NO ACTION,
-  ADD CONSTRAINT `fk_presensi_has_users_users1` FOREIGN KEY (`users_idusers`) REFERENCES `users` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION;
+ALTER TABLE `setting`
+  ADD CONSTRAINT `fk_setting_semester1` FOREIGN KEY (`idsemester`) REFERENCES `semester` (`idsemester`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  ADD CONSTRAINT `fk_setting_users1` FOREIGN KEY (`kepala_sekolah`) REFERENCES `users` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION;
 
 --
 -- Constraints for table `siswa_di_kelas`
 --
 ALTER TABLE `siswa_di_kelas`
   ADD CONSTRAINT `fk_siswa_di_kelas_semester1` FOREIGN KEY (`semester_idsemester`) REFERENCES `semester` (`idsemester`) ON DELETE NO ACTION ON UPDATE NO ACTION,
-  ADD CONSTRAINT `fk_users_has_class_list_class_list1` FOREIGN KEY (`classlist_idclass`) REFERENCES `class_list` (`idclass_list`) ON DELETE NO ACTION ON UPDATE NO ACTION,
-  ADD CONSTRAINT `fk_users_has_class_list_users1` FOREIGN KEY (`users_idusers`) REFERENCES `users` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION;
+  ADD CONSTRAINT `fk_users_has_class_list_class_list1` FOREIGN KEY (`classlist_idclass`) REFERENCES `class_list` (`idclass_list`) ON DELETE NO ACTION ON UPDATE NO ACTION;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
