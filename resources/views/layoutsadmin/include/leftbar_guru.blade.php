@@ -9,7 +9,6 @@
         </ul>
     </li>
     <li><a class="m-link" href="{{ route('presensi') }}"><i class="icofont-ui-home"></i><span>Presensi</span></a></li>
-    <li><a class="m-link" href="{{ route('rencana_penilaian') }}"><i class="icofont-ui-home"></i><span>Rencana Penilaian</span></a></li>
     <li class="collapsed">
         <a class="m-link" data-bs-toggle="collapse" data-bs-target="#kd">
             <i class="icofont-data"></i> <span>Kompetensi Dasar</span> <span class="arrow icofont-dotted-down ms-auto text-end fs-5"></span></a>
