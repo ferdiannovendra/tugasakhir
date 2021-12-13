@@ -41,9 +41,15 @@ Daftar Siswa
                         <span class="badge bg-danger">Siswa Tidak Hadir : {{$countTidakHadir}}</span>
                         </h5>
                     </div>
-                    <div class="col-6">
+                    <div class="col-6" style="text-align: end">
                         <h5>
-                        <span class="badge bg-primary">Mata Pelajaran {{$countsiswa}}</span>
+                        <span class="badge bg-primary">{{$mp->nama_mp}}</span>
+                        </h5>
+                        <h5>
+                        <span class="">{{$presensi->start_time}}</span>
+                        </h5>
+                        <h5>
+                        <span class="">{{$presensi->materi}}</span>
                         </h5>
                     </div>
                 </div>

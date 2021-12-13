@@ -17,11 +17,21 @@ class PenilaianController extends Controller
     public function index()
     {
         $dataMP = MataPelajaran::all();
+        if (Auth::user()->status == "admin") {
+            $dataMP = MataPelajaran::all();
+        }else{
+            $dataMP = MataPelajaran::where('guru_pengajar', Auth::user()->id)->get();
+        }
         return view('sekolah.admin.rencana_penilaian.index',compact('dataMP'));
     }
     public function index_keterampilan()
     {
         $dataMP = MataPelajaran::all();
+        if (Auth::user()->status == "admin") {
+            $dataMP = MataPelajaran::all();
+        }else{
+            $dataMP = MataPelajaran::where('guru_pengajar', Auth::user()->id)->get();
+        }
         return view('sekolah.admin.rencana_penilaian.keterampilan',compact('dataMP'));
     }
     public function generate_rencana_keterampilan(Request $request)
@@ -162,12 +172,22 @@ class PenilaianController extends Controller
     public function input_pengetahuan()
     {
         $dataMP = MataPelajaran::all();
+        if (Auth::user()->status == "admin") {
+            $dataMP = MataPelajaran::all();
+        }else{
+            $dataMP = MataPelajaran::where('guru_pengajar', Auth::user()->id)->get();
+        }
         return view('sekolah.admin.input_penilaian.pengetahuan',compact('dataMP'));
     }
 
     public function input_keterampilan()
     {
         $dataMP = MataPelajaran::all();
+        if (Auth::user()->status == "admin") {
+            $dataMP = MataPelajaran::all();
+        }else{
+            $dataMP = MataPelajaran::where('guru_pengajar', Auth::user()->id)->get();
+        }
         return view('sekolah.admin.input_penilaian.keterampilan',compact('dataMP'));
     }
 
@@ -234,11 +254,21 @@ class PenilaianController extends Controller
     public function lihatrencana()
     {
         $dataMP = MataPelajaran::all();
+        if (Auth::user()->status == "admin") {
+            $dataMP = MataPelajaran::all();
+        }else{
+            $dataMP = MataPelajaran::where('guru_pengajar', Auth::user()->id)->get();
+        }
         return view('sekolah.admin.rencana_penilaian.lihatrencana',compact('dataMP'));
     }
     public function lihatrencana_keterampilan()
     {
         $dataMP = MataPelajaran::all();
+        if (Auth::user()->status == "admin") {
+            $dataMP = MataPelajaran::all();
+        }else{
+            $dataMP = MataPelajaran::where('guru_pengajar', Auth::user()->id)->get();
+        }
         return view('sekolah.admin.rencana_penilaian.lihatrencanaketerampilan',compact('dataMP'));
     }
     public function detail_rencana(Request $request)

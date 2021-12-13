@@ -16,6 +16,11 @@ class PengolahanNilaiController extends Controller
     public function index_pengetahuan()
     {
         $dataMP = MataPelajaran::all();
+        if (Auth::user()->status == "admin") {
+            $dataMP = MataPelajaran::all();
+        }else{
+            $dataMP = MataPelajaran::where('guru_pengajar', Auth::user()->id)->get();
+        }
         return view('sekolah.admin.pengolahan_nilai.index-pengetahuan',compact('dataMP'));
     }
     public function lihat_rincian_pengetahuan(Request $request)
@@ -161,7 +166,11 @@ class PengolahanNilaiController extends Controller
     {
         // dd($request);
         $dataMP = MataPelajaran::all();
-
+        if (Auth::user()->status == "admin") {
+            $dataMP = MataPelajaran::all();
+        }else{
+            $dataMP = MataPelajaran::where('guru_pengajar', Auth::user()->id)->get();
+        }
         for ($i=0; $i < count($request->idsiswa); $i++) {
             # code...
             $insert = DB::table('nilai_akhir')->upsert([
@@ -176,7 +185,11 @@ class PengolahanNilaiController extends Controller
     {
         // dd($request);
         $dataMP = MataPelajaran::all();
-
+        if (Auth::user()->status == "admin") {
+            $dataMP = MataPelajaran::all();
+        }else{
+            $dataMP = MataPelajaran::where('guru_pengajar', Auth::user()->id)->get();
+        }
         for ($i=0; $i < count($request->idsiswa); $i++) {
             # code...
             $insert = DB::table('nilai_akhir')->upsert([
@@ -190,7 +203,11 @@ class PengolahanNilaiController extends Controller
     public function lihatnilaiakhir()
     {
         $dataMP = MataPelajaran::all();
-
+        if (Auth::user()->status == "admin") {
+            $dataMP = MataPelajaran::all();
+        }else{
+            $dataMP = MataPelajaran::where('guru_pengajar', Auth::user()->id)->get();
+        }
         return view('sekolah.admin.nilai-akhir.index',compact('dataMP'));
     }
     public function nilai_akhir(Request $request)

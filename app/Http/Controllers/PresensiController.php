@@ -76,7 +76,7 @@ class PresensiController extends Controller
         $presensi = Presensi::find($idpresensi);
 
         $idmatapelajaran = $presensi->idmatapelajaran;
-
+        $mp = MataPelajaran::find($idmatapelajaran);
         $data = DB::table('rekap_presensi')
         ->join('users','idsiswa','=','id')
         ->join('detail_siswa','id','=','idusers')->where('idpresensi',$idpresensi)->get();
@@ -86,7 +86,7 @@ class PresensiController extends Controller
         $countTidakHadir = DB::table('rekap_presensi')->where('idpresensi',$idpresensi)
         ->where('status_presensi',0)->count();
         $countsiswa = DB::table('rekap_presensi')->where('idpresensi',$idpresensi)->count();
-        return view('sekolah.admin.presensi.view_siswa',compact('data','countHadir','countTidakHadir','countsiswa'));
+        return view('sekolah.admin.presensi.view_siswa',compact('data','countHadir','countTidakHadir','countsiswa','mp','presensi'));
     }
 
     //--------------- BUAT GURU --------------------
@@ -173,7 +173,7 @@ class PresensiController extends Controller
     {
         $idsiswa = Auth::user()->id;
         $idpresensi = $request->id;
-        $ubah = DB::table('rekap_presensi')->where('idpresensi',$idpresensi)
+        $ubah = DB::table('rekap_presensi')->where('idsiswa',$idsiswa)->where('idpresensi',$idpresensi)
         ->update(['status_presensi' => 1]);
     }
 }
