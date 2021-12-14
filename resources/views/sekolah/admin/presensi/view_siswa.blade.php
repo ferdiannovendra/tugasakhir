@@ -13,7 +13,7 @@ Daftar Siswa
 @section('isi-content')
 <div class="row align-item-center">
     <div class="col-md-12">
-        <a href="{{ route('presensi.admin') }}"><button type="button" class="btn btn-primary"><i class="icofont-rounded-left text-white"></i> Back</button></a>
+        <a href="{{ url()->previous() }}"><button type="button" class="btn btn-primary"><i class="icofont-rounded-left text-white"></i> Back</button></a>
     </div>
     <div class="col-md-12">
         @if (session('status'))

@@ -69,32 +69,6 @@ Daftar Pengguna
             </div>
         </div>
     </div>
-
-    <div class="col-md-12">
-        <div class="card mb-3">
-            <div class="card-header mt-2 py-3 d-flex justify-content-between bg-transparent border-bottom-0">
-                <h6 class="mb-0 fw-bold ">Tambah Data Jurusan</h6>
-            </div>
-            <div class="card-body">
-                <form action="{{ route('postTambahJurusan') }}" method="post">
-                    @csrf
-                    <div class="row g-3 align-items-center">
-                        <div class="col-md-6">
-                            <label for="nama_jurusan" class="form-label">Nama Jurusan</label>
-                            <input type="text" class="form-control" id="nama_jurusan" name="nama_jurusan" required>
-                        </div>
-
-                        <div class="col-md-12">
-                            <label for="description" class="form-label">Add Note</label>
-                            <textarea  class="form-control" name="description" id="description" rows="3"></textarea>
-                        </div>
-                    </div>
-
-                    <button type="submit" class="btn btn-primary mt-4">Submit</button>
-                </form>
-            </div>
-        </div>
-    </div>
 </div><!-- Row end  -->
 @endsection
 @section('script')
