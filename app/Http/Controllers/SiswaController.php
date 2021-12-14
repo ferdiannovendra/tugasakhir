@@ -13,8 +13,8 @@ class SiswaController extends Controller
         $idsiswa = $request->id;
         $siswa = User::where('status','siswa')->where('id', $idsiswa)->first();
         $detailsiswa = DetailSiswa::where('idusers', $idsiswa)->first();
-        $jurusan = Jurusan::find($detailsiswa->jurusan_idjurusan);
-        dd($jurusan);
+        $jurusan = Jurusan::find($detailsiswa->jurusan_idjurusan)->nama_jurusan;
+        // dd($jurusan);
         return response()->json(array(
             'status'=>'oke',
             'msg'=>view('sekolah.guru.detailsiswa',compact('siswa','detailsiswa','jurusan'))->render()

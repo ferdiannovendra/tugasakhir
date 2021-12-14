@@ -25,7 +25,7 @@
         <div class="col-md-6">NISN</div>
         <div class="col-md-6">: {{$siswa->nisn}}</div>
         <div class="col-md-6">Jurusan</div>
-        <div class="col-md-6">: {{$jurusan->nama_jurusan}}</div>
+        <div class="col-md-6">: {{$jurusan}}</div>
 
     </div>
 </div>
