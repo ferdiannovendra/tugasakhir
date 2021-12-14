@@ -26,7 +26,7 @@ class MasterWebController extends Controller
         if (!empty($request->file('logo'))) {
             $file = $request->file('logo');
             $new_name = "logo".$data->id."_".date('YmdHis', strtotime($now))."_".$file->getClientOriginalName();
-            $file->move(('public/fileupload'), $new_name);
+            $file->move(('fileupload'), $new_name);
             $data->logo = $new_name;
         }
         $data->footer_text = $request->footer_text;
