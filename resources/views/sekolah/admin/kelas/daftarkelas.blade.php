@@ -53,7 +53,10 @@ Daftar Kelas
                                 <div class="btn-group" role="group" aria-label="Basic outlined example">
                                     <button type="button" onclick="getDetail('{{ $d->idclass_list }}')" class="btn btn-outline-secondary" data-bs-toggle="modal" data-bs-target="#ubahmodal"><i class="icofont-edit text-success"></i></button>
                                     <button type="button" onclick="hapus_data('{{csrf_token()}}','{{ $d->idclass_list }}')" class="btn btn-outline-secondary deleterow"><i class="icofont-ui-delete text-danger"></i></button>
-                                    <button type="button" onclick="tambah_siswa('{{ $d->idclass_list }}')" class="btn btn-outline-secondary deleterow" data-bs-toggle="modal" data-bs-target="#tambahsiswa"><i class="icofont-plus-circle"></i></button>
+                                    <a href="{{route('view_siswa_kelas_admin',$d->idclass_list)}}">
+                                        <button type="button" class="btn btn-outline-secondary"><i class="icofont-people text-success"></i></button>
+                                    </a>
+
                                 </div>
                             </td>
                         </tr>

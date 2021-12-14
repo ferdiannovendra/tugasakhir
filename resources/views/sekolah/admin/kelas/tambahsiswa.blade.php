@@ -10,12 +10,6 @@
                 <label for="nama_kelas" class="form-label">Jurusan :</label>
                 <label for="nama_kelas" class="form-label"><b>{{$kelas->jurusan->nama_jurusan}}</b></label>
             </div>
-            <div class="col-md-6">
-                <label for="nama_kelas" class="form-label">Jurusan :</label>
-                <select name="siswa[]" id="siswa" class="form-select" multiple size="10">
-
-                </select>
-            </div>
         </div>
         <div class="row g-3 align-items-center">
             <div class="col-md-6">

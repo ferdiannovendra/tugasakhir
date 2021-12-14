@@ -156,7 +156,7 @@ class KelasController extends Controller
 
         return response()->json(array(
             'status'=>'oke',
-            'msg'=>view('sekolah.admin.kelas.tambahsiswa',compact('kelas','id','datasiswa','siswakelas'))->render()
+            'msg'=>view('sekolah.admin.kelas.tambahsiswa',compact('kelas','id','datasiswa'))->render()
         ),200);
     }
     public function tambah_siswa(Request $request, $id)
@@ -188,5 +188,12 @@ class KelasController extends Controller
                 join('users','siswa_di_kelas.users_idusers','=','users.id')->get();
         // dd($data);
         return view('sekolah.guru.kelas.view_siswa_kelas',compact('data'));
+    }
+    public function view_siswa_kelas_admin($id)
+    {
+        $data = DB::table('siswa_di_kelas')->where('classlist_idclass',$id)->
+                join('users','siswa_di_kelas.users_idusers','=','users.id')->get();
+        // dd($data[0]->classlist_idclass);
+        return view('sekolah.admin.kelas.view_siswa_kelas',compact('data'));
     }
 }

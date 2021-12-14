@@ -23,7 +23,7 @@ Daftar Pengguna
         <div class="card mb-3">
             <div class="card-header mt-2 py-3 d-flex justify-content-between bg-transparent border-bottom-0">
                 <h6 class="mb-0 fw-bold ">Daftar Pengguna</h6>
-                <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#TambahModal">+ Tambah Data (Import)</button>
+                <button type="button" onclick="tambah_siswa('{{ $data[0]->classlist_idclass }}')" class="btn btn-outline-secondary deleterow" data-bs-toggle="modal" data-bs-target="#tambahsiswa"><i class="icofont-plus-circle"></i></button>
             </div>
             <div class="card-body">
                 <div class="table-responsive">
@@ -35,8 +35,6 @@ Daftar Pengguna
                             <th scope="col">First Name</th>
                             <th scope="col">Last Name</th>
                             <th scope="col">Email</th>
-                            <th scope="col">Alamat</th>
-                            <th scope="col">No Telpon</th>
                             <th scope="col">Gender</th>
                             <th scope="col">Aksi</th>
                         </tr>
@@ -49,17 +47,10 @@ Daftar Pengguna
                             <td>{{ $d->name }}</td>
                             <td>{{ $d->lname }}</td>
                             <td>{{ $d->email }}</td>
-                            <td>{{ $d->address }}</td>
-                            <td>{{ $d->phone }}</td>
                             <td>{{ $d->gender }}</td>
                             <td>
                                 <div class="btn-group" role="group" aria-label="Basic outlined example">
-                                    <button type="button" class="btn btn-outline-secondary" onclick="reset('{{csrf_token()}}','{{$d->id}}')"><i class="icofont-ui-settings text-success"></i></button>
-                                    <form action="{{ route('postHapusUser') }}" method="post">
-                                        @csrf
-                                        <input type="hidden" name="iduser" value="{{$d->id}}">
-                                        <button type="submit" class="btn btn-outline-secondary deleterow"><i class="icofont-ui-delete text-danger"></i></button>
-                                    </form>
+                                    <button type="button" class="btn btn-outline-secondary" onclick="getDetailSiswa('{{$d->id}}')" data-bs-toggle="modal" data-bs-target="#ubahmodal"><i class="icofont-search-1 text-success"></i></button>
                                 </div>
                             </td>
                         </tr>
@@ -72,32 +63,41 @@ Daftar Pengguna
     </div>
 </div><!-- Row end  -->
 
-<div class="modal fade" id="TambahModal" tabindex="-1" aria-labelledby="exampleModalXlLabel" style="display: none;" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
+<div class="modal fade" id="ubahmodal" tabindex="-1" aria-labelledby="ubahmodal" style="display: none;" aria-hidden="true">
+    <div class="modal-dialog modal-xl">
+        <div class="modal-content" id="modalcontent">
             <div class="modal-header">
-                <h5 class="modal-title h4" >Tambah Data</h5>
+                <h5 class="modal-title h4">Detail Siswa</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
-            <form action="{{ route('uploadsiswa') }}" enctype="multipart/form-data" method="post">
             <div class="modal-body">
-                    @csrf
-                    <div class="row g-3 align-items-center">
-                        <div class="col-md-12">
-                            <p>Upload file data yang akan dimasukkan ke database. Harap menggunakan format yang telah disediakan. <a href="{{asset('Format User.xlsx')}}">Klik disini untuk download template</a></p>
-                            <input class="form-control" type="file" id="formFileMultiple" name="file" multiple required>
-                        </div>
+                <div class="row justify-content-center">
+                    <div class="spinner-border text-primary" role="status">
+                        <span class="visually-hidden">Loading...</span>
                     </div>
-
+                </div>
             </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                <button type="submit" class="btn btn-primary">Submit</button>
-            </div>
-            </form>
         </div>
     </div>
 </div>
+<div class="modal fade" id="tambahsiswa" tabindex="-1" aria-labelledby="tambahsiswa" style="display: none;" aria-hidden="true">
+    <div class="modal-dialog modal-xl">
+        <div class="modal-content" id="modalcontenttambahsiswa">
+            <div class="modal-header">
+                <h5 class="modal-title h4">Tambah Siswa</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="row justify-content-center">
+                    <div class="spinner-border text-primary" role="status">
+                        <span class="visually-hidden">Loading...</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
 @endsection
 @section('script')
 <!-- Plugin Js-->
@@ -120,40 +120,46 @@ Daftar Pengguna
 
 </script>
 <script>
-    function reset(token, id){
-            swal({
-            title: "Yakin Ingin Reset Data Pengguna?",
-            text: "Password akan berubah menjadi NIK pengguna",
-            type: "warning",
-            showCancelButton: true,
-            confirmButtonColor: "#FF5722",
-            confirmButtonText: "Ya, Reset!",
-            cancelButtonText: "Tidak!",
-            closeOnConfirm: false,
-            closeOnCancel: true,
-            showLoaderOnConfirm: true
-        }).then(function () {
-            var act = '/sekolah/resetpassword';
-            $.post(act, { _token: token, id:id },
-            function (data) {
-                swal(
-                'Berhasil!',
-                'Data pengguna telah ter-reset.',
-                'success'
-                ).then(function () {
-                    location.reload();
-                })
-            });
+    function getDetailSiswa(id) {
+    $('#modalcontent').html(`
+    <div class="modal-header">
+        <h5 class="modal-title h4">Detail Siswa</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+    </div>
+    <div class='modal-body'>
+        <div class='row justify-content-center'>
+            <div class="spinner-border text-primary" role="status">
+                <span class="visually-hidden">Loading...</span>
+            </div>
+        </div>
+    </div>`)
+$.ajax({
+        type: 'POST',
+        url: '{{route("getdetailsiswa")}}',
+        data: {
+            '_token': '<?php echo csrf_token() ?>',
+            'id': id
+        },
+        success: function(data) {
+            $('#modalcontent').html(data.msg)
+        }
+    });
+}
 
-        }, function (dismiss) {
-            if (dismiss === 'cancel') {
-                swal(
-                    'Batal',
-                    'Langkah reset terhenti dan dibatalkan :)',
-                    'error'
-                    )
+function tambah_siswa(id) {
+    $.ajax({
+            type: 'POST',
+            url: '{{route("listsiswa_tambahkelas")}}',
+            data: {
+                '_token': '<?php echo csrf_token() ?>',
+                'id': id
+            },
+            success: function(data) {
+                $('#modalcontenttambahsiswa').html(data.msg)
             }
-        })
+        });
     }
+
 </script>
+
 @endsection

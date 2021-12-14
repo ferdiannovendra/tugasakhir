@@ -158,6 +158,8 @@ Route::middleware(['auth'])->group(function () {
             Route::post('ubahhari', [HariController::class, 'edit'])->name('ubahhari');
             Route::post('/simpan_ubahhari/{id}', [HariController::class, 'update'])->name('simpan_ubahhari');
 
+            Route::get('/view_siswa_kelas/{id}', [KelasController::class, 'view_siswa_kelas_admin'])->name('view_siswa_kelas_admin');
+
             // Route::get('/rencana_penilaian', [PenilaianController::class, 'index'])->name('rencana_penilaian_admin');
             // Route::post('generate_rencana_pengetahuan', [PenilaianController::class, 'generate_rencana_pengetahuan'])->name('generate_rencana_pengetahuan');
             // Route::post('kirim_rencana', [PenilaianController::class, 'kirim_rencana'])->name('kirim_rencana');

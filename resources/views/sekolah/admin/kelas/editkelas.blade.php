@@ -33,7 +33,7 @@
                     @if(isset($dataSemester))
                         @foreach($dataSemester as $semester)
                             <option value="{{ $semester->idsemester }}"  @if($semester->idsemester == $kelas->idsemester) selected @endif>{{ $semester->nama_semester }} - {{ $semester->tahun_ajaran }}</option>
-                        @else
+                        @endforeach
                     <option value="-" disabled>Tidak ada data semester</option>
                     @endif
 
