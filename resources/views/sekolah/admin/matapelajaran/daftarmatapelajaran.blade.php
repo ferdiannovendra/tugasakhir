@@ -35,7 +35,7 @@ Daftar Kelas
                             <th scope="col">Status</th>
                             <th scope="col">SKM</th>
                             <th scope="col">Guru</th>
-                            <th scope="col">Kategori</th>
+                            {{-- <th scope="col">Kategori</th> --}}
                             <th scope="col">Aksi</th>
                         </tr>
                         </thead>
@@ -47,7 +47,7 @@ Daftar Kelas
                             <td>{{ $d->status }}</td>
                             <td>{{ $d->skm }}</td>
                             <td>{{ $d->user->name }}</td>
-                            <td>{{ $d->kategori->nama_kategori }}</td>
+                            {{-- <td></td> --}}
                             <td>
                                 <div class="btn-group" role="group" aria-label="Basic outlined example">
                                     <button type="button" onclick="getDetail('{{ $d->idmata_pelajaran }}')" class="btn btn-outline-secondary" data-bs-toggle="modal" data-bs-target="#ubahmodal"><i class="icofont-edit text-success"></i></button>
