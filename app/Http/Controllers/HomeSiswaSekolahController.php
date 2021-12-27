@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Carbon\Carbon;
 use App\Models\Semester;
+use App\Models\User;
+use App\Models\DetailSiswa;
 use Auth;
 use Illuminate\Support\Facades\DB;
 
@@ -39,7 +41,13 @@ class HomeSiswaSekolahController extends Controller
         }else{
             return view('sekolah.siswa.pending');
         }
-
-
+    }
+    public function profil()
+    {
+        $iduser = Auth::user()->id;
+        $data = User::find($iduser);
+        $detail = DetailSiswa::where('idusers',$iduser)->first();
+        // dd($data);
+        return view('sekolah.siswa.profile.index',compact('data','detail'));
     }
 }
