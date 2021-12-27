@@ -12,7 +12,6 @@ class SemesterController extends Controller
     public function index()
     {
         $alldata =  Semester::all();
-
         return view('sekolah.admin.semester.daftarsemester',["data"=>$alldata]);
     }
     public function edit(Request $request)
@@ -26,7 +25,6 @@ class SemesterController extends Controller
     }
     public function update(Request $request, $id)
     {
-        // return $id;
         $sem = Semester::find($id);
         $sem->nama_semester = $request->nama_semester;
         $sem->tahun_ajaran = $request->tahun_ajaran;

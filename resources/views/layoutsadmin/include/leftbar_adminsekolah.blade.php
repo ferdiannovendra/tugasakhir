@@ -98,6 +98,7 @@
         </ul>
     </li>
     <li><a class="m-link" href="{{ route('lihatnilai-akhir') }}"><i class="icofont-ui-home"></i><span>Nilai Akhir</span></a></li>
+    <li><a class="m-link" href="{{ route('lihatnilai-rapor') }}"><i class="icofont-ui-home"></i><span>Nilai Rapor</span></a></li>
 
     <!-- ================ Data Website ======================== -->
     <li class="collapsed">

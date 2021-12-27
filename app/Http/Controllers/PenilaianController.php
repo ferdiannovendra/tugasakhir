@@ -60,12 +60,10 @@ class PenilaianController extends Controller
     }
     public function kirim_rencana(Request $request)
     {
-        // dd($request);
         for ($i=1; $i <= $request->jumlah; $i++) {
             $nama = $request->{'nama_p'.$i};
             $bobot = $request->{'bobot_p'.$i};
             $teknik_penilaian = $request->{'teknik_'.$i};
-            // dd($request);
             $penilaian = new Penilaian();
             $penilaian->jenispenilaian = "Pengetahuan";
             $penilaian->teknik_penilaian = $teknik_penilaian;
@@ -81,7 +79,6 @@ class PenilaianController extends Controller
             }
         }
 
-        //UNTUK PTS
         $penilaian = new Penilaian();
         $penilaian->jenispenilaian = "Pengetahuan";
         $penilaian->nama = "PTS";
@@ -95,7 +92,6 @@ class PenilaianController extends Controller
             $penilaian->kompetensidasar()->attach($pts[$i]);
         }
 
-        //UNTUK PAS
         $penilaian = new Penilaian();
         $penilaian->jenispenilaian = "Pengetahuan";
         $penilaian->nama = "PAS";
@@ -113,12 +109,10 @@ class PenilaianController extends Controller
     }
     public function kirim_rencana_keterampilan(Request $request)
     {
-        // dd($request);
         for ($i=1; $i <= $request->jumlah; $i++) {
             $nama = $request->{'nama_p'.$i};
             $bobot = $request->{'bobot_p'.$i};
             $teknik_penilaian = $request->{'teknik_'.$i};
-            // dd($request);
             $penilaian = new Penilaian();
             $penilaian->jenispenilaian = "Keterampilan";
             $penilaian->teknik_penilaian = $teknik_penilaian;
@@ -229,7 +223,6 @@ class PenilaianController extends Controller
 
     public function kirim_nilai(Request $request)
     {
-        // dd($request);
         $getSiswa = DB::table('siswa_di_kelas')->where('classlist_idclass',$request->kelas)->join('users','users_idusers','id')->get();
         $kd = Penilaian::find($request->penilaian)->kompetensidasar()->get();
 
@@ -238,17 +231,9 @@ class PenilaianController extends Controller
                 $insert = DB::table('nilai_per_penilaian')->upsert([
                             ['penilaian_idpenilaian' => $request->penilaian,'users_idusers'=>$s->id, 'idkompetensi_dasar' => $k->idkompetensi_dasar, 'nilai' => $request->{'nilai'.$s->id.'_'.$k->idkompetensi_dasar}],
                         ], ['penilaian_idpenilaian', 'users_idusers','idkompetensi_dasar'], ['nilai']);
-
-                // $insert = DB::table('nilai_per_penilaian')->insert([
-                //     'penilaian_idpenilaian' => $request->penilaian,
-                //     'idkompetensi_dasar' => $k->idkompetensi_dasar,
-                //     'users_idusers' => $s->id,
-                //     'nilai' => $request->{'nilai'.$s->id.'_'.$k->idkompetensi_dasar}
-                // ]);
             }
         }
         return redirect()->back()->with('status','Sukses tambah nilai');
-
     }
 
     public function lihatrencana()
@@ -278,26 +263,16 @@ class PenilaianController extends Controller
 
         $kelas = $request->idclass;
         $mp = $request->idmp;
-        // $kelas = 1;
-        // $mp = 1;
-        // dd($kelas." ".$mp);
         $data = KompetensiDasar::whereHas('penilaian',function($q) use ($kelas, $mp) {
-            $q->where('idmata_pelajaran',$mp)->where('idclass', $kelas)->where('jenispenilaian', "Pengetahuan");
-
+            $q->where('idmata_pelajaran',$mp)
+            ->where('idclass', $kelas)
+            ->where('jenispenilaian', "Pengetahuan");
         })->get();
-        // dd(count($data));
-        // dd($data[0]->penilaian()->where('idclass', $kelas)->where('idmata_pelajaran', $mp)->get());
-        // dd($data);
-        // $data = DB::table('penilaian_has_kompetensi_dasar')->join('kompetensi_dasar','penilaian_has_kompetensi_dasar.idkompetensi_dasar','kompetensi_dasar.idkompetensi_dasar')->get();
-        // $kd = Penilaian::where('idclass', $kelas)->where('idmata_pelajaran',$mp)->get();
-        // dd($kd);
-        // $getSiswa = DB::table('siswa_di_kelas')->where('classlist_idclass',$kelas)->join('users','users_idusers','id')->get();
-        // $nilai = DB::table('nilai_per_penilaian')->where('penilaian_idpenilaian',$idpenilaian)->get();
+
         return response()->json(array(
             'status'=>'oke',
             'msg'=>view('sekolah.admin.rencana_penilaian.detail_rencana',compact('data','kelas','mp'))->render()
         ),200);
-
     }
     public function detail_rencana_keterampilan(Request $request)
     {

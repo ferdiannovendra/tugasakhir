@@ -50,8 +50,6 @@ class PengolahanNilaiController extends Controller
             $nilai_siswa[] = [$s, $temp];
         }
 
-        // $nilai = DB::table('nilai_per_penilaian')->where('penilaian_idpenilaian',$idpenilaian)->get();
-        // dd($data);
         return response()->json(array(
             'status'=>'oke',
             'msg'=>view('sekolah.admin.pengolahan_nilai.data-rincian',compact('data', 'counter','nilai_siswa','kelas','mp'))->render()
@@ -220,18 +218,25 @@ class PengolahanNilaiController extends Controller
             $q->where('classlist_idclass',$kelas);
         })->get();
         $nilai_siswa = array();
-        // dd($siswa);
-        // $count = 0;
         foreach ($siswa as $s) {
             $da = DB::table('nilai_akhir')->join('mata_pelajaran','nilai_akhir.idmata_pelajaran','mata_pelajaran.idmata_pelajaran')->join('users','users_id','id')->where('nilai_akhir.idmata_pelajaran',$mp)->where('nilai_akhir.users_id',$s->id)->first();
-            // dd($da);
             $nilai_siswa[] = [$da];
         }
 
-        // dd($nilai_siswa);
         return response()->json(array(
             'status'=>'oke',
             'msg'=>view('sekolah.admin.nilai-akhir.data-nilaiakhir',compact('data','nilai_siswa','kelas','mp'))->render()
         ),200);
+    }
+
+    public function lihatnilairapor()
+    {
+        $dataMP = MataPelajaran::all();
+        if (Auth::user()->status == "admin") {
+            $dataMP = MataPelajaran::all();
+        }else{
+            $dataMP = MataPelajaran::where('guru_pengajar', Auth::user()->id)->get();
+        }
+        return view('sekolah.admin.nilai-rapor.index',compact('dataMP'));
     }
 }

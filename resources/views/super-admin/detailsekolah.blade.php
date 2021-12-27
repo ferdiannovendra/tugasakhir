@@ -49,14 +49,7 @@ Super-Admin
                                         <label for="depone" class="form-label">Domain</label>
                                         <input type="text" name="domain" value="{{$data->domain}}" class="form-control" id="depone">
                                         </div>
-                                        <div class="col-sm-6">
-                                        <label for="abc" class="form-label">Start Date</label>
-                                        <input type="date" class="form-control" name="start_date" value="{{$data->start_date}}"id="abc">
-                                        </div>
-                                        <div class="col-sm-6">
-                                        <label for="abc" class="form-label">End Date</label>
-                                        <input type="date" class="form-control" name="end_date" value="{{$data->end_date}}"id="abc">
-                                        </div>
+
                                     </div>
 
                                     <button type="submit" class="btn btn-primary">Update</button>
@@ -96,13 +89,22 @@ Super-Admin
             $.post(act, { _token: token, id:id },
             function (data) {
                 console.log(data.status);
-                // swal(
-                // 'Terhapus!',
-                // 'Database telah terbentuk.',
-                // 'success'
-                // ).then(function () {
-                //     location.reload();
-                // })
+                if (data.status == 'sukses') {
+                    swal(
+                    'Berhasil!',
+                    'Database telah terbentuk.',
+                    'success'
+                    ).then(function () {
+                        location.reload();
+                    })
+                }else{
+                    swal(
+                    'Gagal',
+                    'Langkah generate terhenti dan dibatalkan, Pastikan seluruh data benar',
+                    'error'
+                    )
+                }
+
             });
 
         }, function (dismiss) {

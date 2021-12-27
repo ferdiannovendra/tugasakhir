@@ -1,7 +1,7 @@
 @extends('layoutsadmin.adminsekolah')
 
 @section('title')
-Input Nilai Pengetahuan
+Lihat Nilai Akhir
 @endsection
 
 @section('style')
@@ -22,7 +22,7 @@ Input Nilai Pengetahuan
     <div class="col-md-12">
         <div class="card mb-3">
             <div class="card-header mt-2 py-3 d-flex justify-content-between bg-transparent border-bottom-0">
-                <h6 class="mb-0 fw-bold ">Perencanaan Penilaian Pengetahuan</h6>
+                <h6 class="mb-0 fw-bold ">Lihat Hasil Nilai Akhir</h6>
             </div>
             <div class="card-body">
                 <h6 class="mb-0 fw-bold ">Pilih Mata Pelajaran :</h6>
@@ -52,25 +52,14 @@ Input Nilai Pengetahuan
                     <option value="-" selected disabled>Silahkan pilih mata pelajaran</option>
                 </select>
                 <br>
-                <h6 class="mb-0 fw-bold ">Penilaian :</h6>
-                <br>
-                <select name="penilaian" class="form-select" id="penilaian" required>
-                    <option value="-" selected>Silahkan Pilih kelas dan mata pelajaran</option>
-                </select>
-                <button type="button" id="btntambah" class="btn btn-primary" >Tambah</button>
+                <button type="button" id="btnLihatRincian" class="btn btn-primary" >Lihat Rincian Nilai Siswa</button>
 
                 <br>
                 <hr>
                 <br>
-                <form method="post" action="{{ route('kirim_nilai') }}" id="formkirim">
-                    @csrf
-                <input type="hidden" name="matapelajaran" id="matapelajarankirim">
-                <input type="hidden" name="kelas" id="kelaskirim">
-                <input type="hidden" name="penilaian" id="penilaiankirim">
                 <div id="tabeldata">
 
                 </div>
-                </form>
             </div>
         </div>
     </div>
@@ -96,6 +85,26 @@ Input Nilai Pengetahuan
        });
    });
 
+$('#mpselect').on('change', function(e) {
+        var id_mp = e.target.value;
+        alert(id_mp);
+        $.ajax({
+            type: "POST",
+            url: "{{ route('listkelasadmin') }}",
+            data: {
+                '_token': '<?php echo csrf_token() ?>',
+                'id_mp': id_mp
+            },
+            success: function(data) {
+                $('.class_select').empty();
+                $('.class_select').append('<option value="">--Pilih Kelas--</option>');
+                for (let i = 0; i < data.listkelas.length; i++) {
+                    $('.class_select').append('<option value="'+data.listkelas[i].idclass+'">'+data.listkelas[i].name_class+'</option>');
+                }
+
+            }
+        })
+    });
 $('#matapelajaran2').on('change', function(e) {
         var id_mp = e.target.value;
         alert(id_mp);
@@ -116,104 +125,22 @@ $('#matapelajaran2').on('change', function(e) {
             }
         })
     });
-$('#class_select2').on('change', function(e) {
-        var idclass = e.target.value;
-        var idmp = $('#matapelajaran2').val();
-        alert(idclass);
-        $.ajax({
-            type: "POST",
-            url: "{{ route('listpenilaian_pengetahuan') }}",
-            data: {
-                '_token': '<?php echo csrf_token() ?>',
-                'idclass': idclass,
-                'idmp' :idmp
-            },
-            success: function(data) {
-                $('#penilaian').empty();
-                $('#penilaian').append('<option value="">--Pilih Penilaian--</option>');
-                for (let i = 0; i < data.listpenilaian.length; i++) {
-                    $('#penilaian').append('<option value="'+data.listpenilaian[i].idpenilaian+'">'+data.listpenilaian[i].nama+'</option>');
-                }
 
-            }
-        })
-    });
-
-$('#btntambah').on('click', function(e) {
-        var penilaian = $('#penilaian').val();
+$('#btnLihatRincian').on('click', function(e) {
         var id_mp = $('#matapelajaran2').val();
         var id_class = $('#class_select2').val();
-
-        $('#matapelajarankirim').val(id_mp);
-        $('#kelaskirim').val(id_class);
-        $('#penilaiankirim').val(penilaian);
         $.ajax({
             type: "POST",
-            url: "{{ route('generate_input_nilai') }}",
+            url: "{{ route('nilai_akhir') }}",
             data: {
                 '_token': '<?php echo csrf_token() ?>',
                 'idmp': id_mp,
-                'idclass': id_class,
-                'idpenilaian':penilaian
+                'idclass': id_class
             },
             success: function(data) {
                 $('#tabeldata').html(data.msg);
             }
         })
     });
-</script>
-
-<script>
-    function hapus_data(token, id) {
-    swal({
-        title: "Yakin Ingin Menghapus Data?",
-        text: "Jika dihapus data akan Sepenuhnya Hilang",
-        type: "warning",
-        showCancelButton: true,
-        confirmButtonColor: "#FF5722",
-        confirmButtonText: "Ya, Hapus!",
-        cancelButtonText: "Tidak!",
-        closeOnConfirm: false,
-        closeOnCancel: true,
-        showLoaderOnConfirm: true
-    }).then(function () {
-        var act = '/sekolah/postAdminHapusPresensi';
-        $.post(act, { _token: token, id:id },
-        function (data) {
-            swal(
-            'Terhapus!',
-            'Data Presensi telah terhapus.',
-            'success'
-            ).then(function () {
-                location.reload();
-            })
-        });
-
-    }, function (dismiss) {
-        if (dismiss === 'cancel') {
-            swal(
-                'Batal',
-                'Langkah menghapus terhenti dan dibatalkan :)',
-                'error'
-                )
-        }
-    })
-
-}
-
-function getDetail(id) {
-    $.ajax({
-            type: 'POST',
-            url: '{{route("ubahkd")}}',
-            data: {
-                '_token': '<?php echo csrf_token() ?>',
-                'id': id
-            },
-            success: function(data) {
-                $('#modalcontent').html(data.msg)
-            }
-        });
-    }
-
 </script>
 @endsection

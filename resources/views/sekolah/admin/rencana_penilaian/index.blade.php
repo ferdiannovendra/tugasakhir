@@ -263,7 +263,6 @@ $('#btntambah').on('click', function(e) {
                     }
                 }
                 $('#table').append('<tbody>');
-                // $('#table > tbody').append('<tr>...</tr><tr>...</tr>');
 
                 for (let i = 0; i < data.kd.length; i++) {
                     $('#table > tbody').append('<tr>' +

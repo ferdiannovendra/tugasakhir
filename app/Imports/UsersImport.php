@@ -17,28 +17,8 @@ class UsersImport implements ToCollection, WithHeadingRow
     *
     * @return \Illuminate\Database\Eloquent\Model|null
     */
-    // public function model(array $row)
-    // {
-    //     return new User([
-    //         //
-    //     ]);
-    // }
     public function collection(Collection $rows)
     {
-        // return $user = User::create([
-        //     'nik' => $row['nik'],
-        //     'name'    => $row['name'],
-        //     'lname'    => $row['lname'],
-        //     'email'    => $row['email'],
-        //     'password' => Hash::make($row['password']),
-        //     'address'    => $row['address'],
-        //     'phone'    => $row['phone'],
-        //     'status'    => 'siswa',
-        //     'religion'    => $row['religion'],
-        //     'gender'    => $row['gender'],
-        //     'birth_place'    => $this->transformDate($row['brith_place']),
-        //     'birth_date'    => $this->transformDate($row['birth_date']),
-        //  ]);
         foreach ($rows as $row)
         {
             $user = new User();

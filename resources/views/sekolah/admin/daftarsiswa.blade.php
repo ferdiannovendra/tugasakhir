@@ -85,7 +85,7 @@ Daftar Pengguna
                     <div class="row g-3 align-items-center">
                         <div class="col-md-12">
                             <p>Upload file data yang akan dimasukkan ke database. Harap menggunakan format yang telah disediakan. <a href="{{asset('Format User.xlsx')}}">Klik disini untuk download template</a></p>
-                            <input class="form-control" type="file" id="formFileMultiple" name="file" multiple required>
+                            <input class="form-control" type="file" id="formFileMultiple" name="file" accept=".xlsx" multiple required>
                         </div>
                     </div>
 

@@ -255,6 +255,7 @@ Route::middleware(['auth'])->group(function () {
             Route::get('/lihatnilai-akhir', [PengolahanNilaiController::class, 'lihatnilaiakhir'])->name('lihatnilai-akhir');
             Route::post('nilai_akhir', [PengolahanNilaiController::class, 'nilai_akhir'])->name('nilai_akhir');
 
+            Route::get('/lihatnilai-rapor', [PengolahanNilaiController::class, 'lihatnilairapor'])->name('lihatnilai-rapor');
         });
     });
     Route::post('getdetailsiswa', [SiswaController::class, 'getdetailsiswa'])->name('getdetailsiswa');
