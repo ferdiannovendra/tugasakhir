@@ -38,6 +38,7 @@
             <!-- Menu: main ul -->
             <ul class="menu-list flex-grow-1 mt-3">
                 <li><a class="m-link" href="{{ route('superadminhome') }}"><i class="icofont-ui-home"></i><span>Home</span></a></li>
+                <li><a class="m-link" href="{{ route('daftarpengajuan') }}"><i class="icofont-ui-home"></i><span>Daftar Pengajuan</span></a></li>
                 <li><a class="m-link" href="{{ route('tambahdatasekolah') }}"><i class="icofont-plus-circle"></i><span>Tambah Data</span></a></li>
             </ul>
 

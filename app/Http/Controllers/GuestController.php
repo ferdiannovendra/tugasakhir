@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Goutte\Client;
+use App\Models\Pengajuan;
+use Auth;
 
 class GuestController extends Controller
 {
@@ -44,9 +46,19 @@ class GuestController extends Controller
         ),200);
     }
 
+    public function prosesdaftar()
+    {
+        return view('guest.status');
+    }
     public function simpansekolah(Request $request)
     {
         $npsn = $request->npsn;
+        $nama = $request->nama;
 
+        $pengajuan = new Pengajuan();
+        $pengajuan->npsn = $npsn;
+        $pengajuan->nama_sekolah = $nama;
+        $pengajuan->users_id = Auth::user()->id;
+        $pengajuan->save();
     }
 }

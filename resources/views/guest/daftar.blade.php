@@ -81,8 +81,9 @@ function getDetail() {
 </script>
 <script>
 
-    function simpan(token) {
+    function simpan() {
         var npsn = document.getElementById("npsn").value;
+        var nama = document.getElementById("nama").innerHTML;
         swal({
             title: "Yakin Mendaftarkan Sekolah anda?",
             text: "Sekolah akan masuk pada proses pendaftaran",
@@ -96,14 +97,14 @@ function getDetail() {
             showLoaderOnConfirm: true
         }).then(function () {
             var act = '/guest/simpansekolah';
-            $.post(act, { _token: token, npsn:npsn },
+            $.post(act, { _token: '<?php echo csrf_token() ?>', npsn:npsn,nama:nama },
             function (data) {
                 swal(
                 'Berhasil!',
                 'Data telah Diajukan.',
                 'success'
                 ).then(function () {
-                    location.pathname = "/proses-daftar";
+                    location.pathname = "/guest/proses-daftar";
                 })
             });
 
@@ -115,7 +116,7 @@ function getDetail() {
                     'error'
                     )
             }
-        })
+        });
 
 }
 </script>

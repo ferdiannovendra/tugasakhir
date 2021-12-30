@@ -68,7 +68,7 @@ Route::middleware(['auth'])->group(function () {
         Route::prefix('guest')->group(function () {
             Route::get('/home', [GuestController::class, 'index'])->name('guesthome');
             Route::get('/regissekolah', [GuestController::class, 'regissekolah'])->name('regissekolah');
-            Route::get('/proses-daftar', [GuestController::class, 'proses-daftar'])->name('proses-daftar');
+            Route::get('/proses-daftar', [GuestController::class, 'prosesdaftar'])->name('proses-daftar');
             Route::post('/ceksekolah', [GuestController::class, 'ceksekolah'])->name('ceksekolah');
             Route::post('/simpansekolah', [GuestController::class, 'simpansekolah'])->name('simpansekolah');
         });
@@ -77,11 +77,16 @@ Route::middleware(['auth'])->group(function () {
     Route::middleware(['superadmin'])->group(function () {
         Route::prefix('super-admin')->group(function () {
             Route::get('/home', [SuperAdminController::class, 'index'])->name('superadminhome');
+            Route::get('/daftarpengajuan', [SuperAdminController::class, 'daftarpengajuan'])->name('daftarpengajuan');
             Route::get('/home/{id}', [SuperAdminController::class, 'detailsekolah'])->name('detailsekolah');
             Route::view('/tambahdata', 'super-admin.tambahdata')->name('tambahdatasekolah');
             Route::post('simpan_data_sekolah', [SuperAdminController::class, 'simpan_data_sekolah'])->name('simpan_data_sekolah');
             Route::post('generateDB', [SuperAdminController::class, 'generateDB'])->name('generateDB');
             Route::post('/simpanubah_tenant/{id}', [SuperAdminController::class, 'simpanubah_tenant'])->name('simpanubah_tenant');
+
+            Route::post('/ubahstatus_selesai', [SuperAdminController::class, 'ubahstatus_selesai'])->name('ubahstatus_selesai');
+            Route::post('/ubahstatus_diterima', [SuperAdminController::class, 'ubahstatus_diterima'])->name('ubahstatus_diterima');
+            Route::post('/ubahstatus_tolak', [SuperAdminController::class, 'ubahstatus_tolak'])->name('ubahstatus_tolak');
         });
     });
 

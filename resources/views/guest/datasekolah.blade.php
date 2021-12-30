@@ -7,7 +7,7 @@
     <div class="row g-3 align-items-center">
         <div class="col-md-12">
             <label class="form-label">Nama Sekolah</label>
-            <h5>{{$namasekolah}}</h5>
+            <h5 id="nama">{{$namasekolah}}</h5>
         </div>
         <div class="col-md-12">
             <label class="form-label">Alamat</label>

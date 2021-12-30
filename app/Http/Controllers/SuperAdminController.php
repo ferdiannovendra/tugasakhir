@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use App\Models\Tenant;
+use App\Models\Pengajuan;
 use Maatwebsite\Excel\Facades\Excel;
 
 class SuperAdminController extends Controller
@@ -145,6 +146,41 @@ class SuperAdminController extends Controller
         $output = shell_exec(escapeshellcmd('python '.public_path("/python/cek.py").$npsn));
         // $output = 'python '.public_path("/python/cek.py").$npsn;
         echo $output;
+    }
+    public function daftarpengajuan()
+    {
+        $data = Pengajuan::orderBy('status','asc')->get();
+        $count = Pengajuan::count();
+        return view('super-admin.daftarpengajuan', compact('data','count'));
+    }
+    public function ubahstatus_diterima(Request $request)
+    {
+        $id = $request->id;
+        $peng = Pengajuan::find($id);
+        $peng->status = 1;
+
+        $tenant = new Tenant();
+        $tenant->name = $peng->nama_sekolah;
+        $tenant->npsn = $peng->npsn;
+        $tenant->save();
+
+        $peng->save();
+
+    }
+    public function ubahstatus_selesai(Request $request)
+    {
+        $id = $request->id;
+        $peng = Pengajuan::find($id);
+        $peng->status = 2;
+        $peng->save();
+    }
+    public function ubahstatus_tolak(Request $request)
+    {
+        $id = $request->id;
+        $peng = Pengajuan::find($id);
+        $peng->status = 3;
+        $peng->save();
+
     }
 
 }
