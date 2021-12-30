@@ -23,6 +23,7 @@ use App\Http\Controllers\SiswaController;
 use App\Http\Controllers\PresensiController;
 
 use App\Http\Controllers\HomeSiswaSekolahController;
+use App\Http\Controllers\GuestController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 
@@ -41,6 +42,12 @@ Route::get('/cekpy/{id}', [SuperAdminController::class, 'validateNPSN']);
 Route::get('/', function () {
     return view('welcome');
 });
+Route::get('/login-landing', function () {
+    return view('auth.login-landing');
+})->name('login-landing');
+Route::get('/register-landing', function () {
+    return view('auth.register-landing');
+})->name('register-landing');
 
 Route::middleware(['auth:sanctum', 'verified'])->get('/dashboard', function () {
     // return view('dashboard');
@@ -50,18 +57,32 @@ Route::middleware(['auth:sanctum', 'verified'])->get('/dashboard', function () {
         return redirect('sekolah/guru/home');
     }elseif (Auth::user()->status == 'siswa') {
         return redirect('sekolah/siswa/home');
-    }else{
+    }elseif(Auth::user()->role == 1){
         return redirect('super-admin/home');
+    }elseif(Auth::user()->role == 0){
+        return redirect('guest/home');
     }
 })->name('dashboard');
 Route::middleware(['auth'])->group(function () {
-    Route::prefix('super-admin')->group(function () {
-        Route::get('/home', [SuperAdminController::class, 'index'])->name('superadminhome');
-        Route::get('/home/{id}', [SuperAdminController::class, 'detailsekolah'])->name('detailsekolah');
-        Route::view('/tambahdata', 'super-admin.tambahdata')->name('tambahdatasekolah');
-        Route::post('simpan_data_sekolah', [SuperAdminController::class, 'simpan_data_sekolah'])->name('simpan_data_sekolah');
-        Route::post('generateDB', [SuperAdminController::class, 'generateDB'])->name('generateDB');
-        Route::post('/simpanubah_tenant/{id}', [SuperAdminController::class, 'simpanubah_tenant'])->name('simpanubah_tenant');
+    // Route::middleware(['guest'])->group(function () {
+        Route::prefix('guest')->group(function () {
+            Route::get('/home', [GuestController::class, 'index'])->name('guesthome');
+            Route::get('/regissekolah', [GuestController::class, 'regissekolah'])->name('regissekolah');
+            Route::get('/proses-daftar', [GuestController::class, 'proses-daftar'])->name('proses-daftar');
+            Route::post('/ceksekolah', [GuestController::class, 'ceksekolah'])->name('ceksekolah');
+            Route::post('/simpansekolah', [GuestController::class, 'simpansekolah'])->name('simpansekolah');
+        });
+    // });
+
+    Route::middleware(['superadmin'])->group(function () {
+        Route::prefix('super-admin')->group(function () {
+            Route::get('/home', [SuperAdminController::class, 'index'])->name('superadminhome');
+            Route::get('/home/{id}', [SuperAdminController::class, 'detailsekolah'])->name('detailsekolah');
+            Route::view('/tambahdata', 'super-admin.tambahdata')->name('tambahdatasekolah');
+            Route::post('simpan_data_sekolah', [SuperAdminController::class, 'simpan_data_sekolah'])->name('simpan_data_sekolah');
+            Route::post('generateDB', [SuperAdminController::class, 'generateDB'])->name('generateDB');
+            Route::post('/simpanubah_tenant/{id}', [SuperAdminController::class, 'simpanubah_tenant'])->name('simpanubah_tenant');
+        });
     });
 
     Route::middleware(['admin'])->group(function () {

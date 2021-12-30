@@ -108,8 +108,8 @@ class SuperAdminController extends Controller
         $tenant->npsn = $request->npsn;
         $tenant->database = $request->database;
         $tenant->domain = $request->domain;
-        $tenant->start_date = $request->start_date;
-        $tenant->end_date = $request->end_date;
+        // $tenant->start_date = $request->start_date;
+        // $tenant->end_date = $request->end_date;
         $tenant->save();
 
         return redirect()->route('superadminhome');

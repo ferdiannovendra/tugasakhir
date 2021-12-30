@@ -82,7 +82,7 @@
                                     <!-- <a href="index.html" class="btn btn-lg btn-block btn-light lift text-uppercase" atl="signin">SIGN IN</a> -->
                                 </div>
                                 <div class="col-12 text-center mt-4">
-                                    {{-- <span class="text-muted">Don't have an account yet? <a href="auth-signup.html" class="text-secondary">Sign up here</a></span> --}}
+                                    <span class="text-muted">Don't have an account yet? <a href="{{route('register')}}" class="text-secondary">Sign up here</a></span>
                                 </div>
                             </form>
                             <!-- End Form -->
