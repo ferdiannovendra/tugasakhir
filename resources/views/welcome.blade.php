@@ -65,7 +65,7 @@
                   <li class="nav-item">
                     <a class="ud-menu-scroll" href="#contact">Contact</a>
                   </li>
-                  <li class="nav-item nav-item-has-children">
+                  {{-- <li class="nav-item nav-item-has-children">
                     <a href="javascript:void(0)"> Pages </a>
                     <ul class="ud-submenu">
                       <li class="ud-submenu-item">
@@ -102,7 +102,7 @@
                         <a href="404.html" class="ud-submenu-link">404 Page</a>
                       </li>
                     </ul>
-                  </li>
+                  </li> --}}
                 </ul>
               </div>
 
@@ -131,20 +131,19 @@
                 Sistem Informasi Akademik Berbasis <br> <i>Software as a Service</i>
               </h1>
               <p class="ud-hero-desc">
-                Multidisciplinary Web Template Built with Your Favourite
-                Technology - HTML Bootstrap, Tailwind and React NextJS.
+                Tugas Akhir : <br> 160418072 - Ferdian Novendra
               </p>
               <ul class="ud-hero-buttons">
                 <li>
-                  <a href="https://links.uideck.com/play-bootstrap-download" rel="nofollow noopener" target="_blank" class="ud-main-btn ud-white-btn">
-                    Download Now
+                  <a href="{{route('login')}}" rel="nofollow noopener" target="_blank" class="ud-main-btn ud-white-btn">
+                    Daftar Sekarang
                   </a>
                 </li>
-                <li>
+                {{-- <li>
                   <a href="https://github.com/uideck/play-bootstrap" rel="nofollow noopener" target="_blank" class="ud-main-btn ud-link-btn">
                     Learn More <i class="lni lni-arrow-right"></i>
                   </a>
-                </li>
+                </li> --}}
               </ul>
             </div>
           </div>

@@ -20,6 +20,20 @@ Lihat Pengolahan Nilai Pengetahuan
         @endif
     </div>
     <div class="col-md-12">
+        <div role="alert" class="alert alert-warning alert-dismissible fade show" role="alert">
+            Perhitungan Nilai Pengetahuan : <br>
+            <br>
+            <b>Nilai Harian = </b><br>
+            ((T1 x Bobot T1)+ (T2 x Bobot T2) + (T3 x Bobot T3) + ...+(Tn x Bobot Tn)) / (Bobot T1 + Bobot T2 + Bobot T3 +...+ Bobot Tn)
+            <br>
+            <b>Nilai Rapor = </b><br>
+            (HPH*bobot HPH + PTS*bobot PTS + PAS*bobot PAS) / (bobot HPH + bobot PTS + bobot PAS)
+
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+
+        </div>
+    </div>
+    <div class="col-md-12">
         <div class="card mb-3">
             <div class="card-header mt-2 py-3 d-flex justify-content-between bg-transparent border-bottom-0">
                 <h6 class="mb-0 fw-bold ">Lihat Hasil Pengolahan Nilai Pengetahuan</h6>
