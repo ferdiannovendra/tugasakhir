@@ -25,6 +25,13 @@ Daftar Kelas
                 <h6 class="mb-0 fw-bold ">Daftar Mata Pelajaran</h6>
             </div>
             <div class="card-body">
+                <label for="">Pilih Semester : </label>
+                <select name="" id="" class="form-select">
+                    @foreach ($semester as $s)
+                        <option value="{{$s->id}}">{{$s->nama_semester}} - {{$s->tahun_ajaran}}</option>
+                    @endforeach
+                </select>
+                <br>
                 <p style="text-transform: uppercase;">Semester : <b>{{$cekSemester->nama_semester}} - {{$cekSemester->tahun_ajaran}}</b></p>
                 <hr>
 
@@ -32,14 +39,14 @@ Daftar Kelas
                 <div class="table-responsive">
                     <table id="patient-table" class="table table-hover align-middle mb-0" style="width: 100%;">
                         <thead>
-                        <tr>
-                            <th scope="col">ID</th>
-                            <th scope="col">Nama Mata Pelajaran</th>
-                            <th scope="col">Nilai Akhir Pengetahuan</th>
-                            <th scope="col">Nilai Akhir Keterampilan</th>
-                            <th scope="col">Nilai Akhir</th>
-                            <th scope="col">Predikat</th>
-                        </tr>
+                            <tr>
+                                <th scope="col">ID</th>
+                                <th scope="col">Nama Mata Pelajaran</th>
+                                <th scope="col">Nilai Akhir Pengetahuan</th>
+                                <th scope="col">Nilai Akhir Keterampilan</th>
+                                <th scope="col">Nilai Akhir</th>
+                                <th scope="col">Predikat</th>
+                            </tr>
                         </thead>
                         <tbody>
                         @foreach($data as $d)
@@ -64,6 +71,8 @@ Daftar Kelas
                         @endforeach
                         </tbody>
                     </table>
+                    <a href="{{route('cetaknilai')}}" class="btn btn-primary" >Cetak</a>
+
                 </div>
             </div>
         </div>

@@ -312,6 +312,7 @@ Route::middleware(['auth'])->group(function () {
             Route::post('isipresensi', [PresensiController::class, 'isipresensi'])->name('isipresensi');
 
             Route::get('/lihatnilai', [PenilaianController::class, 'lihatnilai'])->name('lihatnilai.siswa');
+            Route::get('/cetaknilai', [PenilaianController::class, 'cetak_pdf'])->name('cetaknilai');
 
             Route::get('/profil', [HomeSiswaSekolahController::class, 'profil'])->name('profil');
 

@@ -11,6 +11,7 @@ use App\Models\KompetensiDasar;
 use Illuminate\Support\Facades\DB;
 use Carbon\Carbon;
 use Auth;
+use PDF;
 
 class PenilaianController extends Controller
 {
@@ -297,6 +298,7 @@ class PenilaianController extends Controller
     {
         $now = Carbon::now();
         $hariIni = date('Y-m-d',strtotime($now));
+        $semester = Semester::all();
         $cekSemester = Semester::where('start_date','<=',$hariIni)
         ->where('end_date','>=',$hariIni)
         ->first();
@@ -313,9 +315,37 @@ class PenilaianController extends Controller
             $data = DB::table('jadwal_kelas')->join('mata_pelajaran','idmatapelajaran','idmata_pelajaran')
             ->select('idclass_list','idmatapelajaran','nama_mp')->where('idclass_list',$kelas->idclass_list)->groupBy('idclass_list','idmatapelajaran','nama_mp')->get();
             // dd($count);
-            return view('sekolah.siswa.nilai.index',compact('data','cekSemester','da'));
+            return view('sekolah.siswa.nilai.index',compact('data','cekSemester','da','semester'));
         }else{
             return view('sekolah.siswa.pending');
         }
+    }
+    public function cetak_pdf()
+    {
+    	$now = Carbon::now();
+        $hariIni = date('Y-m-d',strtotime($now));
+        $semester = Semester::all();
+        $cekSemester = Semester::where('start_date','<=',$hariIni)
+        ->where('end_date','>=',$hariIni)
+        ->first();
+        if(isset($cekSemester)){
+            $iduser = Auth::user()->id;
+
+            $kelas = DB::table('siswa_di_kelas')->join('class_list','classlist_idclass','idclass_list')
+            ->where('siswa_di_kelas.semester_idsemester',$cekSemester->idsemester)
+            ->where('siswa_di_kelas.users_idusers',$iduser)
+            ->first();
+
+            $da = DB::table('nilai_akhir')->join('mata_pelajaran','nilai_akhir.idmata_pelajaran','mata_pelajaran.idmata_pelajaran')->join('users','users_id','id')->where('nilai_akhir.users_id',$iduser)->get();
+            $data = DB::table('jadwal_kelas')->join('mata_pelajaran','idmatapelajaran','idmata_pelajaran')
+            ->select('idclass_list','idmatapelajaran','nama_mp')->where('idclass_list',$kelas->idclass_list)->groupBy('idclass_list','idmatapelajaran','nama_mp')->get();
+
+            // return view('sekolah.siswa.nilai.index',compact('data','cekSemester','da','semester'));
+            $pdf = PDF::loadview('sekolah.siswa.nilai.cetaknilai',['semester'=>$cekSemester, 'data'=>$data, 'da'=>$da, ]);
+            return $pdf->stream('cetaknilai.pdf');
+        }else{
+            return view('sekolah.siswa.pending');
+        }
+
     }
 }
