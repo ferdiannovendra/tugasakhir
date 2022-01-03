@@ -239,4 +239,68 @@ class PengolahanNilaiController extends Controller
         }
         return view('sekolah.admin.nilai-rapor.index',compact('dataMP'));
     }
+    public function nilai_rapor(Request $request)
+    {
+        $kelas = $request->idclass;
+        $mp = $request->idmp;
+
+        $hasilcek = false;
+        $cek = MataPelajaran::find($mp)->bobot()->where('bobot_nilai_akhir.idclass_list',$kelas)->first();
+        $matapelajaran = MataPelajaran::find($mp);
+        if($cek != null)
+        {
+            $hasilcek = true;
+        }
+
+        if ($hasilcek) {
+            $data = DB::table('nilai_akhir')->join('mata_pelajaran','nilai_akhir.idmata_pelajaran','mata_pelajaran.idmata_pelajaran')->join('users','users_id','id')->where('nilai_akhir.idmata_pelajaran',$mp)->get();
+
+            $siswa = User::whereHas('kelas', function($q) use($kelas){
+                $q->where('classlist_idclass',$kelas);
+            })->get();
+            $nilai_siswa = array();
+            foreach ($siswa as $s) {
+                $da = DB::table('nilai_akhir')->join('mata_pelajaran','nilai_akhir.idmata_pelajaran','mata_pelajaran.idmata_pelajaran')->join('users','users_id','id')->where('nilai_akhir.idmata_pelajaran',$mp)->where('nilai_akhir.users_id',$s->id)->first();
+                $nilai_siswa[] = [$da];
+            }
+
+            return response()->json(array(
+                'status'=>'oke',
+                'msg'=>view('sekolah.admin.nilai-rapor.data-nilairapor',compact('matapelajaran','data','nilai_siswa','kelas','mp','cek'))->render()
+            ),200);
+        }
+        else{
+            // Buat kalau belum buat rencana bobot
+            $data = DB::table('nilai_akhir')->join('mata_pelajaran','nilai_akhir.idmata_pelajaran','mata_pelajaran.idmata_pelajaran')->join('users','users_id','id')->where('nilai_akhir.idmata_pelajaran',$mp)->get();
+
+            $siswa = User::whereHas('kelas', function($q) use($kelas){
+                $q->where('classlist_idclass',$kelas);
+            })->get();
+            $nilai_siswa = array();
+            foreach ($siswa as $s) {
+                $da = DB::table('nilai_akhir')->join('mata_pelajaran','nilai_akhir.idmata_pelajaran','mata_pelajaran.idmata_pelajaran')->join('users','users_id','id')->where('nilai_akhir.idmata_pelajaran',$mp)->where('nilai_akhir.users_id',$s->id)->first();
+                $nilai_siswa[] = [$da];
+            }
+
+            return response()->json(array(
+                'status'=>'tidak',
+                'msg'=>view('sekolah.admin.nilai-rapor.data-nilairapor',compact('data','nilai_siswa','kelas','mp'))->render()
+            ),200);
+        }
+
+    }
+
+    public function kirimnilai_akhirrapor(Request $request)
+    {
+        // dd($request);
+        for ($i=0; $i < count($request->idsiswa); $i++) {
+            # code...
+            $insert = DB::table('nilai_akhir')->upsert([
+                ['idmata_pelajaran' => $request->matapelajaran,'users_id'=>$request->idsiswa[$i], 'nilai_akhir' => $request->nilai_akhir[$i], 'predikat' => $request->predikat[$i]],
+            ], ['idmata_pelajaran', 'users_id'], ['nilai_akhir','predikat']);
+        }
+        return redirect()->back()->with('status', 'Sukses Menambahkan data nilai rapor akhir');
+
+    }
+
 }

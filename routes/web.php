@@ -282,6 +282,8 @@ Route::middleware(['auth'])->group(function () {
             Route::post('nilai_akhir', [PengolahanNilaiController::class, 'nilai_akhir'])->name('nilai_akhir');
 
             Route::get('/lihatnilai-rapor', [PengolahanNilaiController::class, 'lihatnilairapor'])->name('lihatnilai-rapor');
+            Route::post('nilai_rapor', [PengolahanNilaiController::class, 'nilai_rapor'])->name('nilai_rapor');
+            Route::post('kirimnilai_akhirrapor', [PengolahanNilaiController::class, 'kirimnilai_akhirrapor'])->name('kirimnilai_akhirrapor');
         });
     });
     Route::post('getdetailsiswa', [SiswaController::class, 'getdetailsiswa'])->name('getdetailsiswa');

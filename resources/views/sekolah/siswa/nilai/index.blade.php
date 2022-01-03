@@ -38,6 +38,7 @@ Daftar Kelas
                             <th scope="col">Nilai Akhir Pengetahuan</th>
                             <th scope="col">Nilai Akhir Keterampilan</th>
                             <th scope="col">Nilai Akhir</th>
+                            <th scope="col">Predikat</th>
                         </tr>
                         </thead>
                         <tbody>
@@ -46,13 +47,18 @@ Daftar Kelas
                             <th>{{ $d->idmatapelajaran }}</th>
                             <td>{{ $d->nama_mp }}</td>
                             @foreach ($da as $das)
-                            @if ($das->idmata_pelajaran == $d->idmatapelajaran)
-                            <td>{{ $das->nilai_pengetahuan }}</td>
-                            <td>{{ $das->nilai_keterampilan }}</td>
-
-                            @else
-
-                            @endif
+                                @if ($das->idmata_pelajaran == $d->idmatapelajaran)
+                                <td>{{ $das->nilai_pengetahuan }}</td>
+                                <td>{{ $das->nilai_keterampilan }}</td>
+                                <td>
+                                    @if ($das->predikat != null)
+                                    {{ $das->nilai_akhir }}
+                                    @endif
+                                </td>
+                                <td>
+                                    {{ $das->predikat }}
+                                </td>
+                                @endif
                             @endforeach
                         </tr>
                         @endforeach

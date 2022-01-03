@@ -20,9 +20,16 @@ Lihat Nilai Akhir
         @endif
     </div>
     <div class="col-md-12">
+        <div role="alert" class="alert alert-warning alert-dismissible fade show" role="alert">
+            Perhitungan Nilai Rapor. <br>
+            <p>Persentase Bobot Nilai Pengetahuan * Persentase Bobot Nilai Keterampilan</p>
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+    </div>
+    <div class="col-md-12">
         <div class="card mb-3">
             <div class="card-header mt-2 py-3 d-flex justify-content-between bg-transparent border-bottom-0">
-                <h6 class="mb-0 fw-bold ">Lihat Hasil Nilai Akhir</h6>
+                <h6 class="mb-0 fw-bold ">Lihat Hasil Nilai Rapor</h6>
             </div>
             <div class="card-body">
                 <h6 class="mb-0 fw-bold ">Pilih Mata Pelajaran :</h6>
@@ -131,14 +138,18 @@ $('#btnLihatRincian').on('click', function(e) {
         var id_class = $('#class_select2').val();
         $.ajax({
             type: "POST",
-            url: "{{ route('nilai_akhir') }}",
+            url: "{{ route('nilai_rapor') }}",
             data: {
                 '_token': '<?php echo csrf_token() ?>',
                 'idmp': id_mp,
                 'idclass': id_class
             },
             success: function(data) {
-                $('#tabeldata').html(data.msg);
+                if (data.status == "oke") {
+                    $('#tabeldata').html(data.msg);
+                } else {
+                    $('#tabeldata').html("<h1> Anda Belum mengisi bobot </h1>");
+                }
             }
         })
     });

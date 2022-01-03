@@ -24,11 +24,7 @@ class BobotController extends Controller
     {
         $kelas = $request->idclass;
         $mp = $request->idmp;
-        // $kelas = 1;
-        // $mp = 1;
-
         $data = MataPelajaran::find($mp)->bobot()->where('bobot_nilai_akhir.idclass_list',$kelas)->first();
-        // dd($data);
         return response()->json(array(
             'status'=>'oke',
             'msg'=>view('sekolah.admin.bobot.bobotdata',compact('data'))->render()
