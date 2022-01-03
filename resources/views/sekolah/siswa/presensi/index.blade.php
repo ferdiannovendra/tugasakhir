@@ -31,20 +31,22 @@ Daftar Kelas
                 <div class="row">
                     @foreach($data as $d)
                     <div class="col-3">
-                        <div class="card text-white bg-primary mb-3">
-                            <div class="card-header">
-                                   <h5>{{$d->idmatapelajaran}}</h5>
-                                        @foreach($cekpresensi as $cek)
-                                                @if($cek->idmatapelajaran == $d->idmatapelajaran)
-                                                <button type="button" onclick="presensi('{{csrf_token()}}','{{ $cek->idpresensi }}')" class="btn btn-outline-success btn-block">Masuk</button>
-                                                @endif
-                                        @endforeach
+                        <a href="{{route('rekappresensi', $d->idmatapelajaran)}}">
+                            <div class="card text-white bg-primary mb-3">
+                                <div class="card-header">
+                                    <h5>{{$d->idmatapelajaran}}</h5>
+                                            @foreach($cekpresensi as $cek)
+                                                    @if($cek->idmatapelajaran == $d->idmatapelajaran)
+                                                    <button type="button" onclick="presensi('{{csrf_token()}}','{{ $cek->idpresensi }}')" class="btn btn-outline-success btn-block">Masuk</button>
+                                                    @endif
+                                            @endforeach
 
+                                </div>
+                                <div class="card-body">
+                                    <h5 class="card-title">{{$d->nama_mp}}</h5>
+                                </div>
                             </div>
-                            <div class="card-body">
-                                <h5 class="card-title">{{$d->nama_mp}}</h5>
-                            </div>
-                        </div>
+                        </a>
                     </div>
                     @endforeach
                 </div>

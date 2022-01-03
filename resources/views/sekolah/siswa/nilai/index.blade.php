@@ -1,7 +1,7 @@
 @extends('layoutsadmin.adminsekolah')
 
 @section('title')
-Daftar Kelas
+Daftar Nilai
 @endsection
 
 @section('style')
@@ -71,7 +71,7 @@ Daftar Kelas
                         @endforeach
                         </tbody>
                     </table>
-                    <a href="{{route('cetaknilai')}}" class="btn btn-primary" >Cetak</a>
+                    <a href="{{route('cetaknilai')}}" target="_blank" class="btn btn-primary" >Cetak</a>
 
                 </div>
             </div>

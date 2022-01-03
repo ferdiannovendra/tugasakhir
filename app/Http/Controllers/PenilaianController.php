@@ -8,6 +8,9 @@ use App\Models\Kelas;
 use App\Models\Semester;
 use App\Models\Penilaian;
 use App\Models\KompetensiDasar;
+use App\Models\DetailSiswa;
+use App\Models\KategoriMapel;
+use App\Models\Jurusan;
 use Illuminate\Support\Facades\DB;
 use Carbon\Carbon;
 use Auth;
@@ -328,6 +331,10 @@ class PenilaianController extends Controller
         $cekSemester = Semester::where('start_date','<=',$hariIni)
         ->where('end_date','>=',$hariIni)
         ->first();
+
+        $detail = DetailSiswa::where('idusers',Auth::user()->id)->first();
+        $jurusan = Jurusan::find($detail->jurusan_idjurusan);
+        $kategori = KategoriMapel::all();
         if(isset($cekSemester)){
             $iduser = Auth::user()->id;
 
@@ -341,7 +348,7 @@ class PenilaianController extends Controller
             ->select('idclass_list','idmatapelajaran','nama_mp')->where('idclass_list',$kelas->idclass_list)->groupBy('idclass_list','idmatapelajaran','nama_mp')->get();
 
             // return view('sekolah.siswa.nilai.index',compact('data','cekSemester','da','semester'));
-            $pdf = PDF::loadview('sekolah.siswa.nilai.cetaknilai',['semester'=>$cekSemester, 'data'=>$data, 'da'=>$da, ]);
+            $pdf = PDF::loadview('sekolah.siswa.nilai.cetaknilai',['semester'=>$cekSemester, 'data'=>$data, 'da'=>$da,'jurusan'=>$jurusan,'detail' => $detail, 'kategori'=>$kategori]);
             return $pdf->stream('cetaknilai.pdf');
         }else{
             return view('sekolah.siswa.pending');

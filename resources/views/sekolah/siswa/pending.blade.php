@@ -1,7 +1,7 @@
 @extends('layoutsadmin.adminsekolah')
 
 @section('title')
-Daftar Kelas
+Oops - Maaf
 @endsection
 
 @section('style')

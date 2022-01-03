@@ -309,6 +309,7 @@ Route::middleware(['auth'])->group(function () {
         Route::prefix('sekolah/siswa')->group(function () {
             Route::get('/home', [HomeSiswaSekolahController::class, 'index'])->name('homesiswa');
             Route::get('/presensi', [PresensiController::class, 'siswa_listpresensi'])->name('presensi.siswa');
+            Route::get('/rekap/{id}', [PresensiController::class, 'rekappresensi'])->name('rekappresensi');
             Route::post('isipresensi', [PresensiController::class, 'isipresensi'])->name('isipresensi');
 
             Route::get('/lihatnilai', [PenilaianController::class, 'lihatnilai'])->name('lihatnilai.siswa');

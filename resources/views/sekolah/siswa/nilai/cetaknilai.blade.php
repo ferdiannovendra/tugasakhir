@@ -10,57 +10,82 @@
 		table tr th{
 			font-size: 9pt;
 		}
+
+        .column {
+        margin-left: 20px;
+        float: left;
+        width: 50%;
+        }
+
+        /* Clear floats after the columns */
+        .row:after {
+        content: "";
+        display: table;
+        clear: both;
+        }
 	</style>
-	<center>
+@php
+$masterweb = App\Models\MasterWeb::all();
+@endphp
 
-		<h5>Membuat Laporan PDF Dengan DOMPDF Laravel</h4>
-            @if(\Spatie\Multitenancy\Models\Tenant::checkCurrent())
+    <div class="row">
+        <div class="column">
+            <p>Nama Sekolah &emsp; : &emsp; {{app('currentTenant')->name}} <br>
+                Alamat &emsp; : &emsp; {{app('currentTenant')->name}} <br>
+                Nama Peserta Didik &emsp; : &emsp; {{app('currentTenant')->name}} <br>
+                Program Keahlian &emsp; : &emsp; {{$jurusan->nama_jurusan}} <br> </p>
+        </div>
+        <div class="column">
+            <p>NISN &emsp; : &emsp; {{$detail->nisn}} <br>
+                Kelas &emsp; : &emsp; {{$jurusan->nama_jurusan}} <br>
+                Semester &emsp; : &emsp; {{$semester->nama_semester}} <br>
+                Tahun Pelajaran &emsp; : &emsp; {{$semester->tahun_ajaran}}</p>
+        </div>
+    </div>
 
-        @php
-        $masterweb = App\Models\MasterWeb::all();
-        @endphp
-        <img width="100px" height="100px" style="padding-bottom:100px;" class="img-fluid" src="{{ public_path('fileupload/'.$masterweb[0]->logo) }}" alt="">
-        @else
-        <img src="{{public_path('asset_front/img/hero/hero-img.png') }}" class="img-fluid" alt="" />
 
-        @endif
-		<h6><a target="_blank" href="https://www.malasngoding.com/membuat-laporan-…n-dompdf-laravel/">www.malasngoding.com</a></h5>
-	</center>
 
 	<table class='table table-bordered'>
 		<thead>
             <tr>
                 <th scope="col">ID</th>
-                <th scope="col">Nama Mata Pelajaran</th>
-                <th scope="col">Nilai Akhir Pengetahuan</th>
-                <th scope="col">Nilai Akhir Keterampilan</th>
+                <th scope="col">Mata Pelajaran</th>
+                <th scope="col">Pengetahuan</th>
+                <th scope="col">Keterampilan</th>
                 <th scope="col">Nilai Akhir</th>
                 <th scope="col">Predikat</th>
             </tr>
         </thead>
         <tbody>
-        @foreach($data as $d)
-        <tr>
-            <th>{{ $d->idmatapelajaran }}</th>
-            <td>{{ $d->nama_mp }}</td>
-            @foreach ($da as $das)
-                @if ($das->idmata_pelajaran == $d->idmatapelajaran)
-                <td>{{ $das->nilai_pengetahuan }}</td>
-                <td>{{ $das->nilai_keterampilan }}</td>
-                <td>
-                    @if ($das->predikat != null)
-                    {{ $das->nilai_akhir }}
+            @foreach($data as $d)
+            <tr>
+                <th>{{ $d->idmatapelajaran }}</th>
+                <td>{{ $d->nama_mp }}</td>
+                @foreach ($da as $das)
+                    @if ($das->idmata_pelajaran == $d->idmatapelajaran)
+                    <td>{{ $das->nilai_pengetahuan }}</td>
+                    <td>{{ $das->nilai_keterampilan }}</td>
+                    <td>
+                        @if ($das->predikat != null)
+                        {{ $das->nilai_akhir }}
+                        @endif
+                    </td>
+                    <td>
+                        {{ $das->predikat }}
+                    </td>
                     @endif
-                </td>
-                <td>
-                    {{ $das->predikat }}
-                </td>
-                @endif
+                @endforeach
+            </tr>
             @endforeach
-        </tr>
-        @endforeach
         </tbody>
 	</table>
-
+    <div class="row">
+        <div class="column">
+        </div>
+        <div class="column">
+            <p>Kepala Sekolah &emsp; : &emsp; {{$detail->nisn}} <br>
+                </p>
+        </div>
+    </div>
 </body>
 </html>
