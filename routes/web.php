@@ -164,6 +164,10 @@ Route::middleware(['auth'])->group(function () {
             Route::post('ubahJenisPembayaran', [PembayaranController::class, 'edit'])->name('ubahJenisPembayaran');
             Route::post('/simpan_ubahJenisPembayaran/{id}', [PembayaranController::class, 'update'])->name('simpan_ubahJenisPembayaran');
 
+            Route::get('/daftarrekapkeuangan', [PembayaranController::class, 'daftarrekapkeuangan'])->name('daftarrekapkeuangan');
+            Route::get('/daftarrekapkeuangan/{id}', [PembayaranController::class, 'daftarrekapkeuangan_kelas'])->name('daftarrekapkeuangan_kelas');
+            Route::post('postTambahTagihan', [PembayaranController::class, 'postTambahTagihan'])->name('postTambahTagihan');
+            Route::post('postBulkAction', [PembayaranController::class, 'postBulkAction'])->name('postBulkAction');
 
             Route::get('/jadwalkelas', [JadwalKelasController::class, 'index'])->name('jadwalkelas');
             Route::post('postTambahJadwal', [JadwalKelasController::class, 'store'])->name('postTambahJadwal');

@@ -55,7 +55,7 @@
         <!-- Menu: Sub menu ul -->
         <ul class="sub-menu collapse" id="keuangan">
             <li><a class="ms-link" href="{{ route('daftarJenisPembayaran') }}"> <span>Jenis Pembayaran</span></a></li>
-            <!-- <li><a class="ms-link" href=""><span>Tambah Semester</span></a></li> -->
+            <li><a class="ms-link" href="{{ route('daftarrekapkeuangan') }}"> <span>Daftar Rekap Keuangan</span></a></li>
 
         </ul>
     </li>

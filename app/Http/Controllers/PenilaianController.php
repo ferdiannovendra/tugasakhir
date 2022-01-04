@@ -353,6 +353,5 @@ class PenilaianController extends Controller
         }else{
             return view('sekolah.siswa.pending');
         }
-
     }
 }

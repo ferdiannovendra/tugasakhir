@@ -1,7 +1,7 @@
 @extends('layoutsadmin.adminsekolah')
 
 @section('title')
-Daftar Jenis Pembayaran
+Daftar Kelas
 @endsection
 
 @section('style')
@@ -23,7 +23,7 @@ Daftar Jenis Pembayaran
         <div class="card mb-3">
             <div class="card-header mt-2 py-3 d-flex justify-content-between bg-transparent border-bottom-0">
                 <h6 class="mb-0 fw-bold ">Daftar Jenis Pembayaran</h6>
-                <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#TambahModal">Tambah Jenis Pembayaran</button>
+                <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#TambahModal">Tambah Pembayaran</button>
             </div>
             <div class="card-body">
                 <div class="table-responsive">
@@ -31,19 +31,28 @@ Daftar Jenis Pembayaran
                         <thead>
                         <tr>
                             <th scope="col">#</th>
-                            <th scope="col">Nama Jenis</th>
+                            <th scope="col">Nama Kelas</th>
+                            <th scope="col">Status</th>
+                            <th scope="col">Wali Kelas</th>
+                            <th scope="col">Jurusan</th>
+                            <th scope="col">Semester</th>
                             <th scope="col">Aksi</th>
                         </tr>
                         </thead>
                         <tbody>
                         @foreach($data as $d)
                         <tr>
-                            <th scope="row">{{ $d->idjenis_pembayaran }}</th>
-                            <td>{{ $d->nama_jenis }}</td>
+                            <th scope="row">{{ $d->idclass_list }}</th>
+                            <td>{{ $d->name_class }}</td>
+                            <td>{{ $d->status }}</td>
+                            <td>{{ $d->user->name }}</td>
+                            <td>{{ $d->jurusan->nama_jurusan }}</td>
+                            <td>{{ $d->semester->nama_semester }} - {{ $d->semester->tahun_ajaran }}</td>
                             <td>
                                 <div class="btn-group" role="group" aria-label="Basic outlined example">
-                                <button type="button" onclick="getDetail('{{ $d->idjenis_pembayaran }}')" class="btn btn-outline-secondary" data-bs-toggle="modal" data-bs-target="#ubahmodal"><i class="icofont-edit text-success"></i></button>
-                                    <button type="button" onclick="hapus_data('{{csrf_token()}}','{{ $d->idjenis_pembayaran }}')" class="btn btn-outline-secondary deleterow"><i class="icofont-ui-delete text-danger"></i></button>
+                                    <a href="{{route('daftarrekapkeuangan_kelas', $d->idclass_list)}}">
+                                        <button type="button" class="btn btn-outline-secondary"><i class="icofont-info text-success"></i></button>
+                                    </a>
                                 </div>
                             </td>
                         </tr>
@@ -61,16 +70,40 @@ Daftar Jenis Pembayaran
     <div class="modal-dialog modal-xl">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title h4" >Tambah Jenis Pembayaran</h5>
+                <h5 class="modal-title h4" >Tambah Tagihan</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
-            <form action="{{ route('postTambahJenisPembayaran') }}" method="post">
+            <form action="{{ route('postTambahTagihan') }}" method="post">
             <div class="modal-body">
                 @csrf
                 <div class="row g-3 align-items-center">
                     <div class="col-md-12">
+                        <label for="kelas" class="form-label">Kelas</label>
+                        <select name="kelas" id="kelas" class="form-select" required>
+                            @foreach ($data as $kelas)
+                            <option value="{{$kelas->idclass_list}}">{{$kelas->name_class}}</option>
+                            @endforeach
+                        </select>
+                    </div>
+                    <div class="col-md-12">
                         <label for="nama_jenis" class="form-label">Nama Jenis Pembayaran</label>
-                        <input type="text" class="form-control" id="nama_jenis" name="nama_jenis" required>
+                        <select name="jenis" id="nama_jenis" class="form-select" required>
+                            @foreach ($jenis as $j)
+                            <option value="{{$j->idjenis_pembayaran}}">{{$j->nama_jenis}}</option>
+                            @endforeach
+                        </select>
+                    </div>
+                    <div class="col-md-12">
+                        <label for="semester" class="form-label">Semester</label>
+                        <select name="semester" id="semester" class="form-select" required>
+                            @foreach ($semester as $s)
+                            <option value="{{$s->idsemester}}">{{$s->nama_semester}} - {{$s->tahun_ajaran}}</option>
+                            @endforeach
+                        </select>
+                    </div>
+                    <div class="col-md-12">
+                        <label for="tenggat_pembayaran" class="form-label">Tenggat Pembayaran</label>
+                        <input type="date" name="tenggat_pembayaran" class="form-control" id="tenggat_pembayaran">
                     </div>
                 </div>
 
