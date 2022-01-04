@@ -88,6 +88,14 @@ class PresensiController extends Controller
         $countsiswa = DB::table('rekap_presensi')->where('idpresensi',$idpresensi)->count();
         return view('sekolah.admin.presensi.view_siswa',compact('data','countHadir','countTidakHadir','countsiswa','mp','presensi'));
     }
+    public function simpan_ubahpresensi(Request $request, $id)
+    {
+        $presensi = Presensi::find($id);
+        $presensi->catatan_pertemuan = $request->catatan;
+        $presensi->materi = $request->materi;
+        $presensi->save();
+        return redirect()->back()->with('status', 'Presensi berhasil diubah');
+    }
 
     //--------------- BUAT GURU --------------------
     public function guru_listpresensi()
@@ -121,9 +129,16 @@ class PresensiController extends Controller
     public function ubahpresensi(Request $request)
     {
         $idpengajar = Auth::user()->id;
-        $data = Presensi::where('idpengajar', $idpengajar)->get();
-        $mata_pelajaran = MataPelajaran::where('guru_pengajar',$idpengajar)->get();
-        return view('sekolah.guru.presensi.index',compact('data','mata_pelajaran'));
+
+        $data = Presensi::find($request->id);
+        $id = $data->idpresensi;
+        // dd($data);
+        $mata_pelajaran = MataPelajaran::find($data->idmatapelajaran);
+        $kelas = Kelas::find($data->idclass_list);
+        return response()->json(array(
+            'status'=>'oke',
+            'msg'=>view('sekolah.admin.presensi.ubahpresensi',compact('data','id','mata_pelajaran','kelas'))->render()
+        ),200);
     }
     public function postTambahPresensi(Request $request)
     {

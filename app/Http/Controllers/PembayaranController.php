@@ -9,6 +9,7 @@ use App\Models\JenisPembayaran;
 use App\Models\Kelas;
 use App\Models\Semester;
 use App\Models\RekapPembayaran;
+use Auth;
 
 class PembayaranController extends Controller
 {
@@ -82,8 +83,7 @@ class PembayaranController extends Controller
             $rekap = DB::table('rekap_keuangan as r')
             ->join('users','users_idusers','id')
             ->join('jenis_pembayaran as j','r.idjenis_pembayaran','j.idjenis_pembayaran')
-            // ->select('name','lname', 'nama_jenis', 'status')
-                    ->where('users_idusers', $value->users_idusers)->get();
+            ->where('users_idusers', $value->users_idusers)->get();
             for ($i=0; $i < count($rekap); $i++) {
                 # code...
                 $data[] = $rekap[$i];
@@ -128,4 +128,36 @@ class PembayaranController extends Controller
         return redirect()->back()->with('status','Berhasil Mengubah Tagihan');
     }
 
+    // ---------------- Buat Siswa ----------------
+    public function daftartagihan()
+    {
+        $data = DB::table('rekap_keuangan as r')
+        ->join('users','users_idusers','id')
+        ->join('jenis_pembayaran as j','r.idjenis_pembayaran','j.idjenis_pembayaran')
+        ->where('users_idusers', Auth::user()->id)->get();
+        // dd($data);
+        // $data = RekapPembayaran::where('users_idusers', Auth::user()->id)->get();
+        return view('sekolah.siswa.keuangan.index', compact('data'));
+    }
+    public function upload_bukti(Request $request)
+    {
+        $now = Carbon::now();
+
+        $id = $request->idrekap;
+        $data = RekapPembayaran::find($id);
+        // dd($request->file('upload_bukti'));
+        if (!empty($request->file('upload_bukti'))) {
+            $file = $request->file('upload_bukti');
+            $new_name = "bukti_".$data->idrekap_keuangan."_".date('YmdHis', strtotime($now))."_".$file->getClientOriginalName();
+            $file->move(public_path().'/'.('fileupload/buktibayar/'), $new_name);
+            $data->bukti_bayar = $new_name;
+            $data->tanggal_pelunasan = $now;
+            $data->save();
+            return redirect()->back()->with('status','Berhasil Menambahkan bukti bayar');
+        } else {
+            return redirect()->back()->with('error','Gagal Menambah Tagihan');
+
+        }
+
+    }
 }

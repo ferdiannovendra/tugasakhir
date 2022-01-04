@@ -26,54 +26,83 @@ Daftar Nilai
             </div>
             <div class="card-body">
                 <label for="">Pilih Semester : </label>
-                <select name="" id="" class="form-select">
+                <select name="" id="semselect" class="form-select">
+
+                    <option value="-" >Pilih Semester</option>
                     @foreach ($semester as $s)
-                        <option value="{{$s->id}}">{{$s->nama_semester}} - {{$s->tahun_ajaran}}</option>
+                        <?php
+                            $selected="";
+                            if (isset($id)) {
+                                if ($s->idsemester == $id) {
+                                    $selected="selected";
+                                }
+                            }
+                            ?>
+                            <option value="/sekolah/siswa/lihatnilai/{{$s->idsemester}}" <?php echo $selected;?>>{{$s->nama_semester}} - {{$s->tahun_ajaran}}</option>
                     @endforeach
                 </select>
                 <br>
                 <p style="text-transform: uppercase;">Semester : <b>{{$cekSemester->nama_semester}} - {{$cekSemester->tahun_ajaran}}</b></p>
                 <hr>
 
+                @if ($kelas != null)
+                    @if ($cektagihan ==null)
+                        <div class="table-responsive">
+                            <table id="patient-table" class="table table-hover align-middle mb-0" style="width: 100%;">
+                                <thead>
+                                    <tr>
+                                        <th scope="col">ID</th>
+                                        <th scope="col">Nama Mata Pelajaran</th>
+                                        <th scope="col">Nilai Akhir Pengetahuan</th>
+                                        <th scope="col">Nilai Akhir Keterampilan</th>
+                                        <th scope="col">Nilai Akhir</th>
+                                        <th scope="col">Predikat</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                @foreach($data as $d)
+                                <tr>
+                                    <th>{{ $d->idmatapelajaran }}</th>
+                                    <td>{{ $d->nama_mp }}</td>
+                                    @foreach ($da as $das)
+                                        @if ($das->idmata_pelajaran == $d->idmatapelajaran)
+                                        <td>{{ $das->nilai_pengetahuan }}</td>
+                                        <td>{{ $das->nilai_keterampilan }}</td>
+                                        <td>
+                                            @if ($das->predikat != null)
+                                            {{ $das->nilai_akhir }}
+                                            @endif
+                                        </td>
+                                        <td>
+                                            {{ $das->predikat }}
+                                        </td>
+                                        @endif
+                                    @endforeach
+                                </tr>
+                                @endforeach
+                                </tbody>
+                            </table>
+                            <form action="{{route('cetaknilai')}}" method="post">
+                                @csrf
+                                @php
+                                 $value = "";
+                                 if (isset($id)) {
+                                     $value = $id;
+                                 } else {
+                                     $value = $cekSemester->idsemester;
+                                 }
+                                @endphp
+                                <input type="hidden" name="idsemester" value="{{$value}}">
+                                <button type="submit" class="btn btn-primary" >Cetak</button>
+                            </form>
 
-                <div class="table-responsive">
-                    <table id="patient-table" class="table table-hover align-middle mb-0" style="width: 100%;">
-                        <thead>
-                            <tr>
-                                <th scope="col">ID</th>
-                                <th scope="col">Nama Mata Pelajaran</th>
-                                <th scope="col">Nilai Akhir Pengetahuan</th>
-                                <th scope="col">Nilai Akhir Keterampilan</th>
-                                <th scope="col">Nilai Akhir</th>
-                                <th scope="col">Predikat</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                        @foreach($data as $d)
-                        <tr>
-                            <th>{{ $d->idmatapelajaran }}</th>
-                            <td>{{ $d->nama_mp }}</td>
-                            @foreach ($da as $das)
-                                @if ($das->idmata_pelajaran == $d->idmatapelajaran)
-                                <td>{{ $das->nilai_pengetahuan }}</td>
-                                <td>{{ $das->nilai_keterampilan }}</td>
-                                <td>
-                                    @if ($das->predikat != null)
-                                    {{ $das->nilai_akhir }}
-                                    @endif
-                                </td>
-                                <td>
-                                    {{ $das->predikat }}
-                                </td>
-                                @endif
-                            @endforeach
-                        </tr>
-                        @endforeach
-                        </tbody>
-                    </table>
-                    <a href="{{route('cetaknilai')}}" target="_blank" class="btn btn-primary" >Cetak</a>
-
-                </div>
+                        </div>
+                    @else
+                        <h5>Anda masih memiliki tagihan yang belum dibayar</h5>
+                    @endif
+                @else
+                <h5>Tidak ada data</h5>
+                @endif
             </div>
         </div>
     </div>
@@ -93,6 +122,9 @@ Daftar Nilai
        .addClass( 'nowrap' )
 
    });
-
+   $('#semselect').on('change', function () {
+    var url = $(this).val(); // get selected value
+    window.location = url;
+});
 </script>
 @endsection

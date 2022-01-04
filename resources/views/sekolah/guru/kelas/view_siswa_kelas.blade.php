@@ -51,6 +51,9 @@ Daftar Pengguna
                             <td>
                                 <div class="btn-group" role="group" aria-label="Basic outlined example">
                                     <button type="button" class="btn btn-outline-secondary" onclick="getDetailSiswa('{{$d->id}}')" data-bs-toggle="modal" data-bs-target="#ubahmodal"><i class="icofont-search-1 text-success"></i></button>
+                                    <a href="{{route('lihatprogress_siswa',$d->id)}}">
+                                        <button type="button" class="btn btn-outline-secondary"><i class="icofont-ui-folder text-success"></i></button>
+                                    </a>
                                 </div>
                             </td>
                         </tr>

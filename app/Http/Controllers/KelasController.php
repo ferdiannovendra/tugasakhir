@@ -8,6 +8,8 @@ use Carbon\Carbon;
 use App\Models\Kelas;
 use App\Models\DetailSiswa;
 use App\Models\User;
+use App\Models\Semester;
+use App\Models\RekapPembayaran;
 use Auth;
 
 class KelasController extends Controller
@@ -195,5 +197,53 @@ class KelasController extends Controller
                 join('users','siswa_di_kelas.users_idusers','=','users.id')->get();
         // dd($data[0]->classlist_idclass);
         return view('sekolah.admin.kelas.view_siswa_kelas',compact('data'));
+    }
+    public function lihatprogress_siswa($id)
+    {
+        $data = User::find($id);
+        $semester = Semester::all();
+        return view('sekolah.guru.kelas.progress_siswa', compact('id','data','semester'));
+    }
+    public function postLihatData(Request $request)
+    {
+        $iduser = $request->idsiswa;
+        $idsemester = $request->semester;
+        if ($request->data == "nilai") {
+
+            $cektagihan = RekapPembayaran::where('status_bayar', 'unpaid')->where('users_idusers', $iduser)->first();
+            // dd($cektagihan);
+
+            $kelas = DB::table('siswa_di_kelas')->join('class_list','classlist_idclass','idclass_list')
+            ->where('siswa_di_kelas.semester_idsemester',$idsemester)
+            ->where('siswa_di_kelas.users_idusers',$iduser)
+            ->first();
+            // dd($kelas);
+            if ($kelas == null) {
+                # code...
+                return response()->json(array(
+                    'status'=>'oke',
+                    'msg'=>view('sekolah.guru.kelas.progressNilai',compact('kelas'))->render()
+                ),200);
+            }
+            $da = DB::table('nilai_akhir')->join('mata_pelajaran','nilai_akhir.idmata_pelajaran','mata_pelajaran.idmata_pelajaran')->join('users','users_id','id')->where('nilai_akhir.users_id',$iduser)->get();
+            // dd($da[0]->nilai_pengetahuan);
+            $data = DB::table('jadwal_kelas')->join('mata_pelajaran','idmatapelajaran','idmata_pelajaran')
+            ->select('idclass_list','idmatapelajaran','nama_mp')->where('idclass_list',$kelas->idclass_list)->groupBy('idclass_list','idmatapelajaran','nama_mp')->get();
+            // dd($count);
+            // return view('sekolah.siswa.nilai.index',compact('data','cekSemester','da','semester', 'cektagihan','kelas','id'));
+            // dd($data);
+            return response()->json(array(
+                'status'=>'oke',
+                'msg'=>view('sekolah.guru.kelas.progressNilai',compact('data','da', 'cektagihan','kelas'))->render()
+            ),200);
+        } else if($request->data == "keuangan"){
+            $data = RekapPembayaran::join('jenis_pembayaran', 'rekap_keuangan.idjenis_pembayaran', 'jenis_pembayaran.idjenis_pembayaran')->where('users_idusers', $iduser)->where('semester_idsemester',$idsemester)->get();
+            return response()->json(array(
+                'status'=>'oke',
+                'msg'=>view('sekolah.guru.kelas.progressUang',compact('data'))->render()
+            ),200);
+
+        }
+
     }
 }

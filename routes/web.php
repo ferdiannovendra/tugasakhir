@@ -230,6 +230,9 @@ Route::middleware(['auth'])->group(function () {
     });
     Route::middleware(['adminguru'])->group(function () {
         Route::prefix('sekolah')->group(function () {
+            Route::post('ubahpresensi', [PresensiController::class, 'ubahpresensi'])->name('ubahpresensi');
+            Route::post('simpan_ubahpresensi/{id}', [PresensiController::class, 'simpan_ubahpresensi'])->name('simpan_ubahpresensi');
+
             Route::post('listkelas', [PresensiController::class, 'listkelas'])->name('listkelasadmin');
 
             Route::get('/kompetensidasar', [KompetensiDasarController::class, 'index'])->name('daftarkompetensidasar');
@@ -298,10 +301,11 @@ Route::middleware(['auth'])->group(function () {
 
             Route::get('/kelas', [KelasController::class, 'list_kelas'])->name('list_kelas');
             Route::get('/view_siswa_kelas/{id}', [KelasController::class, 'view_siswa_kelas'])->name('view_siswa_kelas');
+            Route::get('/lihatprogress_siswa/{id}', [KelasController::class, 'lihatprogress_siswa'])->name('lihatprogress_siswa');
+            Route::post('postLihatData', [KelasController::class, 'postLihatData'])->name('postLihatData');
 
             Route::get('/presensi', [PresensiController::class, 'guru_listpresensi'])->name('presensi');
             Route::post('listkelas', [PresensiController::class, 'listkelas'])->name('listkelas');
-            Route::post('ubahpresensi', [PresensiController::class, 'ubahpresensi'])->name('ubahpresensi');
             Route::post('postTambahPresensi', [PresensiController::class, 'store'])->name('postTambahPresensi');
             Route::get('/presensi/detail/{id}', [PresensiController::class, 'detailpresensi'])->name('detailpresensiguru');
 
@@ -317,10 +321,13 @@ Route::middleware(['auth'])->group(function () {
             Route::post('isipresensi', [PresensiController::class, 'isipresensi'])->name('isipresensi');
 
             Route::get('/lihatnilai', [PenilaianController::class, 'lihatnilai'])->name('lihatnilai.siswa');
-            Route::get('/cetaknilai', [PenilaianController::class, 'cetak_pdf'])->name('cetaknilai');
+            Route::get('/lihatnilai/{id}', [PenilaianController::class, 'lihatnilaisemester'])->name('lihatnilai.semester');
+            Route::post('/cetaknilai', [PenilaianController::class, 'cetak_pdf'])->name('cetaknilai');
 
             Route::get('/profil', [HomeSiswaSekolahController::class, 'profil'])->name('profil');
 
+            Route::get('/daftartagihan', [PembayaranController::class, 'daftartagihan'])->name('daftartagihan');
+            Route::post('uploadbukti', [PembayaranController::class, 'upload_bukti'])->name('uploadbukti');
         });
     });
 });

@@ -11,6 +11,7 @@ use App\Models\KompetensiDasar;
 use App\Models\DetailSiswa;
 use App\Models\KategoriMapel;
 use App\Models\Jurusan;
+use App\Models\RekapPembayaran;
 use Illuminate\Support\Facades\DB;
 use Carbon\Carbon;
 use Auth;
@@ -305,8 +306,11 @@ class PenilaianController extends Controller
         $cekSemester = Semester::where('start_date','<=',$hariIni)
         ->where('end_date','>=',$hariIni)
         ->first();
+        $id = $semester[0]->id;
         if(isset($cekSemester)){
             $iduser = Auth::user()->id;
+            $cektagihan = RekapPembayaran::where('status_bayar', 'unpaid')->where('users_idusers', $iduser)->first();
+            // dd($cektagihan);
 
             $kelas = DB::table('siswa_di_kelas')->join('class_list','classlist_idclass','idclass_list')
             ->where('siswa_di_kelas.semester_idsemester',$cekSemester->idsemester)
@@ -318,12 +322,45 @@ class PenilaianController extends Controller
             $data = DB::table('jadwal_kelas')->join('mata_pelajaran','idmatapelajaran','idmata_pelajaran')
             ->select('idclass_list','idmatapelajaran','nama_mp')->where('idclass_list',$kelas->idclass_list)->groupBy('idclass_list','idmatapelajaran','nama_mp')->get();
             // dd($count);
-            return view('sekolah.siswa.nilai.index',compact('data','cekSemester','da','semester'));
+            return view('sekolah.siswa.nilai.index',compact('data','cekSemester','da','semester', 'cektagihan','kelas','id'));
         }else{
             return view('sekolah.siswa.pending');
         }
     }
-    public function cetak_pdf()
+    public function lihatnilaisemester($id)
+    {
+        $now = Carbon::now();
+        $hariIni = date('Y-m-d',strtotime($now));
+        $semester = Semester::all();
+        $cekSemester = Semester::where('start_date','<=',$hariIni)
+        ->where('end_date','>=',$hariIni)
+        ->first();
+
+        if(isset($cekSemester)){
+            $iduser = Auth::user()->id;
+            $cektagihan = RekapPembayaran::where('status_bayar', 'unpaid')->where('users_idusers', $iduser)->first();
+            // dd($cektagihan);
+
+            $kelas = DB::table('siswa_di_kelas')->join('class_list','classlist_idclass','idclass_list')
+            ->where('siswa_di_kelas.semester_idsemester',$id)
+            ->where('siswa_di_kelas.users_idusers',$iduser)
+            ->first();
+
+            if ($kelas == null) {
+                # code...
+                return view('sekolah.siswa.nilai.index',compact('kelas','cekSemester','semester', 'cektagihan','id'));
+            }
+            $da = DB::table('nilai_akhir')->join('mata_pelajaran','nilai_akhir.idmata_pelajaran','mata_pelajaran.idmata_pelajaran')->join('users','users_id','id')->where('nilai_akhir.users_id',$iduser)->get();
+            // dd($da[0]->nilai_pengetahuan);
+            $data = DB::table('jadwal_kelas')->join('mata_pelajaran','idmatapelajaran','idmata_pelajaran')
+            ->select('idclass_list','idmatapelajaran','nama_mp')->where('idclass_list',$kelas->idclass_list)->groupBy('idclass_list','idmatapelajaran','nama_mp')->get();
+            // dd($count);
+            return view('sekolah.siswa.nilai.index',compact('data','cekSemester','da','semester', 'cektagihan','kelas','id'));
+        }else{
+            return view('sekolah.siswa.pending');
+        }
+    }
+    public function cetak_pdf(Request $request)
     {
     	$now = Carbon::now();
         $hariIni = date('Y-m-d',strtotime($now));
@@ -337,12 +374,15 @@ class PenilaianController extends Controller
         $kategori = KategoriMapel::all();
         if(isset($cekSemester)){
             $iduser = Auth::user()->id;
-
+            $id = $request->idsemester;
             $kelas = DB::table('siswa_di_kelas')->join('class_list','classlist_idclass','idclass_list')
-            ->where('siswa_di_kelas.semester_idsemester',$cekSemester->idsemester)
+            ->where('siswa_di_kelas.semester_idsemester',$request->idsemester)
             ->where('siswa_di_kelas.users_idusers',$iduser)
             ->first();
-
+            if ($kelas == null) {
+                # code...
+                return view('sekolah.siswa.nilai.index',compact('kelas','cekSemester','semester','id'));
+            }
             $da = DB::table('nilai_akhir')->join('mata_pelajaran','nilai_akhir.idmata_pelajaran','mata_pelajaran.idmata_pelajaran')->join('users','users_id','id')->where('nilai_akhir.users_id',$iduser)->get();
             $data = DB::table('jadwal_kelas')->join('mata_pelajaran','idmatapelajaran','idmata_pelajaran')
             ->select('idclass_list','idmatapelajaran','nama_mp')->where('idclass_list',$kelas->idclass_list)->groupBy('idclass_list','idmatapelajaran','nama_mp')->get();

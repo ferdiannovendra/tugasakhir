@@ -248,9 +248,21 @@ $('#matapelajaran2').on('change', function(e) {
 }
 
 function getDetail(id) {
+    $('#modalcontent').html(`
+    <div class="modal-header">
+        <h5 class="modal-title h4">Ubah Presensi</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+    </div>
+    <div class='modal-body'>
+        <div class='row justify-content-center'>
+            <div class="spinner-border text-primary" role="status">
+                <span class="visually-hidden">Loading...</span>
+            </div>
+        </div>
+</div>`)
     $.ajax({
             type: 'POST',
-            url: '{{route("ubahkd")}}',
+            url: '{{route("ubahpresensi")}}',
             data: {
                 '_token': '<?php echo csrf_token() ?>',
                 'id': id

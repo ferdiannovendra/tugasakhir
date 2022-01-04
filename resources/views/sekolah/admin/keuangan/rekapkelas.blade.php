@@ -58,7 +58,7 @@ Daftar Kelas
                                 <td>{{ $d->tanggal_pelunasan }}</td>
                                 <td>
                                     @if ($d->bukti_bayar != null)
-                                    <a href="{{public_path('fileupload/buktibayar/'.$d->bukti_bayar)}}">Download</a>
+                                    <a href="{{asset('fileupload/buktibayar/'.$d->bukti_bayar)}}" target="_blank" class="btn btn-secondary">Download</a>
                                     @else
                                     Tidak Ada
                                     @endif
