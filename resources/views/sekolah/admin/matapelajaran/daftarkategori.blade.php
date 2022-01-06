@@ -139,7 +139,7 @@ function hapus_data(token, id) {
         function (data) {
             swal(
             'Terhapus!',
-            'Data Mata Pelajaran telah terhapus.',
+            'Data Kategori Mata Pelajaran telah terhapus.',
             'success'
             ).then(function () {
                 location.reload();

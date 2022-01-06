@@ -22,7 +22,7 @@ Daftar Kelas
     <div class="col-md-12">
         <div class="card mb-3">
             <div class="card-header mt-2 py-3 d-flex justify-content-between bg-transparent border-bottom-0">
-                <h6 class="mb-0 fw-bold ">Daftar Jenis Pembayaran</h6>
+                <h6 class="mb-0 fw-bold ">Rekap Tagihan Kelas</h6>
             </div>
             <div class="card-body">
                 <div class="table-responsive">

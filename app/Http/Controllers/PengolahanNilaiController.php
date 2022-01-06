@@ -292,15 +292,12 @@ class PengolahanNilaiController extends Controller
 
     public function kirimnilai_akhirrapor(Request $request)
     {
-        // dd($request);
         for ($i=0; $i < count($request->idsiswa); $i++) {
-            # code...
             $insert = DB::table('nilai_akhir')->upsert([
                 ['idmata_pelajaran' => $request->matapelajaran,'users_id'=>$request->idsiswa[$i], 'nilai_akhir' => $request->nilai_akhir[$i], 'predikat' => $request->predikat[$i]],
             ], ['idmata_pelajaran', 'users_id'], ['nilai_akhir','predikat']);
         }
         return redirect()->back()->with('status', 'Sukses Menambahkan data nilai rapor akhir');
-
     }
 
 }

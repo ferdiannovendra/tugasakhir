@@ -31,7 +31,6 @@ Daftar Kelas
                 <div class="row">
                     @foreach($data as $d)
                     <div class="col-3">
-                        <a href="{{route('rekappresensi', $d->idmatapelajaran)}}">
                             <div class="card text-white bg-primary mb-3">
                                 <div class="card-header">
                                     <h5>{{$d->idmatapelajaran}}</h5>
@@ -42,11 +41,12 @@ Daftar Kelas
                                             @endforeach
 
                                 </div>
+                                <a href="{{route('rekappresensi', $d->idmatapelajaran)}}">
                                 <div class="card-body">
-                                    <h5 class="card-title">{{$d->nama_mp}}</h5>
+                                    <h5 class="card-title" style="color: white">{{$d->nama_mp}}</h5>
                                 </div>
+                                </a>
                             </div>
-                        </a>
                     </div>
                     @endforeach
                 </div>

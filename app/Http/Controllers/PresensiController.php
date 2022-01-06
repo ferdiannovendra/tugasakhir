@@ -214,6 +214,7 @@ class PresensiController extends Controller
             $presensi = DB::table('presensi as a')->join('rekap_presensi as p','a.idpresensi','p.idpresensi')
             ->where('idmatapelajaran',$id)
             ->where('idclass_list',$kelas->idclass_list)
+            ->where('p.idsiswa',$iduser)
             ->get();
 
             // dd($presensi);

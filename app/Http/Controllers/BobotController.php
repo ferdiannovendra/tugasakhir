@@ -32,10 +32,18 @@ class BobotController extends Controller
     }
     public function input_bobot(Request $request)
     {
-        $insert = DB::table('bobot_nilai_akhir')->upsert([
-            ['idmata_pelajaran' => $request->matapelajaran,'idclass_list'=>$request->kelas, 'bobot_pengetahuan' => $request->b_pengetahuan, 'bobot_keterampilan' => $request->b_keterampilan],
-        ], ['idmata_pelajaran', 'idclass_list'], ['bobot_pengetahuan','bobot_keterampilan']);
+        $hasil = $request->b_pengetahuan + $request->b_keterampilan;
+        if ($hasil > 100) {
+            return redirect()->back()->with('error', "Bobot gagal di tambah, total bobot > 100");
+        } else if ($hasil < 100) {
+            return redirect()->back()->with('error', "Bobot gagal di tambah, total bobot < 100");
+        } else {
+            $insert = DB::table('bobot_nilai_akhir')->upsert([
+                ['idmata_pelajaran' => $request->matapelajaran,'idclass_list'=>$request->kelas, 'bobot_pengetahuan' => $request->b_pengetahuan, 'bobot_keterampilan' => $request->b_keterampilan],
+            ], ['idmata_pelajaran', 'idclass_list'], ['bobot_pengetahuan','bobot_keterampilan']);
 
-        return redirect()->back()->with('status', "Bobot Berhasil di tambah");
+            return redirect()->back()->with('status', "Bobot Berhasil di tambah");
+        }
+
     }
 }

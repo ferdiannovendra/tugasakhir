@@ -157,7 +157,7 @@ $('#mpselect').on('change', function () {
         function (data) {
             swal(
             'Terhapus!',
-            'Data pengguna telah terhapus.',
+            'Data Kompetensi Dasar telah terhapus.',
             'success'
             ).then(function () {
                 location.reload();

@@ -177,6 +177,67 @@ class KelasController extends Controller
 
     }
 
+    public function naikkelas()
+    {
+        $kelas = Kelas::all();
+        return view('sekolah.admin.kelas.naikkelas',compact('kelas'));
+    }
+    public function ceksiswa(Request $request)
+    {
+        $id = $request->id;
+        $data = DB::table('siswa_di_kelas')->where('classlist_idclass',$id)->
+                join('users','siswa_di_kelas.users_idusers','=','users.id')->get();
+
+        return response()->json(array(
+            'status'=>'oke',
+            'msg'=>view('sekolah.admin.kelas.data',compact('data'))->render()
+        ),200);
+    }
+    public function postUpdateKelas(Request $request)
+    {
+        // dd($request);
+        if ($request->kelasawal == $request->kelastujuan) {
+            return redirect()->back()->with('error','Kelas awal dan tujuan tidak boleh sama');
+        } else {
+            if ($request->checkall) {
+                $arrSiswa = array();
+
+                $idclass = $request->kelastujuan;
+                $idclass_awal = $request->kelasawal;
+
+                $data = DB::table('siswa_di_kelas')
+                ->where('classlist_idclass',$idclass_awal)
+                ->get();
+                foreach ($data as $d)
+                {
+                    $arrSiswa[] = $d->users_idusers;
+                }
+                $kelas = Kelas::find($idclass);
+                foreach ($arrSiswa as $a) {
+                    DB::table('siswa_di_kelas')->insert([
+                        'users_idusers' => $a,
+                        'classlist_idclass' => $idclass,
+                        'semester_idsemester' =>$kelas->semester_idsemester
+                    ]);
+                }
+                return redirect()->back()->with('status','Sukses naik kelas');
+            }else {
+                $arrSiswa = $request->siswa;
+                $idclass = $request->kelastujuan;
+                $kelas = Kelas::find($idclass);
+                foreach ($arrSiswa as $a) {
+                    DB::table('siswa_di_kelas')->insert([
+                        'users_idusers' => $a,
+                        'classlist_idclass' => $idclass,
+                        'semester_idsemester' =>$kelas->semester_idsemester
+                    ]);
+                }
+                return redirect()->back()->with('status','Sukses naik kelas');
+            }
+
+        }
+    }
+
     //---------------Buat Guru------------------
 
     public function list_kelas()

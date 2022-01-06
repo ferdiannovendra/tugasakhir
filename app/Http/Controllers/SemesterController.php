@@ -40,27 +40,29 @@ class SemesterController extends Controller
     }
     public function store(Request $request)
     {
-        // $now =  Carbon::now();
-        // $insertData = DB::table('semester')->insert([
-        //     'nama_semester' => $request->nama_semester,
-        //     'tahun_ajaran' => $request->tahun_ajaran,
-        //     'start_date' => $request->start_date,
-        //     'end_date' => $request->end_date,
-        //     'created_at' => $now
-        // ]);
-
-        $semester = new Semester();
-        $semester->nama_semester = $request->nama_semester;
-        $semester->tahun_ajaran = $request->tahun_ajaran;
-        $semester->start_date = $request->start_date;
-        $semester->end_date = $request->end_date;
-        if ($semester->save()) {
-        return redirect()->route('daftarsemester')
-        ->with('status','Semester baru berhasil ditambahkan!');
-        }else{
-        return redirect()->route('daftarsemester')
-        ->with('error','Semester baru gagal ditambahkan!');
-        }
+        // $now = Carbon::now();
+        // $hariIni = date('Y-m-d',strtotime($now));
+        // $cekSemester = Semester::where('start_date','<=',$request->start_date)
+        // ->Where('end_date','>=',$request->end_date)
+        // ->first();
+        // dd($cekSemester);
+        // if ($cekSemester == null) {
+            $semester = new Semester();
+            $semester->nama_semester = $request->nama_semester;
+            $semester->tahun_ajaran = $request->tahun_ajaran;
+            $semester->start_date = $request->start_date;
+            $semester->end_date = $request->end_date;
+            if ($semester->save()) {
+            return redirect()->route('daftarsemester')
+            ->with('status','Semester baru berhasil ditambahkan!');
+            }else{
+            return redirect()->route('daftarsemester')
+            ->with('error','Semester baru gagal ditambahkan!');
+            }
+        // } else {
+        //     return redirect()->route('daftarsemester')
+        //     ->with('error','Semester baru gagal ditambahkan! Waktu Bertabrakan');
+        // }
     }
     public function destroy(Request $request)
     {

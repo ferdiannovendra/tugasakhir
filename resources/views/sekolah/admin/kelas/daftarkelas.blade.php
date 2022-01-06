@@ -24,7 +24,12 @@ Daftar Kelas
         <div class="card mb-3">
             <div class="card-header mt-2 py-3 d-flex justify-content-between bg-transparent border-bottom-0">
                 <h6 class="mb-0 fw-bold ">Daftar Kelas</h6>
-                <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#TambahModal">Tambah Kelas</button>
+                <div>
+                    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#TambahModal">Tambah Kelas</button>
+                    <a href="{{ route('naikkelas') }}">
+                        <button type="button" class="btn btn-primary">Naik Kelas</button>
+                    </a>
+                </div>
             </div>
             <div class="card-body">
                 <div class="table-responsive">

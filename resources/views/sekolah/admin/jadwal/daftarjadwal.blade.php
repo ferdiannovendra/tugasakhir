@@ -72,7 +72,7 @@ Daftar Kelas
                             <td>
                                 <div class="btn-group" role="group" aria-label="Basic outlined example">
                                     <button type="button" onclick="getDetail('{{ $d->idclass_list }}','{{$d->idmatapelajaran}}','{{$d->hari_id}}' )" class="btn btn-outline-secondary" data-bs-toggle="modal" data-bs-target="#ubahmodal"><i class="icofont-edit text-success"></i></button>
-                                    <button type="button" onclick="hapus_data('{{csrf_token()}}','{{ $d->idclass_list }}')" class="btn btn-outline-secondary deleterow"><i class="icofont-ui-delete text-danger"></i></button>
+                                    <button type="button" onclick="hapus_data('{{csrf_token()}}','{{ $d->idclass_list }}' ,'{{ $d->idmatapelajaran }}' ,'{{ $d->hari_id }}')"class="btn btn-outline-secondary deleterow"><i class="icofont-ui-delete text-danger"></i></button>
                                 </div>
                             </td>
                         </tr>
@@ -90,7 +90,7 @@ Daftar Kelas
     <div class="modal-dialog modal-xl">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title h4" >Tambah Presensi</h5>
+                <h5 class="modal-title h4" >Tambah Jadwal</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <form action="{{ route('postTambahJadwal') }}" method="post">
@@ -123,10 +123,10 @@ Daftar Kelas
                     </div>
                     <div class="col-md-4">
                         <label for="hari" class="form-label">Nama Hari</label>
-                        <select name="hari" class="form-select" id="hari" required>
+                        <select name="hari" class="form-select" id="hari" >
                             @if(isset($hari))
                                 @foreach($hari as $k)
-                                <option value="{{ $k->id }}">{{ $k->nama }}</option>
+                                <option value="{{ $k->id }}" {{$selected}}>{{ $k->nama }}</option>
                                 @endforeach
                             @else
                             <option value="-" disabled>Tidak ada data Hari</option>
@@ -155,7 +155,7 @@ Daftar Kelas
     <div class="modal-dialog modal-xl">
         <div class="modal-content" id="modalcontent">
             <div class="modal-header">
-                <h5 class="modal-title h4">Ubah Presensi</h5>
+                <h5 class="modal-title h4">Ubah Jadwal</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
@@ -195,6 +195,48 @@ Daftar Kelas
 </script>
 
 <script>
+     function hapus_data(token, idclass, idmp, idhari) {
+    swal({
+        title: "Yakin Ingin Menghapus Data?",
+        text: "Jika dihapus data akan Sepenuhnya Hilang",
+        type: "warning",
+        showCancelButton: true,
+        confirmButtonColor: "#FF5722",
+        confirmButtonText: "Ya, Hapus!",
+        cancelButtonText: "Tidak!",
+        closeOnConfirm: false,
+        closeOnCancel: true,
+        showLoaderOnConfirm: true
+    }).then(function () {
+        var act = '/sekolah/hapusJadwal';
+        $.post(act, {
+            _token: token,
+            id:idclass,
+            idmp:idmp,
+            idhari:idhari
+            },
+        function (data) {
+            swal(
+            'Terhapus!',
+            'Data Jadwal telah terhapus.',
+            'success'
+            ).then(function () {
+                location.reload();
+            })
+        });
+
+    }, function (dismiss) {
+        if (dismiss === 'cancel') {
+            swal(
+                'Batal',
+                'Langkah menghapus terhenti dan dibatalkan :)',
+                'error'
+                )
+        }
+    })
+
+}
+
     function getDetail(id,idmp,idhari) {
     $.ajax({
             type: 'POST',

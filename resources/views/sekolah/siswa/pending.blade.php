@@ -26,8 +26,8 @@ Oops - Maaf
                 <div class="mt-4 mb-2">
                     <span class="">Tidak Ada Semester Aktif</span>
                 </div>
-                <button type="button" class="btn btn-white border lift mt-1">Get Started</button>
-                <button type="button" class="btn btn-primary border lift mt-1">Back to Home</button>
+                {{-- <button type="button" class="btn btn-white border lift mt-1">Get Started</button>
+                <button type="button" class="btn btn-primary border lift mt-1">Back to Home</button> --}}
             </div>
         </div>
     </div>

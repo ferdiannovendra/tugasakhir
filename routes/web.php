@@ -111,6 +111,9 @@ Route::middleware(['auth'])->group(function () {
 
             //Kelas
             Route::get('/daftar-kelas', [KelasController::class, 'index'])->name('daftarkelas');
+            Route::get('/naik-kelas', [KelasController::class, 'naikkelas'])->name('naikkelas');
+            Route::post('ceksiswa', [KelasController::class, 'ceksiswa'])->name('ceksiswa');
+            Route::post('postUpdateKelas', [KelasController::class, 'postUpdateKelas'])->name('postUpdateKelas');
             Route::view('/tambah-kelas', 'sekolah.admin.tambahkelas')->name('tambahkelas');
             Route::post('postTambahKelas', [KelasController::class, 'store'])->name('postTambahKelas');
             Route::post('postHapusKelas', [KelasController::class, 'destroy'])->name('postHapusKelas');
@@ -172,6 +175,7 @@ Route::middleware(['auth'])->group(function () {
             Route::get('/jadwalkelas', [JadwalKelasController::class, 'index'])->name('jadwalkelas');
             Route::post('postTambahJadwal', [JadwalKelasController::class, 'store'])->name('postTambahJadwal');
             Route::post('ubahjadwal', [JadwalKelasController::class, 'ubahjadwal'])->name('ubahjadwal');
+            Route::post('hapusJadwal', [JadwalKelasController::class, 'hapusJadwal'])->name('hapusJadwal');
 
             //Presensi
             Route::get('/presensi', [PresensiController::class, 'index'])->name('presensi.admin');

@@ -39,8 +39,20 @@ class JadwalKelasController extends Controller
     }
     public function ubahjadwal(Request $request)
     {
+        $dataMP = MataPelajaran::all();
+        $kelas = Kelas::all();
+        $hari = Hari::all();
         $data = DB::table('jadwal_kelas')->where('idclass_list',$request->id)
-        ->where('idmatapelajaran',$request->idmp)->where('hari_id',$request->idhari)->get();
-        return view('sekolah.admin.jadwal.editjadwal',compact('data'));
+        ->where('idmatapelajaran',$request->idmp)->where('hari_id',$request->idhari)->first();
+
+        return response()->json(array(
+            'status'=>'oke',
+            'msg'=>view('sekolah.admin.jadwal.editjadwal',compact('data','dataMP','kelas','hari'))->render()
+        ),200);
+    }
+    public function hapusJadwal(Request $request)
+    {
+        $data = DB::table('jadwal_kelas')->where('idclass_list',$request->id)
+        ->where('idmatapelajaran',$request->idmp)->where('hari_id',$request->idhari)->delete();
     }
 }
