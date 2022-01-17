@@ -1106,7 +1106,11 @@
                       <a class="page-scroll active" href="#home">Home</a>
                     </li>
                     <li class="nav-item">
+                        @guest
                       <a class="" href="{{ route('login') }}">Login</a>
+                      @else
+                      <a class="" href="{{ url('/dashboard') }}">SIA</a>
+                      @endguest
                     </li>
                   </ul>
                 </div>
@@ -1185,13 +1189,12 @@
                   @endif
                     </a>
                 </div>
+                @if(\Spatie\Multitenancy\Models\Tenant::checkCurrent())
                 <div class="row justify-content-center">
                     <p class="desc mb-30 text-white">
-                    Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed
-                    dinonumy eirmod tempor invidunt.
+                    {{ $masterweb[0]->footer }}
                     </p>
                 </div>
-                @if(\Spatie\Multitenancy\Models\Tenant::checkCurrent())
                 <div class="row justify-content-center">
                     <ul class="socials" style="align-items: center;justify-content: center;">
                     <li>

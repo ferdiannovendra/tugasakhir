@@ -96,6 +96,7 @@ Route::middleware(['auth'])->group(function () {
 
             Route::get('/setting', [MasterWebController::class, 'setting'])->name('setting');
             Route::post('update_setting', [MasterWebController::class, 'update_setting'])->name('update_setting');
+            Route::post('ubah_password', [MasterWebController::class, 'ubah_password'])->name('ubah_password');
 
             Route::get('/masterweb', [MasterWebController::class, 'index'])->name('masterweb');
             Route::post('update_masterweb', [MasterWebController::class, 'update'])->name('update_masterweb');
@@ -182,6 +183,8 @@ Route::middleware(['auth'])->group(function () {
             Route::get('/presensi/{id}', [PresensiController::class, 'showpresensimp'])->name('showpresensimp');
             Route::post('postTambahPresensi', [PresensiController::class, 'store'])->name('postAdminTambahPresensi');
             Route::post('postAdminHapusPresensi', [PresensiController::class, 'destroy'])->name('postAdminHapusPresensi');
+            Route::post('ubahstatus_presensi', [PresensiController::class, 'ubahstatus_presensi'])->name('ubahstatus_presensi');
+            Route::post('postUbahStatus', [PresensiController::class, 'postUbahStatus'])->name('postUbahStatus');
             Route::get('/presensi/detail/{id}', [PresensiController::class, 'detailpresensi'])->name('detailpresensi');
             // Route::post('listkelas', [PresensiController::class, 'listkelas'])->name('listkelasadmin');
 

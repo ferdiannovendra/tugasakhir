@@ -10,6 +10,8 @@ use App\Models\Setting;
 use Carbon\Carbon;
 use DB;
 use Config;
+use Auth;
+use Illuminate\Support\Facades\Hash;
 
 class MasterWebController extends Controller
 {
@@ -49,6 +51,14 @@ class MasterWebController extends Controller
         $data->model_presensi = $request->model_presensi;
         $data->save();
         return redirect()->back()->with('status',"Setting Berhasil disimpan");
+    }
+    public function ubah_password(Request $request)
+    {
+        $id = Auth::user()->id;
+        $user = User::find($id);
+        $user->password = Hash::make($request->password);
+        $user->save();
+        return redirect()->back()->with('status',"Password Berhasil diubah");
     }
     public function setting()
     {

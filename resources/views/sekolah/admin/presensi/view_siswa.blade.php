@@ -87,6 +87,7 @@ Daftar Siswa
                             <td>
                                 <div class="btn-group" role="group" aria-label="Basic outlined example">
                                     <button type="button" class="btn btn-outline-secondary" onclick="getDetailSiswa('{{$d->id}}')" data-bs-toggle="modal" data-bs-target="#ubahmodal"><i class="icofont-search-1 text-success"></i></button>
+                                    <button type="button" class="btn btn-outline-secondary" onclick="getDetailPresensi('{{$presensi->idpresensi}}','{{$d->id}}')" data-bs-toggle="modal" data-bs-target="#ubahstatus"><i class="icofont-edit text-success"></i></button>
                                 </div>
                             </td>
                         </tr>
@@ -98,6 +99,24 @@ Daftar Siswa
         </div>
     </div>
 </div><!-- Row end  -->
+
+<div class="modal fade" id="ubahstatus" tabindex="-1" aria-labelledby="ubahstatus" style="display: none;" aria-hidden="true">
+    <div class="modal-dialog modal-xl">
+        <div class="modal-content" id="modalcontent2">
+            <div class="modal-header">
+                <h5 class="modal-title h4">Detail</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="row justify-content-center">
+                    <div class="spinner-border text-primary" role="status">
+                        <span class="visually-hidden">Loading...</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 
 <div class="modal fade" id="ubahmodal" tabindex="-1" aria-labelledby="ubahmodal" style="display: none;" aria-hidden="true">
     <div class="modal-dialog modal-xl">
@@ -116,6 +135,7 @@ Daftar Siswa
         </div>
     </div>
 </div>
+
 @endsection
 @section('script')
 <!-- Plugin Js-->
@@ -163,6 +183,33 @@ $.ajax({
         }
     });
 }
+
+function getDetailPresensi(idpresensi, iduser) {
+    $('#modalcontent2').html(`
+    <div class="modal-header">
+        <h5 class="modal-title h4">Ubah Status Presensi</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+    </div>
+    <div class='modal-body'>
+        <div class='row justify-content-center'>
+            <div class="spinner-border text-primary" role="status">
+                <span class="visually-hidden">Loading...</span>
+            </div>
+        </div>
+</div>`)
+    $.ajax({
+            type: 'POST',
+            url: '{{route("ubahstatus_presensi")}}',
+            data: {
+                '_token': '<?php echo csrf_token() ?>',
+                'idpresensi': idpresensi,
+                'iduser': iduser
+            },
+            success: function(data) {
+                $('#modalcontent2').html(data.msg)
+            }
+        });
+    }
 
 </script>
 

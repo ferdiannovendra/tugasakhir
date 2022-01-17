@@ -70,6 +70,11 @@
 
                                     </div>
                                 </div>
+                                @if (Session::has('error'))
+                                    <div class="mb-4 font-medium" style="color: red">
+                                       <b> {{ Session::get('error') }}</b>
+                                    </div>
+                                @endif
                                 <div class="col-12">
                                     <div class="form-check">
                                         <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault">
@@ -82,9 +87,11 @@
                                     <button type="submit" class="btn btn-lg btn-block btn-light lift text-uppercase" atl="signin">SIGN IN</button>
                                     <!-- <a href="index.html" class="btn btn-lg btn-block btn-light lift text-uppercase" atl="signin">SIGN IN</a> -->
                                 </div>
+                                @if(\Spatie\Multitenancy\Models\Tenant::checkCurrent() == "" )
                                 <div class="col-12 text-center mt-4">
                                     <span class="text-muted">Don't have an account yet? <a href="{{route('register')}}" class="text-secondary">Sign up here</a></span>
                                 </div>
+                                @endif
                             </form>
                             <!-- End Form -->
                         </div>

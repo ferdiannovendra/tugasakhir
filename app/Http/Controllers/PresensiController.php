@@ -9,6 +9,7 @@ use App\Models\Presensi;
 use App\Models\MataPelajaran;
 use App\Models\Kelas;
 use App\Models\Semester;
+use App\Models\User;
 
 use Auth;
 
@@ -95,6 +96,29 @@ class PresensiController extends Controller
         $presensi->materi = $request->materi;
         $presensi->save();
         return redirect()->back()->with('status', 'Presensi berhasil diubah');
+    }
+    public function ubahstatus_presensi(Request $request)
+    {
+        $iduser = $request->iduser;
+        $idpresensi = $request->idpresensi;
+        $user = User::find($iduser);
+        $data = DB::table('rekap_presensi')->where('idpresensi',$idpresensi)->where('idsiswa', $iduser)->first();
+        return response()->json(array(
+            'status'=>'oke',
+            'msg'=>view('sekolah.admin.presensi.ubah_status',compact('data', 'user'))->render()
+        ),200);
+    }
+    public function postUbahStatus(Request $request)
+    {
+        $now = Carbon::now();
+
+        $iduser = $request->iduser;
+        $idpresensi = $request->idpresensi;
+        $status = $request->status;
+
+        $ubah = DB::table('rekap_presensi')->where('idsiswa',$iduser)->where('idpresensi',$idpresensi)
+        ->update(['status_presensi' => $status,'time_presensi'=>$now]);
+        return redirect()->back()->with('status', 'Status Kehadiran telah diubah');
     }
 
     //--------------- BUAT GURU --------------------

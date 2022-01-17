@@ -75,6 +75,25 @@ Master Web
                 </form>
             </div>
         </div>
+        <div class="card mb-3">
+            <div class="card-header mt-2 py-3 d-flex justify-content-between bg-transparent border-bottom-0">
+                <h6 class="mb-0 fw-bold ">Ubah Password</h6>
+            </div>
+            <div class="card-body">
+                <form method="post" enctype="multipart/form-data" action="{{route('ubah_password')}}">
+                    @csrf
+                    <div class="row g-3 align-items-center">
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <label class="form-label">Password baru</label>
+                                <input type="password" name="password" class="form-control" id="">
+                            </div>
+                        </div>
+                    </div>
+                    <button type="submit" class="btn btn-primary mt-4">Submit</button>
+                </form>
+            </div>
+        </div>
     </div>
 </div><!-- Row end  -->
 @endsection

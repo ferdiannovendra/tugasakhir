@@ -32,7 +32,7 @@ $masterweb = App\Models\MasterWeb::all();
         <div class="column">
             <p>Nama Sekolah &emsp; : &emsp; {{app('currentTenant')->name}} <br>
                 Alamat &emsp; : &emsp; {{app('currentTenant')->name}} <br>
-                Nama Peserta Didik &emsp; : &emsp; {{app('currentTenant')->name}} <br>
+                Nama Peserta Didik &emsp; : &emsp; {{ $user->name }} {{ $user->lname }} <br>
                 Program Keahlian &emsp; : &emsp; {{$jurusan->nama_jurusan}} <br> </p>
         </div>
         <div class="column">
