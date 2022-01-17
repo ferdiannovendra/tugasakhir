@@ -1,7 +1,7 @@
 @extends('layoutsadmin.guest')
 
 @section('title')
-Daftar Kelas
+Selamat Datang
 @endsection
 
 @section('style')

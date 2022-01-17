@@ -25,42 +25,31 @@ Daftar Kelas
                 <h6 class="mb-0 fw-bold ">Progress Pengajuan</h6>
             </div>
             <div class="card-body">
-                <div class="timeline-item ti-danger border-bottom ms-2">
-                    <div class="d-flex">
-                        <span class="avatar d-flex justify-content-center align-items-center rounded-circle light-success-bg">RH</span>
-                        <div class="flex-fill ms-3">
-                            <div class="mb-1"><strong>Rechard Add New Task</strong></div>
-                            <span class="d-flex text-muted">20Min ago</span>
-                        </div>
-                    </div>
-                </div> <!-- timeline item end  -->
-                <div class="timeline-item ti-info border-bottom ms-2">
-                    <div class="d-flex">
-                        <span class="avatar d-flex justify-content-center align-items-center rounded-circle bg-careys-pink">SP</span>
-                        <div class="flex-fill ms-3">
-                            <div class="mb-1"><strong>Shipa Review Completed</strong></div>
-                            <span class="d-flex text-muted">40Min ago</span>
-                        </div>
-                    </div>
-                </div> <!-- timeline item end  -->
-                <div class="timeline-item ti-info border-bottom ms-2">
-                    <div class="d-flex">
-                        <span class="avatar d-flex justify-content-center align-items-center rounded-circle bg-careys-pink">MR</span>
-                        <div class="flex-fill ms-3">
-                            <div class="mb-1"><strong>Mora Task To Completed</strong></div>
-                            <span class="d-flex text-muted">1Hr ago</span>
-                        </div>
-                    </div>
-                </div>
-                <div class="timeline-item ti-success  ms-2">
-                    <div class="d-flex">
-                        <span class="avatar d-flex justify-content-center align-items-center rounded-circle bg-lavender-purple">FL</span>
-                        <div class="flex-fill ms-3">
-                            <div class="mb-1"><strong>Fila Add New Task</strong></div>
-                            <span class="d-flex text-muted">1Day ago</span>
-                        </div>
-                    </div>
-                </div>
+                <h6>{{ $cek->nama_sekolah }}</h6>
+                <small>{{ $cek->created_at }}</small>
+                <br>
+                <hr>
+                <p>Status terkini :
+                    @if ($cek->status == 0)
+                    <span class="badge rounded-pill bg-warning">Menunggu</span>
+                    @elseif($cek->status == 1)
+                    <span class="badge rounded-pill bg-primary">Pengajuan Diterima</span>
+                    @elseif($cek->status == 2)
+                    <span class="badge rounded-pill bg-success">Selesai</span>
+                        @if ($data != "")
+                            <hr>
+                            <h5>Data Sistem</h5>
+                            <p>URL : <a href="http://{{ $data->domain }}" target="_blank" class="fw-bold text-secondary">{{ $data->domain }}</a></p>
+                            <br>
+                            <h5>Akses Admin</h5>
+                            <p>Email : admin@admin.com</p>
+                            <p>Password : adminsistem</p>
+                            <small style="color: red"><b>Harap segera melakukan ubah password</b></small>
+                        @endif
+                    @elseif($cek->status == 3)
+                    <span class="badge rounded-pill bg-danger">Ditolak</span>
+                    @endif
+                </p>
             </div>
         </div> <!-- .card: My Timeline -->
     </div>

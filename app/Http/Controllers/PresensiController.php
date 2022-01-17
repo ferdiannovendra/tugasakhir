@@ -188,10 +188,11 @@ class PresensiController extends Controller
     }
     public function isipresensi(Request $request)
     {
+        $now = Carbon::now();
         $idsiswa = Auth::user()->id;
         $idpresensi = $request->id;
         $ubah = DB::table('rekap_presensi')->where('idsiswa',$idsiswa)->where('idpresensi',$idpresensi)
-        ->update(['status_presensi' => 1]);
+        ->update(['status_presensi' => 1,'time_presensi'=>$now]);
     }
     public function rekappresensi($id)
     {

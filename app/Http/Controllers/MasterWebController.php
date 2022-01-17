@@ -42,6 +42,9 @@ class MasterWebController extends Controller
         $data = Setting::find(1);
 
         $data->idsemester = $request->semester;
+        $semester = session()->get('semester');
+        session()->put('semester', $request->semester);
+
         $data->kepala_sekolah = $request->kepsek;
         $data->model_presensi = $request->model_presensi;
         $data->save();

@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Goutte\Client;
 use App\Models\Pengajuan;
+use App\Models\Tenant;
 use Auth;
 
 class GuestController extends Controller
@@ -15,7 +16,12 @@ class GuestController extends Controller
     }
     public function regissekolah()
     {
-        return view('guest.daftar');
+        $cek = Pengajuan::where('users_id',Auth::user()->id)->first();
+        $cekStatus = true;
+        if ($cek != null) {
+            $cekStatus = false;
+        }
+        return view('guest.daftar',compact('cekStatus'));
     }
     public function ceksekolah(Request $request)
     {
@@ -48,7 +54,13 @@ class GuestController extends Controller
 
     public function prosesdaftar()
     {
-        return view('guest.status');
+        $cek = Pengajuan::where('users_id',Auth::user()->id)->first();
+        $data = "";
+        if ($cek->status == 2) {
+            $data = Tenant::where('npsn', $cek->npsn)->first();
+        }
+        // dd($cek);
+        return view('guest.status',compact('cek', 'data'));
     }
     public function simpansekolah(Request $request)
     {

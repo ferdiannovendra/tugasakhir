@@ -13,26 +13,40 @@ Daftar Sekolah
 @section('isi-content')
 <div class="row align-item-center">
     <div class="col-md-12">
-        <div class="card mb-3">
-            <div class="card-header mt-2 py-3 d-flex justify-content-between bg-transparent border-bottom-0">
-                <h6 class="mb-0 fw-bold ">Tambah Data Sekolah</h6>
-            </div>
-            <div class="card-body">
-                <div class="row g-3 align-items-center">
-                    <div class="col-md-12">
-                        <div class="form-group">
-                            <label class="form-label">Nomor Pokok Sekolah Nasional (NPSN)</label>
-                            <input type="text" id='npsn' name="npsn" class="form-control" required>
+        @if ($cekStatus == true)
+            <div class="card mb-3">
+                <div class="card-header mt-2 py-3 d-flex justify-content-between bg-transparent border-bottom-0">
+                    <h6 class="mb-0 fw-bold ">Tambah Data Sekolah</h6>
+                </div>
+                <div class="card-body">
+                    <div class="row g-3 align-items-center">
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <label class="form-label">Nomor Pokok Sekolah Nasional (NPSN)</label>
+                                <input type="text" id='npsn' name="npsn" class="form-control" required>
+                            </div>
                         </div>
                     </div>
-                </div>
 
-                <a class="btn btn-primary mt-4" id="btncek" onclick="getDetail()">Cek NPSN</a>
-                <div id="data">
+                    <a class="btn btn-primary mt-4" id="btncek" onclick="getDetail()">Cek NPSN</a>
+                    <div id="data">
 
+                    </div>
                 </div>
             </div>
-        </div>
+        @else
+            <div class="card mb-3">
+                <div class="card-body text-center p-5">
+                    <div class="mt-4 mb-2">
+                        <center><h1>Maaf anda sudah mengajukan pendaftaran</h1></center>
+                    </div>
+                    <a href="{{route('guesthome')}}"><button type="button" class="btn btn-white border lift mt-1">Kembali</button></a>
+                    <a href="{{route('proses-daftar')}}"><button type="button" class="btn btn-primary border lift mt-1">Cek Proses</button></a>
+                </div>
+
+            </div>
+        @endif
+
     </div>
 </div><!-- Row end  -->
 

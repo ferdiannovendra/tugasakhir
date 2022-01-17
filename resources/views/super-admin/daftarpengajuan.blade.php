@@ -36,7 +36,11 @@ Super-Admin
                                 @foreach($data as $d)
                                 <tr>
                                     <th scope="row">{{ $d->id }}</th>
-                                    <td>{{ $d->nama_sekolah }}</td>
+                                    <td>
+                                        <a href="https://referensi.data.kemdikbud.go.id/tabs.php?npsn={{$d->npsn}}" target="_blank" class="fw-bold text-secondary">
+                                            {{ $d->nama_sekolah }}
+                                        </a>
+                                    </td>
                                     <td>{{ $d->npsn }}</td>
                                     <td>
                                         @if ($d->status == 0)

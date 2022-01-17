@@ -87,7 +87,7 @@ Lihat Nilai Akhir
 
 $('#mpselect').on('change', function(e) {
         var id_mp = e.target.value;
-        alert(id_mp);
+        // alert(id_mp);
         $.ajax({
             type: "POST",
             url: "{{ route('listkelasadmin') }}",
@@ -107,7 +107,7 @@ $('#mpselect').on('change', function(e) {
     });
 $('#matapelajaran2').on('change', function(e) {
         var id_mp = e.target.value;
-        alert(id_mp);
+        // alert(id_mp);
         $.ajax({
             type: "POST",
             url: "{{ route('listkelasadmin') }}",

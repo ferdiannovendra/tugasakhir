@@ -6,7 +6,10 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use App\Models\Tenant;
 use App\Models\Pengajuan;
+use App\Models\User;
 use Maatwebsite\Excel\Facades\Excel;
+use Auth;
+use Illuminate\Support\Facades\Mail;
 
 class SuperAdminController extends Controller
 {
@@ -162,6 +165,7 @@ class SuperAdminController extends Controller
         $tenant = new Tenant();
         $tenant->name = $peng->nama_sekolah;
         $tenant->npsn = $peng->npsn;
+        $tenant->admin = Auth::user()->id;
         $tenant->save();
 
         $peng->save();
@@ -172,7 +176,20 @@ class SuperAdminController extends Controller
         $id = $request->id;
         $peng = Pengajuan::find($id);
         $peng->status = 2;
-        $peng->save();
+        if($peng->save())
+        {
+            $user =  User::find($peng->users_id);
+            $email = $user->email;
+            $kirim = array(
+                'name' => $user->name
+            );
+
+            Mail::send('email_template', $kirim, function($mail) use($email){
+                $mail->to($email, 'no-reply')
+                    ->subject('Informasi Pendaftaran Sistem Informasi Akademik');
+                $mail->from('ferdiannovendra16@gmail.com','Admin SIA');
+            });
+        }
     }
     public function ubahstatus_tolak(Request $request)
     {

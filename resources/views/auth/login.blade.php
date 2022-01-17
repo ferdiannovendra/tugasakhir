@@ -67,6 +67,7 @@
                                             </span>
                                         </div>
                                         <input type="password" name="password" required class="form-control form-control-lg" placeholder="***************">
+
                                     </div>
                                 </div>
                                 <div class="col-12">
