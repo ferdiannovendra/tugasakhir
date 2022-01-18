@@ -40,6 +40,9 @@ Daftar Siswa
                         <h5>
                         <span class="badge bg-danger">Siswa Tidak Hadir : {{$countTidakHadir}}</span>
                         </h5>
+                        <h5>
+                        <span class="badge bg-warning">Siswa Ijin : {{$countIjin}}</span>
+                        </h5>
                     </div>
                     <div class="col-6" style="text-align: end">
                         <h5>
@@ -66,6 +69,7 @@ Daftar Siswa
                             <th scope="col">Last Name</th>
                             <th scope="col">Waktu</th>
                             <th scope="col">Status Presensi</th>
+                            <th scope="col">Alasan Ijin</th>
                             <th scope="col">Aksi</th>
                         </tr>
                         </thead>
@@ -79,10 +83,13 @@ Daftar Siswa
                             <td>
                                 @if($d->status_presensi == 1)
                                 <span class="badge rounded-pill bg-success"><i class="icofont-check-circled text-white"></i></span>
-                                @else
+                                @elseif($d->status_presensi == 0)
                                 <span class="badge rounded-pill bg-danger"><i class="icofont-error text-white"></i></span>
+                                @else
+                                <span class="badge rounded-pill bg-warning"><i class="icofont-ui-timer text-white"></i></span>
                                 @endif
                             </td>
+                            <td>{{ $d->alasan_ijin }}</td>
 
                             <td>
                                 <div class="btn-group" role="group" aria-label="Basic outlined example">

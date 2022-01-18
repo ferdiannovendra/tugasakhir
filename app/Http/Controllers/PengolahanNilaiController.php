@@ -284,7 +284,7 @@ class PengolahanNilaiController extends Controller
 
             return response()->json(array(
                 'status'=>'tidak',
-                'msg'=>view('sekolah.admin.nilai-rapor.data-nilairapor',compact('data','nilai_siswa','kelas','mp'))->render()
+                'msg'=> 'tes'
             ),200);
         }
 

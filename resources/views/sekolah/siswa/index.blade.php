@@ -28,7 +28,14 @@ Beranda - Siswa
                             <div class="col">
                                 <span class="avatar lg bg-white rounded-circle text-center d-flex align-items-center justify-content-center"><i class="icofont-file-text fs-5"></i></span>
                                 <h1 class="mt-3 mb-0 fw-bold text-white">{{ $count }}</h1>
-                                <span class="text-white">Jumlah Mata Pelajaran {{ $kelas->name_class }}</span>
+                                <span class="text-white">
+                                    Jumlah Mata Pelajaran
+                                    @if ($kelas == "")
+                                        -
+                                    @else
+                                        {{$kelas->name_class}}
+                                    @endif
+                                </span>
                             </div>
                             <div class="col">
                                 <img class="img-fluid" src="{{ asset('assets/images/interview.svg') }}" alt="interview">
@@ -61,16 +68,19 @@ Beranda - Siswa
                         </tr>
                         </thead>
                         <tbody>
-                        @foreach($data as $d)
-                        <tr>
-                            <th>{{ $d->nama }}</th>
-                            <td>{{ $d->idmata_pelajaran }}</td>
-                            <td>{{ $d->nama_mp }}</td>
-                            <td>{{ $d->jam_mulai }}</td>
-                            <td>{{ $d->jam_akhir }}</td>
-                            <td>{{ $d->status }}</td>
-                        </tr>
-                        @endforeach
+                            @if ($data != "")
+                                @foreach($data as $d)
+                                <tr>
+                                    <th>{{ $d->nama }}</th>
+                                    <td>{{ $d->idmata_pelajaran }}</td>
+                                    <td>{{ $d->nama_mp }}</td>
+                                    <td>{{ $d->jam_mulai }}</td>
+                                    <td>{{ $d->jam_akhir }}</td>
+                                    <td>{{ $d->status }}</td>
+                                </tr>
+                                @endforeach
+                            @endif
+
                         </tbody>
                     </table>
                 </div>

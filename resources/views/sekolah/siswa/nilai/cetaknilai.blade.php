@@ -25,7 +25,7 @@
         }
 	</style>
 @php
-$masterweb = App\Models\MasterWeb::all();
+$kepsek = App\Models\MasterWeb::Kepsek();
 @endphp
 
     <div class="row">
@@ -81,10 +81,26 @@ $masterweb = App\Models\MasterWeb::all();
 	</table>
     <div class="row">
         <div class="column">
+            <p  style="border-style: solid; border-width: 1px;padding:10px; width:100&;"><u>Data Kehadiran </u><br>
+                Hadir &emsp; : &emsp; {{ $counthadir }} <br>
+                Tidak Hadir &emsp; : &emsp; {{ $counttidakhadir }} <br>
+                Ijin &emsp; : &emsp; {{ $countijin }} <br> </p>
+        </div>
+    </div>
+    <br><br><br>
+    <div class="row">
+        <div class="column">
         </div>
         <div class="column">
-            <p>Kepala Sekolah &emsp; : &emsp; {{$detail->nisn}} <br>
-                </p>
+            <p>Kepala Sekolah<br></p>
+        </div>
+    </div>
+    <br><br><br>
+    <div class="row">
+        <div class="column">
+        </div>
+        <div class="column">
+            <p>{{$kepsek->name}} {{$kepsek->lname}}<br></p>
         </div>
     </div>
 </body>

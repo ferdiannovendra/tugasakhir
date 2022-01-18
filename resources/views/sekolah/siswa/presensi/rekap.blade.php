@@ -39,6 +39,8 @@ Rekap Presensi
                                 <th scope="col">Waktu Buka</th>
                                 <th scope="col">Waktu Tutup</th>
                                 <th scope="col">Status Presensi</th>
+                                <th scope="col">Waktu Presensi</th>
+                                <th scope="col">Alasan Ijin</th>
                             </tr>
                             </thead>
                             <tbody>
@@ -51,11 +53,14 @@ Rekap Presensi
                                 <td>
                                     @if($d->status_presensi == 1)
                                     <span class="badge rounded-pill bg-success"><i class="icofont-check-circled text-white"></i></span>
-                                    @else
+                                    @elseif($d->status_presensi == 0)
                                     <span class="badge rounded-pill bg-danger"><i class="icofont-error text-white"></i></span>
+                                    @else
+                                    <span class="badge rounded-pill bg-warning"><i class="icofont-ui-timer text-white"></i></span>
                                     @endif
                                 </td>
-
+                                <td>{{ $d->time_presensi }}</td>
+                                <td>{{ $d->alasan_ijin }}</td>
 
                             </tr>
                             @endforeach

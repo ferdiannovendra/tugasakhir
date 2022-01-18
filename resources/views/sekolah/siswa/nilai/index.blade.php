@@ -22,7 +22,7 @@ Daftar Nilai
     <div class="col-md-12">
         <div class="card mb-3">
             <div class="card-header mt-2 py-3 d-flex justify-content-between bg-transparent border-bottom-0">
-                <h6 class="mb-0 fw-bold ">Daftar Mata Pelajaran</h6>
+                <h6 class="mb-0 fw-bold ">Data Nilai</h6>
             </div>
             <div class="card-body">
                 <label for="">Pilih Semester : </label>
@@ -44,7 +44,15 @@ Daftar Nilai
                 <br>
                 <p style="text-transform: uppercase;">Semester : <b>{{$cekSemester->nama_semester}} - {{$cekSemester->tahun_ajaran}}</b></p>
                 <hr>
-
+                <h5>
+                    <span class="badge bg-success">Hadir : {{$counthadir}}</span>
+                    </h5>
+                    <h5>
+                    <span class="badge bg-danger">Tidak Hadir : {{$counttidakhadir}}</span>
+                    </h5>
+                    <h5>
+                    <span class="badge bg-warning">Ijin : {{$countijin}}</span>
+                    </h5>
                 @if ($kelas != null)
                     @if ($cektagihan ==null)
                         <div class="table-responsive">
@@ -82,6 +90,7 @@ Daftar Nilai
                                 @endforeach
                                 </tbody>
                             </table>
+
                             <form action="{{route('cetaknilai')}}" method="post">
                                 @csrf
                                 @php

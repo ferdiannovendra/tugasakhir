@@ -214,7 +214,8 @@ $('#btntambah').on('click', function(e) {
             success: function(data) {
                 $('#table').empty();
                 console.log(data);
-                $('#table').append('<thead>' +
+                if (data.pernah == "belum") {
+                    $('#table').append('<thead>' +
                         '<tr>');
                 for (let i = 0; i <= jumlah; i++) {
                     if (i==0) {
@@ -280,6 +281,11 @@ $('#btntambah').on('click', function(e) {
                     }
 
                     $('#table').append('<button type="submit" id="btntambah" class="btn btn-primary" >Simpan</button>');
+                } else {
+                    $('#table').append('<h3>Sudah Pernah Membuat Rencana Penilaian</h3>');
+
+                }
+
                 }
         })
     });

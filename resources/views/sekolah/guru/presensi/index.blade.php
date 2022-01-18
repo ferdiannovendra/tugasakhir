@@ -27,31 +27,12 @@ Daftar Kelas
                 <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#TambahModal">Tambah Presensi</button>
             </div>
             <div class="card-body">
-                <h6 class="mb-0 fw-bold ">Pilih Mata Pelajaran :</h6>
-                <br>
-                <select name="matapelajaran" class="form-control" id="mpselect">
-                    <option value="-">Silahkan pilih mata pelajaran</option>
-
-                    @if(isset($mata_pelajaran))
-                        @foreach($mata_pelajaran as $mp)
-                        <option value="{{ $mp->idmata_pelajaran }}">{{ $mp->nama_mp }}</option>
-                        @endforeach
-                    @else
-                    <option value="-" disabled>Tidak ada data Mata Pelajaran</option>
-                    @endif
-                </select>
-                <br>
-                <h6 class="mb-0 fw-bold ">Pilih Kelas :</h6>
-                <br>
-                <select name="kelas" class="form-control" id="class_select">
-                    <option value="-" disabled>Pilih Mata Pelajaran Dahulu</option>
-                </select>
-                <br><br>
                 <div class="table-responsive">
                     <table id="patient-table" class="table table-hover align-middle mb-0" style="width: 100%;">
                         <thead>
                         <tr>
                             <th scope="col">#</th>
+                            <th scope="col">Mata Pelajaran</th>
                             <th scope="col">Materi</th>
                             <th scope="col">Start Time</th>
                             <th scope="col">End Time</th>
@@ -66,11 +47,12 @@ Daftar Kelas
                             @foreach($data as $d)
                             <tr>
                                 <th scope="row">{{ $d->idpresensi }}</th>
-                                <td>{{ $d->idmatapelajaran }}</td>
+                                <td>{{ $d->nama_mp }}</td>
                                 <td>{{ $d->materi }}</td>
                                 <td>{{ $d->start_time }}</td>
                                 <td>{{ $d->end_time }}</td>
                                 <td>{{ $d->catatan_pertemuan }}</td>
+                                <td>{{ $d->name_class }}</td>
                                 <td>
                                     <div class="btn-group" role="group" aria-label="Basic outlined example">
                                         <a href="{{route('detailpresensiguru',$d->idpresensi)}}"><button type="button" class="btn btn-outline-secondary"><i class="icofont-info-circle text-seconadary"></i></button></a>
@@ -183,7 +165,10 @@ Daftar Kelas
            ]
        });
    });
-
+   $('#mpselect').on('change', function () {
+    var url = $(this).val(); // get selected value
+    window.location = url;
+});
 </script>
 <script>
     $('#mpselect').on('change', function(e) {

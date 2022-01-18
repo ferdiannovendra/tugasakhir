@@ -30,7 +30,7 @@ class AppServiceProvider extends ServiceProvider
         if ($tenant != "") {
             $dataSetting = Setting::first();
             Config::set([
-                'idsemester_aktif' => $dataSetting->idsemester,
+                // 'idsemester_aktif' => $dataSetting->idsemester,
                 'curr_tenant' => app('currentTenant')->name
             ]);
         }

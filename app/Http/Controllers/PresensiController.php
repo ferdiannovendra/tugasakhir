@@ -86,8 +86,10 @@ class PresensiController extends Controller
         ->where('status_presensi',1)->count();
         $countTidakHadir = DB::table('rekap_presensi')->where('idpresensi',$idpresensi)
         ->where('status_presensi',0)->count();
+        $countIjin = DB::table('rekap_presensi')->where('idpresensi',$idpresensi)
+        ->where('status_presensi',2)->count();
         $countsiswa = DB::table('rekap_presensi')->where('idpresensi',$idpresensi)->count();
-        return view('sekolah.admin.presensi.view_siswa',compact('data','countHadir','countTidakHadir','countsiswa','mp','presensi'));
+        return view('sekolah.admin.presensi.view_siswa',compact('data','countHadir','countTidakHadir','countsiswa','mp','presensi', 'countIjin'));
     }
     public function simpan_ubahpresensi(Request $request, $id)
     {
@@ -127,8 +129,12 @@ class PresensiController extends Controller
         $idpengajar = Auth::user()->id;
         // $idclass =
         // $data = Presensi::where('idclass_list', $idpengajar)->get();
-        $data = DB::table('presensi')->join('class_list','presensi.idclass_list','class_list.idclass_list')
-        ->where('class_list.wali_kelas',$idpengajar)->get();
+        $data = DB::table('presensi')
+        ->join('class_list','presensi.idclass_list','class_list.idclass_list')
+        ->join('mata_pelajaran','presensi.idmatapelajaran','mata_pelajaran.idmata_pelajaran')
+        ->where('class_list.wali_kelas',$idpengajar)
+        ->orderBy('idpresensi','asc')
+        ->get();
         $mata_pelajaran = MataPelajaran::where('guru_pengajar',$idpengajar)->get();
         // $kelas = DB::table('siswa_di_kelas')->where();
         // dd($data);
@@ -194,16 +200,20 @@ class PresensiController extends Controller
             ->where('siswa_di_kelas.users_idusers',$iduser)
             ->first();
 
-            $data = DB::table('jadwal_kelas')->select('idmatapelajaran','nama_mp')->join('mata_pelajaran','idmatapelajaran','idmata_pelajaran')
-            ->where('idclass_list',$kelas->idclass_list)->groupBy('idmatapelajaran','nama_mp')->get();
+            $data = "";
+            $cekpresensi = "";
+            if ($kelas != null) {
+                $data = DB::table('jadwal_kelas')->select('idmatapelajaran','nama_mp')->join('mata_pelajaran','idmatapelajaran','idmata_pelajaran')
+                ->where('idclass_list',$kelas->idclass_list)->groupBy('idmatapelajaran','nama_mp')->get();
 
-            $cekpresensi = DB::table('presensi')
-            ->join('rekap_presensi','presensi.idpresensi','rekap_presensi.idpresensi')
-            ->where('idclass_list', $kelas->idclass_list)
-            ->where('status_presensi','==',0)
-            ->where('start_time','<=',$now)
-            ->where('end_time','>=',$now)
-            ->where('idsiswa',$iduser)->get();
+                $cekpresensi = DB::table('presensi')
+                ->join('rekap_presensi','presensi.idpresensi','rekap_presensi.idpresensi')
+                ->where('idclass_list', $kelas->idclass_list)
+                ->where('status_presensi','==',0)
+                ->where('start_time','<=',$now)
+                ->where('end_time','>=',$now)
+                ->where('idsiswa',$iduser)->get();
+            }
 
             return view('sekolah.siswa.presensi.index',compact('data','cekSemester','cekpresensi'));
         }else{
@@ -217,6 +227,26 @@ class PresensiController extends Controller
         $idpresensi = $request->id;
         $ubah = DB::table('rekap_presensi')->where('idsiswa',$idsiswa)->where('idpresensi',$idpresensi)
         ->update(['status_presensi' => 1,'time_presensi'=>$now]);
+    }
+    public function ajukan_ijin(Request $request)
+    {
+        $idsiswa = Auth::user()->id;
+        $idpresensi = $request->id;
+        // dd($idpresensi);
+        return response()->json(array(
+            'status'=>'oke',
+            'msg'=>view('sekolah.siswa.presensi.modalijin',compact('idpresensi'))->render()
+        ),200);
+    }
+    public function simpan_ijin (Request $request)
+    {
+        $now = Carbon::now();
+        $idsiswa = Auth::user()->id;
+        $presensi = DB::table('rekap_presensi')
+        ->where('idsiswa', $idsiswa)
+        ->where('idpresensi', $request->idpresensi)
+        ->update(['status_presensi' => 2,'time_presensi'=>$now,'alasan_ijin'=> $request->alasan]);
+        return redirect()->back()->with('status','Ijin berhasil');
     }
     public function rekappresensi($id)
     {

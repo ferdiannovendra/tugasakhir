@@ -114,9 +114,12 @@ class SuperAdminController extends Controller
         $tenant->domain = $request->domain;
         // $tenant->start_date = $request->start_date;
         // $tenant->end_date = $request->end_date;
-        $tenant->save();
+        if($tenant->save()){
+            return redirect()->back()->with('status', 'Berhasil melakukan Ubah data');
+        } else {
+            return redirect()->back()->with('error', 'Gagal melakukan Ubah data');
+        }
 
-        return redirect()->route('superadminhome');
     }
     public function generateDB(Request $request)
     {
@@ -143,13 +146,7 @@ class SuperAdminController extends Controller
             ]);
         }
     }
-    public function validateNPSN($id)
-    {
-        $npsn = " ".$id;
-        $output = shell_exec(escapeshellcmd('python '.public_path("/python/cek.py").$npsn));
-        // $output = 'python '.public_path("/python/cek.py").$npsn;
-        echo $output;
-    }
+
     public function daftarpengajuan()
     {
         $data = Pengajuan::orderBy('status','asc')->get();

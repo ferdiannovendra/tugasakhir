@@ -58,10 +58,16 @@ class PenilaianController extends Controller
         $jumlah = $request->jumlah;
         $idclass= $request->idclass;
         $kd = KompetensiDasar::where('idmata_pelajaran',$idmp)->where('jenis_kd','Pengetahuan')->get();
-
+        $cek = Penilaian::where('idmata_pelajaran', $idmp)->where('idclass', $idclass)->where('jenispenilaian','Pengetahuan')->first();
+        // dd($cek);
+        $isPernah = "pernah";
+        if ($cek == null) {
+            $isPernah = "belum";
+        }
         return response()->json([
             'jumlah' => $jumlah,
-            'kd' => $kd
+            'kd' => $kd,
+            'pernah' => $isPernah
         ]);
     }
     public function kirim_rencana(Request $request)
@@ -318,12 +324,34 @@ class PenilaianController extends Controller
             ->where('siswa_di_kelas.users_idusers',$iduser)
             ->first();
 
+            $counthadir = DB::table('rekap_presensi')
+            ->join('presensi', 'rekap_presensi.idpresensi', 'presensi.idpresensi')
+            ->where('status_presensi', 1)
+            ->where('idsiswa', $iduser)
+            ->where('idclass_list', $kelas->idclass_list)
+            ->count();
+            $counttidakhadir = DB::table('rekap_presensi')
+            ->join('presensi', 'rekap_presensi.idpresensi', 'presensi.idpresensi')
+            ->where('status_presensi', 0)
+            ->where('idsiswa', $iduser)
+            ->where('idclass_list', $kelas->idclass_list)
+            ->count();
+            $countijin = DB::table('rekap_presensi')
+            ->join('presensi', 'rekap_presensi.idpresensi', 'presensi.idpresensi')
+            ->where('status_presensi', 2)
+            ->where('idsiswa', $iduser)
+            ->where('idclass_list', $kelas->idclass_list)
+            ->count();
+
             $da = DB::table('nilai_akhir')->join('mata_pelajaran','nilai_akhir.idmata_pelajaran','mata_pelajaran.idmata_pelajaran')->join('users','users_id','id')->where('nilai_akhir.users_id',$iduser)->get();
             // dd($da[0]->nilai_pengetahuan);
-            $data = DB::table('jadwal_kelas')->join('mata_pelajaran','idmatapelajaran','idmata_pelajaran')
-            ->select('idclass_list','idmatapelajaran','nama_mp')->where('idclass_list',$kelas->idclass_list)->groupBy('idclass_list','idmatapelajaran','nama_mp')->get();
+            $data = "";
+            if ($kelas != null) {
+                $data = DB::table('jadwal_kelas')->join('mata_pelajaran','idmatapelajaran','idmata_pelajaran')
+                ->select('idclass_list','idmatapelajaran','nama_mp')->where('idclass_list',$kelas->idclass_list)->groupBy('idclass_list','idmatapelajaran','nama_mp')->get();
+            }
             // dd($count);
-            return view('sekolah.siswa.nilai.index',compact('data','cekSemester','da','semester', 'cektagihan','kelas','id'));
+            return view('sekolah.siswa.nilai.index',compact('data','cekSemester','da', 'counthadir', 'counttidakhadir', 'countijin', 'semester', 'cektagihan','kelas','id'));
         }else{
             return view('sekolah.siswa.pending');
         }
@@ -351,12 +379,30 @@ class PenilaianController extends Controller
                 # code...
                 return view('sekolah.siswa.nilai.index',compact('kelas','cekSemester','semester', 'cektagihan','id'));
             }
+            $counthadir = DB::table('rekap_presensi')
+            ->join('presensi', 'rekap_presensi.idpresensi', 'presensi.idpresensi')
+            ->where('status_presensi', 1)
+            ->where('idsiswa', $iduser)
+            ->where('idclass_list', $kelas->idclass_list)
+            ->count();
+            $counttidakhadir = DB::table('rekap_presensi')
+            ->join('presensi', 'rekap_presensi.idpresensi', 'presensi.idpresensi')
+            ->where('status_presensi', 0)
+            ->where('idsiswa', $iduser)
+            ->where('idclass_list', $kelas->idclass_list)
+            ->count();
+            $countijin = DB::table('rekap_presensi')
+            ->join('presensi', 'rekap_presensi.idpresensi', 'presensi.idpresensi')
+            ->where('status_presensi', 2)
+            ->where('idsiswa', $iduser)
+            ->where('idclass_list', $kelas->idclass_list)
+            ->count();
+
             $da = DB::table('nilai_akhir')->join('mata_pelajaran','nilai_akhir.idmata_pelajaran','mata_pelajaran.idmata_pelajaran')->join('users','users_id','id')->where('nilai_akhir.users_id',$iduser)->get();
-            // dd($da[0]->nilai_pengetahuan);
             $data = DB::table('jadwal_kelas')->join('mata_pelajaran','idmatapelajaran','idmata_pelajaran')
             ->select('idclass_list','idmatapelajaran','nama_mp')->where('idclass_list',$kelas->idclass_list)->groupBy('idclass_list','idmatapelajaran','nama_mp')->get();
             // dd($count);
-            return view('sekolah.siswa.nilai.index',compact('data','cekSemester','da','semester', 'cektagihan','kelas','id'));
+            return view('sekolah.siswa.nilai.index',compact('data','cekSemester','da','semester', 'counthadir', 'counttidakhadir', 'countijin', 'cektagihan','kelas','id'));
         }else{
             return view('sekolah.siswa.pending');
         }
@@ -385,12 +431,31 @@ class PenilaianController extends Controller
                 # code...
                 return view('sekolah.siswa.nilai.index',compact('kelas','cekSemester','semester','id'));
             }
+            $counthadir = DB::table('rekap_presensi')
+            ->join('presensi', 'rekap_presensi.idpresensi', 'presensi.idpresensi')
+            ->where('status_presensi', 1)
+            ->where('idsiswa', $iduser)
+            ->where('idclass_list', $kelas->idclass_list)
+            ->count();
+            $counttidakhadir = DB::table('rekap_presensi')
+            ->join('presensi', 'rekap_presensi.idpresensi', 'presensi.idpresensi')
+            ->where('status_presensi', 0)
+            ->where('idsiswa', $iduser)
+            ->where('idclass_list', $kelas->idclass_list)
+            ->count();
+            $countijin = DB::table('rekap_presensi')
+            ->join('presensi', 'rekap_presensi.idpresensi', 'presensi.idpresensi')
+            ->where('status_presensi', 2)
+            ->where('idsiswa', $iduser)
+            ->where('idclass_list', $kelas->idclass_list)
+            ->count();
+
             $da = DB::table('nilai_akhir')->join('mata_pelajaran','nilai_akhir.idmata_pelajaran','mata_pelajaran.idmata_pelajaran')->join('users','users_id','id')->where('nilai_akhir.users_id',$iduser)->get();
             $data = DB::table('jadwal_kelas')->join('mata_pelajaran','idmatapelajaran','idmata_pelajaran')
             ->select('idclass_list','idmatapelajaran','nama_mp')->where('idclass_list',$kelas->idclass_list)->groupBy('idclass_list','idmatapelajaran','nama_mp')->get();
 
             // return view('sekolah.siswa.nilai.index',compact('data','cekSemester','da','semester'));
-            $pdf = PDF::loadview('sekolah.siswa.nilai.cetaknilai',['semester'=>$cekSemester, 'data'=>$data, 'da'=>$da,'jurusan'=>$jurusan,'detail' => $detail, 'kategori'=>$kategori, 'user'=>$user]);
+            $pdf = PDF::loadview('sekolah.siswa.nilai.cetaknilai',['counthadir'=>$counthadir,'counttidakhadir'=> $counttidakhadir, 'countijin'=> $countijin, 'semester'=>$cekSemester, 'data'=>$data, 'da'=>$da,'jurusan'=>$jurusan,'detail' => $detail, 'kategori'=>$kategori, 'user'=>$user]);
             return $pdf->stream('cetaknilai.pdf');
         }else{
             return view('sekolah.siswa.pending');

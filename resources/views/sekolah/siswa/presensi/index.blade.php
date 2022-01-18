@@ -29,6 +29,7 @@ Daftar Kelas
                 <p style="text-transform: uppercase;">Semester : <b>{{$cekSemester->nama_semester}} - {{$cekSemester->tahun_ajaran}}</b></p>
                 <hr>
                 <div class="row">
+                    @if ($data != "")
                     @foreach($data as $d)
                     <div class="col-3">
                             <div class="card text-white bg-primary mb-3">
@@ -37,6 +38,7 @@ Daftar Kelas
                                             @foreach($cekpresensi as $cek)
                                                     @if($cek->idmatapelajaran == $d->idmatapelajaran)
                                                     <button type="button" onclick="presensi('{{csrf_token()}}','{{ $cek->idpresensi }}')" class="btn btn-outline-success btn-block">Masuk</button>
+                                                    <button type="button" onclick="getDetail('{{ $cek->idpresensi }}')" class="btn btn-outline-warning btn-block text-white" data-bs-toggle="modal" data-bs-target="#ubahmodal">Ijin</button>
                                                     @endif
                                             @endforeach
 
@@ -49,6 +51,8 @@ Daftar Kelas
                             </div>
                     </div>
                     @endforeach
+                    @endif
+
                 </div>
 
             </div>
@@ -60,7 +64,7 @@ Daftar Kelas
     <div class="modal-dialog modal-xl">
         <div class="modal-content" id="modalcontent">
             <div class="modal-header">
-                <h5 class="modal-title h4">Ubah Mata Pelajaran</h5>
+                <h5 class="modal-title h4">Ajukan Ijin</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
@@ -94,7 +98,7 @@ Daftar Kelas
 function getDetail(id) {
     $('#modalcontent').html(`
     <div class="modal-header">
-        <h5 class="modal-title h4">Ubah Mata Pelajaran</h5>
+        <h5 class="modal-title h4">Ajukan Ijin</h5>
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
     </div>
     <div class='modal-body'>
@@ -106,7 +110,7 @@ function getDetail(id) {
 </div>`)
     $.ajax({
             type: 'POST',
-            url: '{{route("ubahMP")}}',
+            url: '{{route("ajukan_ijin")}}',
             data: {
                 '_token': '<?php echo csrf_token() ?>',
                 'id': id

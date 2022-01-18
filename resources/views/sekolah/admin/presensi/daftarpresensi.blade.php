@@ -66,7 +66,7 @@ Daftar Presensi
                         @foreach($data as $d)
                         <tr>
                             <th scope="row">{{ $d->idpresensi }}</th>
-                            <td>{{ $d->idmatapelajaran }}</td>
+                            <td>{{ $d->matapelajaran->nama_mp }}</td>
                             <td>{{ $d->materi }}</td>
                             <td>{{ $d->start_time }}</td>
                             <td>{{ $d->end_time }}</td>

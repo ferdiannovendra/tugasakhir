@@ -124,7 +124,7 @@ Admin
                 type: 'donut',
                 align: 'center',
             },
-            labels: ['Man', 'Women'],
+            labels: ['Laki-laki', 'Perempuan'],
             dataLabels: {
                 enabled: false,
             },
@@ -157,7 +157,7 @@ Admin
                 type: 'donut',
                 align: 'center',
             },
-            labels: ['Man', 'Women'],
+            labels: ['Laki-laki', 'Perempuan'],
             dataLabels: {
                 enabled: false,
             },

@@ -98,7 +98,6 @@ Input Nilai Pengetahuan
 
 $('#matapelajaran2').on('change', function(e) {
         var id_mp = e.target.value;
-        alert(id_mp);
         $.ajax({
             type: "POST",
             url: "{{ route('listkelasadmin') }}",
@@ -119,7 +118,6 @@ $('#matapelajaran2').on('change', function(e) {
 $('#class_select2').on('change', function(e) {
         var idclass = e.target.value;
         var idmp = $('#matapelajaran2').val();
-        alert(idclass);
         $.ajax({
             type: "POST",
             url: "{{ route('listpenilaian_pengetahuan') }}",

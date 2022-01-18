@@ -22,7 +22,7 @@ Daftar Pengguna
     <div class="col-md-12">
         <div class="card mb-3">
             <div class="card-header mt-2 py-3 d-flex justify-content-between bg-transparent border-bottom-0">
-                <h6 class="mb-0 fw-bold ">Daftar Pengguna</h6>
+                <h6 class="mb-0 fw-bold ">Daftar Guru</h6>
                 <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#TambahModal">+ Tambah Data (Import)</button>
             </div>
             <div class="card-body">
@@ -72,6 +72,7 @@ Daftar Pengguna
     </div>
 </div><!-- Row end  -->
 
+
 <div class="modal fade" id="TambahModal" tabindex="-1" aria-labelledby="exampleModalXlLabel" style="display: none;" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
@@ -79,12 +80,12 @@ Daftar Pengguna
                 <h5 class="modal-title h4" >Tambah Data</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
-            <form action="{{ route('uploadsiswa') }}" enctype="multipart/form-data" method="post">
+            <form action="{{ route('uploadguru') }}" enctype="multipart/form-data" method="post">
             <div class="modal-body">
                     @csrf
                     <div class="row g-3 align-items-center">
                         <div class="col-md-12">
-                            <p>Upload file data yang akan dimasukkan ke database. Harap menggunakan format yang telah disediakan. <a href="{{asset('Format User.xlsx')}}" class="fw-bold text-secondary">Klik disini untuk download template</a></p>
+                            <p>Upload file data yang akan dimasukkan ke database. Harap menggunakan format yang telah disediakan. <a href="{{asset('Format Guru.xlsx')}}" class="fw-bold text-secondary">Klik disini untuk download template</a></p>
                             <input class="form-control" type="file" id="formFileMultiple" name="file" accept=".xlsx" multiple required>
                         </div>
                     </div>

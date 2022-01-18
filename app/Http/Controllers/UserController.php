@@ -9,6 +9,7 @@ use App\Models\User;
 use Illuminate\Support\Facades\Hash;
 use Maatwebsite\Excel\Facades\Excel;
 use App\Imports\UsersImport;
+use App\Imports\UsersGuruImport;
 
 class UserController extends Controller
 {
@@ -22,7 +23,7 @@ class UserController extends Controller
     {
         $alldata =  DB::table('users')->where('status','guru')->get();
 
-        return view('sekolah.admin.daftaruser',["data"=>$alldata]);
+        return view('sekolah.admin.daftarguru',["data"=>$alldata]);
     }
     public function daftarsiswa()
     {
@@ -73,6 +74,11 @@ class UserController extends Controller
     {
         Excel::import(new UsersImport, request()->file('file'));
         return back()->with('status', 'Berhasil di tambah.');
+    }
+    public function importGuru(Request $request)
+    {
+        Excel::import(new UsersGuruImport, request()->file('file'));
+        return back()->with('status', 'Guru berhasil di tambah.');
     }
 
 }

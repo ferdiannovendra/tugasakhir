@@ -109,6 +109,7 @@ Route::middleware(['auth'])->group(function () {
             Route::post('postHapusUser', [UserController::class, 'destroy'])->name('postHapusUser');
             Route::post('resetpassword', [UserController::class, 'resetpassword'])->name('resetpassword');
             Route::post('uploadsiswa',[UserController::class, 'importSiswa'])->name('uploadsiswa');
+            Route::post('uploadguru',[UserController::class, 'importGuru'])->name('uploadguru');
 
             //Kelas
             Route::get('/daftar-kelas', [KelasController::class, 'index'])->name('daftarkelas');
@@ -326,6 +327,8 @@ Route::middleware(['auth'])->group(function () {
             Route::get('/presensi', [PresensiController::class, 'siswa_listpresensi'])->name('presensi.siswa');
             Route::get('/rekap/{id}', [PresensiController::class, 'rekappresensi'])->name('rekappresensi');
             Route::post('isipresensi', [PresensiController::class, 'isipresensi'])->name('isipresensi');
+            Route::post('ajukan_ijin', [PresensiController::class, 'ajukan_ijin'])->name('ajukan_ijin');
+            Route::post('simpan_ijin', [PresensiController::class, 'simpan_ijin'])->name('simpan_ijin');
 
             Route::get('/lihatnilai', [PenilaianController::class, 'lihatnilai'])->name('lihatnilai.siswa');
             Route::get('/lihatnilai/{id}', [PenilaianController::class, 'lihatnilaisemester'])->name('lihatnilai.semester');

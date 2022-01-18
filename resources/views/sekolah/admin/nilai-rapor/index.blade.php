@@ -148,7 +148,7 @@ $('#btnLihatRincian').on('click', function(e) {
                 if (data.status == "oke") {
                     $('#tabeldata').html(data.msg);
                 } else {
-                    $('#tabeldata').html("<h1> Anda Belum mengisi bobot </h1>");
+                    $('#tabeldata').html("<h1> Anda Belum mengisi bobot </h1> <br> <a class='btn btn-primary' href='{{ route('rencana_bobot') }}'>Tambah Bobot</a>");
                 }
             }
         })

@@ -126,7 +126,7 @@ Daftar Kelas
                         <select name="hari" class="form-select" id="hari" >
                             @if(isset($hari))
                                 @foreach($hari as $k)
-                                <option value="{{ $k->id }}" {{$selected}}>{{ $k->nama }}</option>
+                                <option value="{{ $k->id }}" >{{ $k->nama }}</option>
                                 @endforeach
                             @else
                             <option value="-" disabled>Tidak ada data Hari</option>

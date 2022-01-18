@@ -1,5 +1,5 @@
 <div class="modal-header">
-    <h5 class="modal-title h4" >Ubah Kompetensi Dasar</h5>
+    <h5 class="modal-title h4" >Ubah Presensi</h5>
     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
 </div>
 <form action="{{ route('simpan_ubahpresensi',$id) }}" method="post">

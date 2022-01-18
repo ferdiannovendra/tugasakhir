@@ -33,11 +33,14 @@
                 {{-- Nilai Akhir Rapor udah kena hitung bobot --}}
                 <td style="text-align:center;border:1px solid black">
                     <?php
-                    $bobotP = $cek->pivot->bobot_pengetahuan;
+                    if ($cek != null) {
+                        $bobotP = $cek->pivot->bobot_pengetahuan;
                     $bobotK = $cek->pivot->bobot_keterampilan;
 
                     $hasil = round(($d[0]->nilai_pengetahuan * ($bobotP/100)) + ($d[0]->nilai_keterampilan * ($bobotK/100)));
                     echo $hasil;
+                    }
+                    $hasil = 0;
                     ?>
                     <input type="hidden" name="nilai_akhir[]" value="{{$hasil}}">
                 </td>
