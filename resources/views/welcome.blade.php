@@ -60,7 +60,7 @@
                     {{-- <a class="ud-menu-scroll" href="#pricing">Pricing</a> --}}
                   </li>
                   <li class="nav-item">
-                    <a class="ud-menu-scroll" href="#home">Beranda</a>
+                    {{-- <a class="ud-menu-scroll" href="#home">Beranda</a> --}}
                   </li>
                   {{-- <li class="nav-item">
                     <a class="ud-menu-scroll" href="#contact">Contact</a>
@@ -237,7 +237,7 @@
     <!-- ====== Features End ====== -->
 
     <!-- ====== About Start ====== -->
-    <section id="about" class="ud-about">
+    {{-- <section id="about" class="ud-about">
       <div class="container">
         <div class="ud-about-wrapper wow fadeInUp" data-wow-delay=".2s">
           <div class="ud-about-content-wrapper">
@@ -652,7 +652,7 @@
 
       </div>
     </section>
-    <!-- ====== Testimonials End ====== -->
+    <!-- ====== Testimonials End ====== --> --}}
 
     <!-- ====== Team Start ====== -->
     <section id="team" class="ud-team">
@@ -717,7 +717,7 @@
       </div>
     </section>
     <!-- ====== Team End ====== -->
-
+{{--
     <!-- ====== Contact Start ====== -->
     <section id="contact" class="ud-contact">
       <div class="container">
@@ -804,8 +804,8 @@
         </div>
       </div>
     </section>
-    <!-- ====== Contact End ====== -->
-
+    <!-- ====== Contact End ====== --> --}}
+{{--
     <!-- ====== Footer Start ====== -->
     <footer class="ud-footer wow fadeInUp" data-wow-delay=".15s">
       <div class="shape shape-1">
@@ -960,7 +960,7 @@
         </div>
       </div>
     </footer>
-    <!-- ====== Footer End ====== -->
+    <!-- ====== Footer End ====== --> --}}
 
     <!-- ====== Back To Top Start ====== -->
     <a href="javascript:void(0)" class="back-to-top">

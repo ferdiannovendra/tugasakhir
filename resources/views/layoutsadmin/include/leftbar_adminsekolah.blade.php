@@ -1,5 +1,5 @@
 <ul class="menu-list flex-grow-1 mt-3">
-    <li><a class="m-link" href="{{ route('superadminhome') }}"><i class="icofont-ui-home"></i><span>Home</span></a></li>
+    <li><a class="m-link" href="{{ route('adminsekolahnhome') }}"><i class="icofont-ui-home"></i><span>Home</span></a></li>
     <li><a class="m-link" href="{{ route('presensi.admin') }}"><i class="icofont-files-stack"></i><span>Presensi</span></a></li>
     <li><a class="m-link" href="{{ route('jadwalkelas') }}"><i class="icofont-black-board"></i><span>Jadwal Pelajaran Kelas</span></a></li>
     <li class="collapsed">
